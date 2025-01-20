@@ -7,7 +7,7 @@ class LoginController {
 
     static async getLoginPage(req: Request, res: Response) {
         try {
-            return res.render('login');
+            return res.render('./loginPages/sign-in');
         } catch (error) {
             return res.status(500).json({ message: "An error occurred", error });
         }
@@ -25,7 +25,7 @@ class LoginController {
             const result = await LoginServices.CheckLogin(email, password);
     
             if (!result) {
-                return res.render('login', { errorMessage: 'Invalid credentials' });
+                return res.render('./loginPages/login', { errorMessage: 'Invalid credentials' });
             }
     
             req.session._user = result;

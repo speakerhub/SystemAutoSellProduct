@@ -5,11 +5,13 @@ import bodyParser from "body-parser";
 import "reflect-metadata";
 import { AppDataSource } from "@config/data-source";
 import session from 'express-session';
+import path from 'path';
 
 // import routes
 import loginroutes from "@routes/login";
 import registerroutes from "@routes/register";
 import homeroutes from "@routeshome";
+import profileroutes from "@routes/profile";
 
 // 
 const app: Express = express();
@@ -46,11 +48,12 @@ app.use(
   })
 );
 // static files middleware
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public')));
 // bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // routes
 app.use(loginroutes);
 app.use(registerroutes);
-app.use(homeroutes); //
+app.use(homeroutes); 
+app.use(profileroutes);
