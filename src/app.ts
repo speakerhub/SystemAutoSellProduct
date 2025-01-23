@@ -12,6 +12,8 @@ import loginroutes from "@routes/login";
 import registerroutes from "@routes/register";
 import homeroutes from "@routeshome";
 import profileroutes from "@routes/profile";
+import adminroutes from "@routes/admin";
+import cartsroutes from "@routes/cart";
 
 // 
 const app: Express = express();
@@ -57,3 +59,5 @@ app.use(loginroutes);
 app.use(registerroutes);
 app.use(homeroutes); 
 app.use(profileroutes);
+app.use(adminroutes);
+app.use(cartsroutes);

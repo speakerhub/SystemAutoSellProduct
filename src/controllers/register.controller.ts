@@ -24,7 +24,7 @@ class RegisterController {
             console.log(firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword);
             const user: any = await userRepository.findOneBy({ email: email, phone: phone});
             if(user){
-                res.render('./loginPages/register', { message: `${email} or ${phone} was existed`});
+                res.render('./loginPages/sign-up', { message: `${email} or ${phone} was existed`});
             }
             await RegisterServices.createAccount(firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword);
 

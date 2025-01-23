@@ -1,15 +1,19 @@
 import express, { Request, Response, Router } from "express";
 import LoginController from "@controllers/login.controller";
-
+import BlockIP from "@middlewaresblockIP.middleware";
 const router: Router = express.Router();
 
 router.get('/login', async (req: Request, res: Response) => {
   LoginController.getLoginPage(req, res);
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', /*BlockIP,*/ async (req: Request, res: Response) => {
   LoginController.login(req, res);
 });
+
+router.get('/logout', async (req: Request, res: Response) => {
+  LoginController.logout(req, res);
+})
 
 
 export default router;

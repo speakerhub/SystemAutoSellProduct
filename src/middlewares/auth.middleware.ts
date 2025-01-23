@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import session from "@typesexpress-session";
+
 const checkSession = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.session._user) {
+  if (req.session._user && req.session) {
     // Nếu user tồn tại trong session, cho phép tiếp tục
     return next();
   }

@@ -8,6 +8,7 @@ import { User } from '@entities/User';
 import { Product } from '@entitiesProduct';
 import { Category } from '@entities/Category';
 import { Cart } from '@entities/Cart';
+import { Like } from '@entities/like';
 
 
 export const AppDataSource = new DataSource({
@@ -18,8 +19,8 @@ export const AppDataSource = new DataSource({
     password: process.env.MYSQL_PASS,
     database: process.env.MYSQL_NAME,
     synchronize: false,
-    logging: true,
-    entities: [User,Product,Category,Cart],
+    logging: false,
+    entities: [User,Product,Category,Cart,Like],
     subscribers: [],
     migrations: [],
 })
