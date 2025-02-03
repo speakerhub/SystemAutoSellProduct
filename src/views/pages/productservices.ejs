@@ -217,41 +217,18 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-                <h6 class="text-white text-capitalize ps-3">Products Table</h6>
+                <h6 class="text-white text-capitalize ps-3">Categories Table</h6>
                 <div class="ms-auto pe-4 w-80 d-flex justify-content-end">
-                  <button class="btn btn-outline-light border-radius-lg" id="btn-add">+</button>
+                  <button class="btn btn-outline-light border-radius-lg" id="btn-add-category">+</button>
                 </div>
               </div>
-              <div id="product-form" class="card-body shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center d-none" >
-                <form action="/createProduct" method="post">
+              <div id="category-form" class="card-body shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center d-none" >
+                <form action="/createCategory" method="post"> <!-- enctype="multipart/form-data" -->
                   <div class="mb-3">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" class="form-control" name="product-name" id="product-name" required>
+                    <label for="categoryname" class="form-label">Category Name</label>
+                    <input type="text" class="form-control shadow-dark" name="categoryname" id="category-name" required>
                   </div>
-
-                  <!-- Price -->
-                  <div class="mb-3">
-                      <label class="form-label">Price</label>
-                      <input type="number" class="form-control" name="price" id="product-price" required>
-                  </div>
-
-                  <!-- Description -->
-                  <div class="mb-3">
-                      <label class="form-label">Description</label>
-                      <textarea class="form-control" id="product-description" name="description" rows="3"></textarea>
-                  </div>
-
-                  <!-- Attributes Section -->
-                  <div class="mb-3">
-                      <label class="form-label">Attributes</label>
-                      <div id="attributes-container">
-                          <!-- Dynamic attributes will be added here -->
-                      </div>
-                      <button type="button" class="btn btn-secondary mt-2" id="add-attribute">+ Add Attribute</button>
-                  </div>
-
-                  <!-- Submit Button -->
-                  <button type="submit" class="btn btn-success">Create Product</button>
+                  <button type="submit" class="btn btn-success">Create Category</button>
                 </form>
               </div>
             </div>
@@ -260,182 +237,14 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">createdAt</th>
+                      <th class="text-secondary text-center opacity-7"></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">John Michael</h6>
-                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-3.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user2">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-4.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user3">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Laurent Perrier</h6>
-                            <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Executive</p>
-                        <p class="text-xs text-secondary mb-0">Projects</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-3.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user4">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Michael Levi</h6>
-                            <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user5">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Richard Gran</h6>
-                            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Executive</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="/img/team-4.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user6">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Miriam Eric</h6>
-                            <p class="text-xs text-secondary mb-0">miriam@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
+                  <tbody id="category-table">
+                    <!-- appear data -->
                   </tbody>
                 </table>
               </div>
@@ -443,7 +252,112 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="container-fluid py-2">
+        <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
+                  <h6 class="text-white text-capitalize ps-3">Products Table</h6>
+                  <div class="ms-auto pe-4 w-80 d-flex justify-content-end">
+                    <button class="btn btn-outline-light border-radius-lg" id="btn-add">+</button>
+                  </div>
+                </div>
+                <div id="product-form" class="card-body shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center d-none" >
+                  <form action="/createProduct" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label class="form-label">Product Name</label>
+                      <input type="text" class="form-control shadow-dark" name="productname" id="product-name" required>
+                    </div>
+  
+                    <div class="mb-3">
+                      <label class="form-label">Count</label>
+                      <input type="number" class="form-control shadow-dark" name="count" id="product-count" required min="1">
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Image</label>
+                      <input type="file" name="ImageUrl" id="ImageUrl" accept="image/*" class="form-control shadow-dark justify-content-center" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Weight (kg)</label>
+                      <input type="number" class="form-control shadow-dark" name="weight" id="product-weight" min="0.01" step="0.01" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Dimensions (L x W x H cm)</label>
+                      <input type="text" class="form-control shadow-dark" name="dimensions" id="product-dimensions" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Price ($)</label>
+                      <input type="number" class="form-control shadow-dark" name="price" id="product-price" min="0.01" step="0.01" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Description</label>
+                      <textarea class="form-control shadow-dark" name="description" id="description" required></textarea>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Producer</label>
+                      <input type="text" class="form-control shadow-dark" name="producer" id="producer" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Rating</label>
+                      <input type="number" class="form-control shadow-dark" name="rating" id="product-rating" min="1" max="5" step="0.1" required>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <label class="form-label">Category</label>
+                      <select class="form-select" name="category[]" id="product-category" class="form-control shadow-dark" required multiple>
+                        <!-- appear category --> 
+                      </select>
+                    </div>
+                  
+                    <button type="submit" class="btn btn-success">Create Product</button>
+                  </form>
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ProductName</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ProductCount</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ImageUrl</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Dimensions</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Discount</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Producer</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Rating</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">isActive</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">createdAt</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UpdatedAt</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tags</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Categries</th>
+                        <th class="text-secondary opacity-7"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="product-table">
+                      <!-- appear data -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
@@ -668,7 +582,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <footer class="footer py-4  ">
         <%- include('./../partial/footer.ejs') %>
       </footer>
@@ -760,6 +674,116 @@
         $('#btn-add').text('+');
         $('#product-form').removeClass('d-block').addClass('d-none');
       }
+    });
+
+    $('#btn-add-category').click(() => {
+      if ($('#category-form').hasClass('d-none')) {
+        $('#btn-add-category').text('-');
+        $('#category-form').removeClass('d-none').addClass('d-block');
+      } else {
+        $('#btn-add-category').text('+');
+        $('#category-form').removeClass('d-block').addClass('d-none');
+      }
+    });
+
+    $(document).ready(() => {
+      $.ajax({
+          url: '/getAllProduct',
+          method: 'GET',
+          success: (response) => {
+            let html = '';
+
+            response.data.forEach(product => {
+              let categoryHTML = `<div style="display: block;" class="text-center" >`;
+              if (product.categories && Array.isArray(product.categories)) {
+                  product.categories.forEach(cat => {
+                    // console.log(cat);
+                    categoryHTML += `<div class="text-center" >${cat?.CategoryName}</div>`;
+                  });
+              } else {
+                  categoryHTML += `<div>No Category</div>`;
+              }
+              categoryHTML += `</div>`;
+
+              html += `
+                  <tr>
+                      <td class="text-center" >${product.id}</td>
+                      <td class="text-center" >${product.ProductName}</td>
+                      <td class="text-center" >${product.ProductCount}</td>
+                      <td class="text-center" ><img src="/uploads/${product.ImageUrl ? product.ImageUrl : 'default-image.png'}" width="50"></td>
+                      <td class="text-center" >${product.Weight}</td>
+                      <td class="text-center" >${product.Dimensions}</td>
+                      <td class="text-center" >${product.Description}</td>
+                      <td class="text-center" >${product.Price}</td>
+                      <td class="text-center" >${product.Discount}</td>
+                      <td class="text-center" >${product.Producer}</td>
+                      <td class="text-center" >${product.Rating}</td>
+                      <td class="text-center" >${product.isActive}</td>
+                      <td class="text-center" >${product.createdAt}</td>
+                      <td class="text-center" >${product.UpdatedAt}</td>
+                      <td class="text-center" >${product.Tags}</td>
+                      <td class="text-center" >${product.Status}</td>
+                      <td class="text-center" >${categoryHTML}</td>
+                      <td class="text-center" >
+                          <a class="btn btn-primary btn-sm" href="/editProduct/${product.id}">Edit</a>
+                          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Delete</button>
+                      </td>
+                  </tr>
+              `;
+            });
+
+            $('#product-table').html(html);
+          },
+          error: (err) => {
+              console.log('Error:', err);
+          }
+      });
+
+      $.ajax({
+          url: '/getAllCategory',
+          method: 'GET',
+          success: (response) => {
+              let html = '';
+
+              response.data.forEach(category => {
+                  html += `
+                    <tr>  
+                      <td class="text-center">${category.id}</td>
+                      <td class="text-center">${category.CategoryName}</td>
+                      <td class="text-center">${category.createdAt}</td>
+                      <td class="text-center">
+                        <a class="btn btn-primary btn-sm" href="/editCategory/${category.id}">Edit</a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
+                      </td>
+                    </tr>
+                  `;
+              });
+
+              $('#category-table').html(html);
+          },
+          error: (err) => {
+              console.log('Error:', err);
+          }
+      });
+    });
+
+    $('#product-category').ready(() =>{
+      $.ajax({
+          url: '/getAllCategory',
+          method: 'GET',
+          success: (response) => {
+              let html = '';
+
+              response.data.forEach(category => {
+                  html += `<option value="${category.id}">${category.CategoryName}</option>`;
+              });
+
+              $('#product-category').html(html);
+          },
+          error: (err) => {
+              console.log('Error:', err);
+          }
+      });
     });
   </script>
   <!-- Github buttons -->

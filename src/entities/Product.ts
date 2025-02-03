@@ -20,7 +20,7 @@ export class Product {
     @Column()
     ProductName?: string;
 
-    @ManyToMany(() => Category, (category) => category.products)
+    @ManyToMany(() => Category, (category) => category.products, { cascade: true })
     categories?: Category[];
 
     @Column({ default: 0 })
@@ -44,13 +44,13 @@ export class Product {
     @Column({ type: 'float', default: 0 })
     Discount?: number;
 
-    @Column({ unique: true })
+    @Column()
     Producer?: string
 
     @Column({ type: 'float', default: 0 })
     Rating?: number;
     
-    @Column({ default: false })
+    @Column({ default: true })
     isActive?: boolean
     
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

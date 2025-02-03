@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="justify-content-center d-flex">
+        <a href="/" class="btn btn-outline-dark bg-gradient-dark">Home Page</a>
+        <a href="/admin" class="btn btn-outline-dark bg-gradient-dark">Admin Page</a>
+        <a href="/profile" class="btn btn-outline-dark bg-gradient-dark">Profile Page</a>
+    </div>
+    
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center text-primary mb-4">Edit Product</h2>
+            <form action="/editProduct/<%= product.id %>" method="post" enctype="multipart/form-data">
+                
+                <!-- ID (Chỉ Hiển Thị) -->
+                <div class="mb-3">
+                    <label class="form-label">Product ID</label>
+                    <input type="text" class="form-control" value="<%= product.id %>" disabled>
+                </div>
+
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" class="form-control" name="productname" value="<%= product.ProductName %>" required>
+                </div>
+
+                <div class="row">
+                    <!-- Count -->
+                    <div class="col-md-6">
+                        <label class="form-label">Count</label>
+                        <input type="number" class="form-control" name="count" value="<%= product.ProductCount %>" required min="1">
+                    </div>
+
+                    <!-- Weight -->
+                    <div class="col-md-6">
+                        <label class="form-label">Weight (kg)</label>
+                        <input type="number" class="form-control" name="weight" min="0.01" step="0.01" value="<%= product.Weight %>" required>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label">Price ($)</label>
+                    <input type="number" class="form-control" name="price" min="0.01" step="0.01" value="<%= product.Price %>" required>
+                </div>
+
+                <!-- Dimensions -->
+                <div class="mb-3">
+                    <label class="form-label">Dimensions (L x W x H cm)</label>
+                    <input type="text" class="form-control" name="dimensions" value="<%= product.Dimensions %>" required>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="description" rows="4" required><%= product.Description %></textarea>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="mb-3">
+                    <div>
+                        <label for="imageUpload">Product Image</label>
+                        <img src="/uploads/<%= product.ImageUrl ? product.ImageUrl : 'default-image.png' %>" class="img-thumbnail mb-2" width="200" alt="Product Image">
+                    </div>
+                    <input type="file" name="ImageUrl" accept="image/*" class="form-control">
+                </div>
+
+                <!-- Producer & Rating -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Producer</label>
+                        <input type="text" class="form-control" name="producer" value="<%= product.Producer %>" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Rating</label>
+                        <input type="number" class="form-control" name="rating" min="1" max="5" step="0.1" value="<%= product.Rating %>" required>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" name="category[]" multiple required>
+                        <% categories.forEach(category => { %>
+                            <% 
+                                let isSelected = product.categories.some(category_selected => category_selected.id == category.id);
+                            %>
+                            <option value="<%= category.id %>" <%= isSelected ? 'selected' : '' %> >
+                                <%= category.CategoryName %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success px-4">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>
