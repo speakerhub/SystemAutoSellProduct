@@ -9,8 +9,9 @@ dotenv.config();
 import "reflect-metadata"
 
 class RegisterService{
-    static async createAccount (firstname: string, lastname: string, birthdate: Date, gender: string, phone: string, ward: string, district: string, province: string, email: string, password: string, confirmPassword: string){
+    static async createAccount (req: Request, res: Response){
         try{
+            const {firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword} = req.body;
             if (password !== confirmPassword) {
                 throw new Error("Mật khẩu và xác nhận mật khẩu không khớp!");
             }
@@ -20,7 +21,7 @@ class RegisterService{
                 (new Date().getMonth() === birthDate.getMonth() && new Date().getDate() < birthDate.getDate());
             const finalAge = hasPassedBirthday ? age : age - 1;
 
-            console.log(`Age: ${finalAge}`);
+            // console.log(`Age: ${finalAge}`);
 
             const saltRounds: number = 10;
             const hashedPassword: string = await bcrypt.hash(password, saltRounds);
@@ -42,6 +43,7 @@ class RegisterService{
                 user.Gender = UserGender.Other;   // Gán giá trị cho gender
             } 
             user.address = { ward, district, province }; // Gán giá trị cho address
+            res.cookie('email', email, {maxAge: 24 * 60 * 60 , httpOnly: false}  );
             await userRepository.save(user); 
         }
         catch(error){

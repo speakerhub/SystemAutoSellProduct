@@ -9,8 +9,10 @@ class CategoryService{
         try{
             const data = req.body;
             // console.log(data);
+
             const category = new Category();
             category.CategoryName = data.categoryname;
+            category.ImageUrl = req.file?.filename;
             
             await categoryRepository.save(category);
             res.redirect('/productServices');
@@ -24,6 +26,24 @@ class CategoryService{
     static async getAllCategory(req: Request, res: Response) {
         try {
             const categories = await categoryRepository.find();
+            
+            if (!categories.length) {
+                return res.status(404).json({ message: 'No products found' });
+            }
+    
+            // console.log('Fetched products:', JSON.stringify(products, null, 2));
+            res.status(200).json({ data: categories });
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.status(500).json({ message: 'Error fetching products', error: error });
+        }
+    }
+
+    static async get12Category(req: Request, res: Response) {
+        try {
+            const categories = await categoryRepository.find({
+                take: 12,
+            });
             
             if (!categories.length) {
                 return res.status(404).json({ message: 'No products found' });
@@ -57,6 +77,56 @@ class CategoryService{
         catch (error) {
             console.error("Error fetching products:", error);
             res.status(500).json({ message: 'Error fetching products', error: error });
+        }
+    }
+
+    static async updateCategory(req: Request, res: Response) {
+        try{
+            const data = req.body;
+            // console.log(data);
+            const id = parseInt(req.params.id);
+            
+            if (isNaN(id)) {
+                return res.status(400).json({ message: 'Invalid product ID' });
+            }
+
+            const category = await categoryRepository.findOne({ 
+                where: { id }
+            });
+
+            if (!category) {
+                return res.status(404).json({ message: 'Category not found' });
+            }
+
+            category.CategoryName = data.categoryname;
+            category.ImageUrl = req.file?.filename;
+
+            await categoryRepository.save(category);
+
+            res.redirect(`/editCategory/${id}`);
+
+        } catch (e){
+            console.error("Error fetching products:", e);
+            res.status(500).json({ message: 'Error fetching products', error: e });
+        }
+    }
+
+    static async deleteCategory(req: Request, res: Response): Promise<any>{
+        try{
+            const id = parseInt(req.params.id);
+            // console.log(id);
+
+            const category = await categoryRepository.findOne({  where: { id: id }});
+            
+            if (!category) {
+                return res.status(404).json({ message: 'Category not found' });
+            }
+
+            await categoryRepository.softDelete(id);
+            res.status(200).json({ message: 'Category deleted'});
+        } catch(error){
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while deleting product' });
         }
     }
 }

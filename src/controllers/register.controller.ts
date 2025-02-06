@@ -21,12 +21,12 @@ class RegisterController {
     static async Register(req: Request, res: Response) {
         try {
             const {firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword} = req.body;
-            console.log(firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword);
+            // console.log(firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword);
             const user: any = await userRepository.findOneBy({ email: email, phone: phone});
             if(user){
                 res.render('./loginPages/sign-up', { message: `${email} or ${phone} was existed`});
             }
-            await RegisterServices.createAccount(firstname, lastname, birthdate, gender, phone, ward, district, province, email, password, confirmPassword);
+            await RegisterServices.createAccount(req, res);
 
             res.redirect('/login');
         } catch (error) {

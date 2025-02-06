@@ -6,6 +6,7 @@ import "reflect-metadata";
 import { AppDataSource } from "@config/data-source";
 import session from 'express-session';
 import path from 'path';
+import cookieParser from "cookie-parser";
 
 // import routes
 import loginroutes from "@routes/login";
@@ -15,6 +16,7 @@ import profileroutes from "@routes/profile";
 import adminroutes from "@routes/admin";
 import cartsroutes from "@routes/cart";
 import productsroutes from "@routesproduct";
+import categoriesroutes from "@routes/category";
 
 // 
 const app: Express = express();
@@ -22,6 +24,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+app.use(cookieParser());
 
 // db
 AppDataSource.initialize().then(() => {
@@ -63,3 +67,4 @@ app.use(profileroutes);
 app.use(adminroutes);
 app.use(cartsroutes);
 app.use(productsroutes);
+app.use(categoriesroutes);

@@ -22,5 +22,5 @@ export const AppDataSource = new DataSource({
     logging: false,
     entities: [User,Product,Category,Cart,Like],
     subscribers: [],
-    migrations: [],
+    migrations: ["src/migrations/*.ts"],
 })

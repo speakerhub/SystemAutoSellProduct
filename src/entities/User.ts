@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, Collection } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, Collection, JoinColumn } from "typeorm";
+import Cart from "@entitiesCart";
 
 export enum UserRole {
     Admin = 'Admin',
@@ -48,6 +49,11 @@ export class User {
 
     @Column({ type: 'json', nullable: true })
     address?: any;
+
+    @OneToOne(() => Cart, (cart) => cart.user)
+    @JoinColumn()
+    cart: Cart;
+
 }
 
 export default User;

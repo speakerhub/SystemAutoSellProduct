@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection, DeleteDateColumn } from "typeorm";
 import { Category } from '@entitiesCategory';
 import {Cart} from '@entitiesCart';
 // export enum UserRole {
@@ -11,6 +11,7 @@ import {Cart} from '@entitiesCart';
 //     Female = 'Female',
 //     Other = 'Other',
 // }
+
 
 @Entity({name: "Product"})
 export class Product {
@@ -29,6 +30,12 @@ export class Product {
     @Column({ nullable: true })
     ImageUrl?: string;
 
+    @Column("simple-array", { nullable: true })
+    Size?: string[];
+
+    @Column("simple-array", { nullable: true })
+    Color?: string[];
+
     @Column({ type: 'float', nullable: true })
     Weight?: number;
 
@@ -45,7 +52,7 @@ export class Product {
     Discount?: number;
 
     @Column()
-    Producer?: string
+    Producer?: string;
 
     @Column({ type: 'float', default: 0 })
     Rating?: number;
@@ -65,8 +72,11 @@ export class Product {
     @Column({ default: "Available" })
     Status?: string;
 
-    @ManyToMany(() => Cart, (carts) => carts.products) // Tạo bảng trung gian tự động
-    carts?: Cart[];
+    @DeleteDateColumn()
+    deletedAt?: Date | null;
+
+    @ManyToMany(() => Cart, (cart) => cart.products) // Quan hệ N-N với Cart
+    carts: Cart[];
 }
 
 export default Product;

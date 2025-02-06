@@ -4,7 +4,7 @@ import User from "@entities/User";
 const userRepository = AppDataSource.getRepository(User);
 import bcrypt from "bcrypt";
 
-const Regex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail|yahoo|epu|edu)\.(com|vn|edu\.vn)$/;
+const Regex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail|yahoo|epu|edu|mailinator)\.(com|vn|edu\.vn)$/;
 
 class LoginService {
     static async CheckLogin(email: string, password: string): Promise<User | null> {

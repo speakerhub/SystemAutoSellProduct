@@ -8,10 +8,10 @@ const router: Router = express.Router();
 router.get('/admin', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-        res.render('./pages/dashboard', {isLoggedIn: true, user: req.session._user}); // Lưu trữ đối tượng User trong session
+      res.render('./pages/dashboard', {isLoggedIn: true, user: req.session._user}); // Lưu trữ đối tượng User trong session
     }
     else{
-        res.redirect('/');
+      res.redirect('/');
     }
   } else {
     return res.redirect('/login');

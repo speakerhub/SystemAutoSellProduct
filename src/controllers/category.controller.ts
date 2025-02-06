@@ -3,15 +3,27 @@ import categoryService from "@services/category.services";
 
 class CategoryController{
     static async createCategory(req: Request, res: Response){
-        categoryService.createCategory(req, res);
+        await categoryService.createCategory(req, res);
     }
 
     static async getAllCategory(req: Request, res: Response){
-        categoryService.getAllCategory(req, res);
+        await categoryService.getAllCategory(req, res);
+    }
+
+    static async get12Category(req: Request, res: Response){
+        await categoryService.get12Category(req, res);
     }
 
     static async editPage(req: Request, res: Response){
-        categoryService.editPages(req, res);
+        await categoryService.editPages(req, res);
+    }
+
+    static async Update(req: Request, res: Response){
+        await categoryService.updateCategory(req, res);
+    }
+
+    static async Delete(req: Request, res: Response){
+        await categoryService.deleteCategory(req, res);
     }
 }
 

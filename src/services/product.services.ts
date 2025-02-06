@@ -11,12 +11,13 @@ class ProductService{
     static async createProduct(req: Request, res: Response){
         try{
             const data = req.body;
-            
-            const categoryIds = data.category;
+            const categoryIds = data.category ? data.category : [];
 
             // console.log(categoryIds);
             // console.log(data, req.file?.filename);
-            const categories = await categoryRepository.findBy({ id: In(categoryIds) });
+
+            const categories = categoryIds.length > 0 ? await categoryRepository.findBy({ id: In(categoryIds) }) : [];
+            
 
             const product = new Product();
             product.ProductName = data.productname;
@@ -25,14 +26,18 @@ class ProductService{
             product.Weight = data.weight;
             product.Dimensions = data.dimensions;
             product.Description = data.description;
-            product.Price = data.price;
+            product.Size = Array.isArray(data.size) ? data.size : data.size.split(",");
+            product.Color = Array.isArray(data.color) ? data.color : data.color.split(",");
+            product.Discount = parseFloat(data.discount) || 0;
+            product.Tags = Array.isArray(data.tags) ? data.tags : data.tags.split(",");
+            product.Price = parseFloat(data.price) || 0; 
             product.Producer = data.producer;
-            product.Rating = data.rating;
+            product.Rating = 0;
             product.isActive = true;
             product.categories = categories;
 
             await productRepository.save(product);
-            res.redirect('/productServices');
+            res.redirect('/createProduct');
         }
         catch (error){
             console.log(error);
@@ -43,13 +48,36 @@ class ProductService{
     static async getAllProducts(req: Request, res: Response) {
         try {
             const products = await productRepository.find({
-                relations: ['categories']
+                relations: ['categories'],
             });
             // console.log(products);
             
             if (!products.length) {
                 return res.status(404).json({ message: 'No products found' });
             }
+
+            // res.cookie('name', 'john Joe', {maxAge: 900000})
+    
+            // console.log('Fetched products:', JSON.stringify(products, null, 2));
+            res.status(200).json({ data: products });
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.status(500).json({ message: 'Error fetching products', error: error });
+        }
+    }
+    static async get12Products(req: Request, res: Response) {
+        try {
+            const products = await productRepository.find({
+                relations: ['categories'],
+                take: 12,
+            });
+            // console.log(products);
+            
+            if (!products.length) {
+                return res.status(404).json({ message: 'No products found' });
+            }
+
+            // res.cookie('name', 'john Joe', {maxAge: 900000})
     
             // console.log('Fetched products:', JSON.stringify(products, null, 2));
             res.status(200).json({ data: products });
@@ -114,12 +142,19 @@ class ProductService{
             product.Price = data.price;
             product.Producer = data.producer;
             product.Rating = data.rating;
-            product.isActive = true;
-    
+            product.isActive = data.isActive;
+            product.Tags = Array.isArray(data.tags) ? data.tags : data.tags.split(",");
+            product.Discount = parseFloat(data.discount) || 0;
+            product.Color = Array.isArray(data.color) ? data.color : data.color.split(",");
+            product.Size = Array.isArray(data.size) ? data.size : data.size.split(",");
+            product.Status = data.status;
             // Cập nhật danh mục sản phẩm (nếu có)
             if (Array.isArray(data.category) && data.category.length > 0) {
                 const categories = await categoryRepository.findBy({ id: In(data.category) });
                 product.categories = categories;
+            }
+            else{
+                product.categories = [];
             }
     
             // Lưu sản phẩm đã cập nhật vào cơ sở dữ liệu
@@ -133,6 +168,66 @@ class ProductService{
             res.status(500).json({ message: 'An error occurred while updating product' });
         }
     }    
+
+    static async deleteProduct(req: Request, res: Response) {
+        try{
+            const id = parseInt(req.params.id);
+            // console.log(id);
+
+            const product = await productRepository.findOne({  where: { id: id }});
+            
+            if (!product) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+
+            await productRepository.softDelete(id);
+            res.status(200).json({ message: 'Product deleted'});
+
+
+        } catch(error){
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while deleting product' });
+        }
+    }
+
+    static async getRecentProducts(req: Request, res: Response) {
+        try {
+            const recentProducts = await productRepository.find({
+                order: { createdAt: "DESC" }, // Sắp xếp theo ngày tạo giảm dần
+                take: 8, // Giới hạn lấy 8 sản phẩm
+            });
+
+            res.json({ success: true, data: recentProducts });
+        } catch(error){
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while getting recent products' });
+        }
+    }
+
+    static async getProductDetail(req: Request, res: Response): Promise<any> {
+        try {
+            const productId = parseInt(req.params.id);
+            // console.log(productId);
+
+            const productDetail = await productRepository.findOne({
+                where: { id: productId },
+                relations: ['categories'],
+            })
+
+            if (!productDetail) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            if (req.session && req.session._user) {
+                res.render("./shop/productDetail", { isLoggedIn: true, user: req.session._user, productDetail: productDetail });
+            } else {
+                res.render('./shop/productDetail', {isLoggedIn: false, user: null,  productDetail: productDetail }); // Lưu trữ đối tượng User trong session
+            }
+
+        } catch (err) {
+            console.error("Error fetching product detail:", err);
+            res.status(500).json({ message: 'Error fetching product detail', error: err });
+        }
+    }
 }
 
 export default ProductService;

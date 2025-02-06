@@ -7,8 +7,9 @@ class LoginController {
 
     static async getLoginPage(req: Request, res: Response) {
         try {
-
-            return res.render('./loginPages/sign-in');
+            const {email, errorlogin} = req.cookies;
+            // console.log(email);
+            return res.render('./loginPages/sign-in', {email, errorlogin} );
         } catch (error) {
             return res.status(500).json({ message: "An error occurred", error });
         }
@@ -29,11 +30,13 @@ class LoginController {
             const result = await LoginServices.CheckLogin(email, password);
     
             if (!result) {
-                return res.render('./loginPages/sign-in', { errorMessage: 'Invalid credentials' });
+                res.cookie("errorlogin",'invalid email or password');
+                return res.render('./loginPages/sign-in', { errorMessage: 'Invalid credentials', email: null, errorlogin: 'Invalid credentials' });
             }
             
 
             req.session._user = result;
+            req.session.save();
     
             if (req.session && req.session._user) {
                 if(req.session._user.Role == UserRole.Admin) {

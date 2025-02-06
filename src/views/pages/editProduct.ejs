@@ -24,6 +24,14 @@
                     <input type="text" class="form-control" value="<%= product.id %>" disabled>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Active</label>    
+                    <select name="isActive" class="form-control">
+                        <option value="true" <%= product.isActive ? 'selected' : '' %>>Hoạt động</option>
+                        <option value="false" <%= !product.isActive ? 'selected' : '' %>>Không hoạt động</option>
+                    </select>
+                </div>
+
                 <!-- Product Name -->
                 <div class="mb-3">
                     <label class="form-label">Product Name</label>
@@ -44,10 +52,61 @@
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Size </label>
+                    <div class="d-flex">
+                      <input type="text" id="newsize" class="form-control shadow-dark" placeholder="add new size">
+                      <button class="btn btn-primary" onclick="addsize(event)">+</button>
+                    </div>
+                    <select name="size[]" id="size" class="form-control shadow-dark" multiple>
+                        <% product.Size.forEach(size => { %>
+                            <option value="<%= size %>" selected><%= size %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Select color </label>
+                    <div class="d-flex">
+                        <input type="text" id="newcolor" class="form-control shadow-dark" placeholder="add new color">
+                        <button class="btn btn-primary" onclick="addcolor(event)">+</button>
+                    </div>
+                    <select name="color[]" id="color" class="form-control shadow-dark" multiple>
+                        <% product.Color.forEach(color => { %>
+                            <option value="<%= color %>" selected><%= color %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tags </label>
+                    <div class="d-flex">
+                        <input type="text" id="newtag" class="form-control shadow-dark" placeholder="add new tag">
+                        <button class="btn btn-primary" onclick="addtag(event)">+</button>
+                    </div>
+                    <select name="tags[]" id="tags" class="form-control shadow-dark" multiple>
+                        <% product.Tags.forEach(tag => { %>
+                            <option value="<%= tag %>" selected><%= tag %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label">Discount (%)</label>
+                    <input type="number" class="form-control" name="discount" min="0.01" step="0.01" value="<%= product.Discount %>" required>
+                </div>
+
                 <!-- Price -->
                 <div class="mb-3">
                     <label class="form-label">Price ($)</label>
                     <input type="number" class="form-control" name="price" min="0.01" step="0.01" value="<%= product.Price %>" required>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <input type="text" class="form-control" name="status" value="<%= product.Status %>" required>
                 </div>
 
                 <!-- Dimensions -->
@@ -79,14 +138,14 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Rating</label>
-                        <input type="number" class="form-control" name="rating" min="1" max="5" step="0.1" value="<%= product.Rating %>" required>
+                        <input type="number" class="form-control" name="rating" min="0" max="5" step="0.1" value="<%= product.Rating %>" required>
                     </div>
                 </div>
 
                 <!-- Category -->
                 <div class="mb-3">
                     <label class="form-label">Category</label>
-                    <select class="form-select" name="category[]" multiple required>
+                    <select class="form-select" name="category[]" multiple>
                         <% categories.forEach(category => { %>
                             <% 
                                 let isSelected = product.categories.some(category_selected => category_selected.id == category.id);
@@ -106,5 +165,59 @@
             </form>
         </div>
     </div>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/jquery-3.7.1.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script>
+        function addcolor(e){
+            e.preventDefault();
+            let color = $('#newcolor').val();
+            if(color){
+                $('#color').append(`<option value="${color}">${color}</option>`);
+                $('#newcolor').val('');
+            }
+        }
+
+        function addsize(e){
+            e.preventDefault();
+            let size = $('#newsize').val();
+            if(color){
+                $('#size').append(`<option value="${size}">${size}</option>`);
+                $('#newsize').val('');
+            }
+        }
+
+        function addtag(e){
+            e.preventDefault();
+            let tag = $('#newtag').val();
+            if(color){
+                $('#tags').append(`<option value="${tag}">${tag}</option>`);
+                $('#newtag').val('');
+            }
+        }
+
+        // $('#product-category').ready(() =>{
+        //     $.ajax({
+        //         url: '/getAllCategory',
+        //         method: 'GET',
+        //         success: (response) => {
+        //             let html = '';
+
+        //             response.data.forEach(category => {
+        //                 html += `<option value="${category.id}">${category.CategoryName}</option>`;
+        //             });
+
+        //             $('#product-category').html(html);
+        //         },
+        //         error: (err) => {
+        //             console.log('Error:', err);
+        //         }
+        //     });
+        // });
+    </script>
 </body>
 </html>

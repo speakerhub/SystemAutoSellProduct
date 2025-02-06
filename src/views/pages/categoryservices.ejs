@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <title>
-    Product Services
+    Category Services
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -55,16 +55,16 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="/categoryServices">
+          <a class="nav-link active bg-gradient-dark text-white" href="/categoryServices">
             <i class="material-symbols-rounded opacity-5">shopping_bag</i>
             <span class="nav-link-text ms-1">Category Services</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active bg-gradient-dark text-white" href="/productServices">
-            <i class="material-symbols-rounded opacity-5">shopping_bag</i>
-            <span class="nav-link-text ms-1">Product Services</span>
-          </a>
+            <a class="nav-link text-dark" href="/productServices">
+              <i class="material-symbols-rounded opacity-5">shopping_bag</i>
+              <span class="nav-link-text ms-1">Product Services</span>
+            </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="../pages/billing.html">
@@ -217,17 +217,25 @@
       </div>
     </nav>
     <!-- End Navbar -->
-
     <div class="container-fluid py-2">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-                <h6 class="text-white text-capitalize ps-3">Products Table</h6>
+                <h6 class="text-white text-capitalize ps-3">Categories Table</h6>
                 <div class="ms-auto pe-4 w-80 d-flex justify-content-end">
-                  <a href="/createProduct" class="btn btn-outline-light border-radius-lg" id="btn-add" target="_blank">+</a>
+                  <a class="btn btn-outline-light border-radius-lg" id="btn-add-category" href="/createCategory">+</a>
                 </div>
+              </div>
+              <div id="category-form" class="card-body shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center d-none" >
+                <form action="/createCategory" method="post" enctype="multipart/form-data"> <!--  -->
+                  <div class="mb-3">
+                    <label for="categoryname" class="form-label">Category Name</label>
+                    <input type="text" class="form-control shadow-dark" name="categoryname" id="category-name" required>
+                  </div>
+                  <button type="submit" class="btn btn-success">Create Category</button>
+                </form>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -235,29 +243,14 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">isActive</th>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Categries</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ProductName</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ProductCount</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ImageUrl</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Dimensions</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Discount</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Producer</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Color</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Size</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tags</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Rating</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">createdAt</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UpdatedAt</th>
+                      <th class="text-center text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">createdAt</th>  
                     </tr>
                   </thead>
-                  <tbody id="product-table">
+                  <tbody id="category-table">
                     <!-- appear data -->
                   </tbody>
                 </table>
@@ -267,6 +260,7 @@
         </div>
       </div>
     </div>
+
       <!-- <div class="row">
         <div class="col-12">
           <div class="card my-4">
@@ -575,72 +569,8 @@
     }
   </script>
   <script>
-    $('#btn-add-category').click(() => {
-      if ($('#category-form').hasClass('d-none')) {
-        $('#btn-add-category').text('-');
-        $('#category-form').removeClass('d-none').addClass('d-block');
-      } else {
-        $('#btn-add-category').text('+');
-        $('#category-form').removeClass('d-block').addClass('d-none');
-      }
-    });
 
     $(document).ready(() => {
-      $.ajax({
-          url: '/getAllProduct',
-          method: 'GET',
-          success: (response) => {
-            let html = '';
-
-            response.data.forEach(product => {
-              let categoryHTML = `<div style="display: block;" class="text-center" >`;
-              if (product.categories && Array.isArray(product.categories)) {
-                  product.categories.forEach(cat => {
-                    // console.log(cat);
-                    categoryHTML += `<div class="text-center" >${cat?.CategoryName}</div>`;
-                  });
-              } else {
-                  categoryHTML += `<div>No Category</div>`;
-              }
-              categoryHTML += `</div>`;
-
-              html += `
-                  <tr>
-                      <td class="text-center" >${product.id}</td>
-                      <td class="text-center" >${product.isActive}</td>
-                      <td class="text-center" >
-                          <a class="btn btn-primary btn-sm" href="/editProduct/${product.id}" target="_blank">Edit</a>
-                          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Delete</button>
-                      </td>
-                      <td class="text-center" >${categoryHTML}</td>
-                      <td class="text-center" >${product.ProductName}</td>
-                      <td class="text-center" >${product.ProductCount}</td>
-                      <td class="text-center" ><img src="/uploads/${product.ImageUrl ? product.ImageUrl : 'default-image.png'}" width="50"></td>
-                      <td class="text-center" >${product.Weight}</td>
-                      <td class="text-center" >${product.Dimensions}</td>
-                      <td class="text-center" >${product.Description}</td>
-                      <td class="text-center" >${product.Price}</td>
-                      <td class="text-center" >${product.Discount}</td>
-                      <td class="text-center" >${product.Producer}</td>
-                      <td class="text-center" >${product.Color}</td>
-                      <td class="text-center" >${product.Size}</td>
-                      <td class="text-center" >${product.Tags}</td>
-                      <td class="text-center" >${product.Status}</td>
-                      <td class="text-center" >${product.Rating}</td>
-                      <td class="text-center" >${product.createdAt}</td>
-                      <td class="text-center" >${product.UpdatedAt}</td>
-                      
-                  </tr>
-              `;
-            });
-
-            $('#product-table').html(html);
-          },
-          error: (err) => {
-              console.log('Error:', err);
-          }
-      });
-
       $.ajax({
           url: '/getAllCategory',
           method: 'GET',
@@ -648,18 +578,18 @@
               let html = '';
 
               response.data.forEach(category => {
-                  html += `
+                    html += `
                     <tr>  
-                      <td class="text-center">${category.id}</td>
-                      <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="/editCategory/${category.id}" target="_blank">Edit</a>
-                        <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
-                      </td>
-                      <td class="text-center">${category.CategoryName}</td>
-                      <td class="text-center">${category.createdAt}</td>
-                      
+                        <td class="text-center">${category.id}</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary btn-sm" href="/editCategory/${category.id}" target="_blank">Edit</a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
+                        </td>
+                        <td class="text-center">${category.CategoryName}</td>
+                        <td class="text-center" ><img src="/uploads/${category.ImageUrl ? category.ImageUrl : 'default-image.png'}" width="50"></td>
+                        <td class="text-center">${category.createdAt}</td>
                     </tr>
-                  `;
+                    `;
               });
 
               $('#category-table').html(html);
@@ -669,20 +599,6 @@
           }
       });
     });
-
-
-    function deleteProduct(id){
-      $.ajax({
-        url: `/deleteProduct/${id}`,
-        method: 'DELETE',
-        data: {id},
-        success: (response) => {
-          alert(response.message);
-          location.reload();
-
-        }
-      });
-    }
 
     function deleteCategory(id){
       $.ajax({

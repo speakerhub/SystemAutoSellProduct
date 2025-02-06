@@ -1,9 +1,11 @@
 import express, { Request, Response, Router } from "express";
 import LoginController from "@controllers/login.controller";
 import BlockIP from "@middlewaresblockIP.middleware";
+import checkLogin from "@middlewareschecklogin.middleware";
+
 const router: Router = express.Router();
 
-router.get('/login', async (req: Request, res: Response) => {
+router.get('/login', checkLogin, async (req: Request, res: Response) => {
   LoginController.getLoginPage(req, res);
 });
 
