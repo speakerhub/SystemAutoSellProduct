@@ -17,6 +17,7 @@ import adminroutes from "@routes/admin";
 import cartsroutes from "@routes/cart";
 import productsroutes from "@routesproduct";
 import categoriesroutes from "@routes/category";
+import checkoutroutes from "@routes/checkout";
 
 // 
 const app: Express = express();
@@ -68,3 +69,4 @@ app.use(adminroutes);
 app.use(cartsroutes);
 app.use(productsroutes);
 app.use(categoriesroutes);
+app.use(checkoutroutes);

@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "@config/data-source";
-import { In } from "typeorm";
+import { ILike, In } from "typeorm";
 import "reflect-metadata";
 import Product from "@entities/Product";
 import Category from "@entitiesCategory";
 const productRepository = AppDataSource.getRepository(Product);
 const categoryRepository = AppDataSource.getRepository(Category);
+
 
 class ProductService{
     static async createProduct(req: Request, res: Response){
@@ -87,6 +88,63 @@ class ProductService{
         }
     }
 
+    static async getProductbyprice(req: Request, res: Response) {
+        try{
+            const {price} = req.body;
+            // console.log(price);
+
+            const product = await productRepository.find({
+                where: { Price: price },
+                relations: ['categories']
+            });
+
+            if (!product) {
+                return res.status(404).json({ message: 'No products found', data: null });
+            }
+
+            res.status(200).json({ data: product});
+        } catch (error){
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while fetching products by price' });
+        }
+    }
+
+    static async getProductbyColor(req: Request, res: Response) {
+        try {
+            const { colors }: { colors: string[] } = req.body;
+        
+            const whereConditions = colors.map(color => ({
+                Color: ILike(`%${color}%`)  // Tìm sản phẩm có chứa bất kỳ màu nào trong danh sách
+            }));
+
+            const products = await productRepository.find({
+                where: whereConditions,
+                relations: ['categories']
+            });
+
+            res.json({ data: products });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while fetching products by color' });
+        }
+    }
+
+    static async getRandom4Products(req: Request, res: Response): Promise<any> {
+        try {
+            const products = await productRepository.createQueryBuilder("product")
+                .leftJoinAndSelect("product.categories", "category")
+                .orderBy("RAND()") // Lấy ngẫu nhiên
+                .take(4)
+                .getMany();
+    
+            res.status(200).json({products: products}); // Trả về danh sách sản phẩm
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            res.status(500).json({ message: "Error fetching products", error: error });
+        }
+    }
+    
+
     static async editPages(req: Request, res: Response) {
         try {
             const productId = parseInt(req.params.id); 
@@ -121,7 +179,13 @@ class ProductService{
             const data = req.body;
             // console.log(data);
             const id = parseInt(req.params.id);
-    
+            if(data.isActive === "true") {
+                // console.log(data.isActive);
+            }
+            else{
+                // console.log(false);
+            }
+            
             // Tìm sản phẩm theo ID và các danh mục liên quan
             const product = await productRepository.findOne({ 
                 where: { id },
@@ -142,7 +206,7 @@ class ProductService{
             product.Price = data.price;
             product.Producer = data.producer;
             product.Rating = data.rating;
-            product.isActive = data.isActive;
+            product.isActive = data.isActive === "true" ? true: product.isActive = false;
             product.Tags = Array.isArray(data.tags) ? data.tags : data.tags.split(",");
             product.Discount = parseFloat(data.discount) || 0;
             product.Color = Array.isArray(data.color) ? data.color : data.color.split(",");

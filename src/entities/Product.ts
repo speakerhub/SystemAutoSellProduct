@@ -1,6 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection, DeleteDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection, DeleteDateColumn, OneToMany } from "typeorm";
 import { Category } from '@entitiesCategory';
-import {Cart} from '@entitiesCart';
+import { Cart } from '@entitiesCart';
+import { Comment } from '@entitiesComment';
+import { CartItem } from "@entitiesCartItem";
+import LikeItem from "@entitiesLikeItem";
 // export enum UserRole {
 //     Admin = 'Admin',
 //     User = 'User',
@@ -75,8 +78,15 @@ export class Product {
     @DeleteDateColumn()
     deletedAt?: Date | null;
 
-    @ManyToMany(() => Cart, (cart) => cart.products) // Quan hệ N-N với Cart
-    carts: Cart[];
+    @OneToMany(() => CartItem, (cartItem) => cartItem.product) // Một sản phẩm có thể xuất hiện trong nhiều giỏ hàng
+    cartItems: CartItem[];
+
+    @OneToMany(() => LikeItem, (likeItem) => likeItem.product) // Một sản phẩm có thể xuất hiện trong nhiều giỏ hàng
+    LikeItems: LikeItem[];
+
+    @OneToMany(() => Comment, (comment) => comment.product)
+    comments!: Comment[];
+
 }
 
 export default Product;

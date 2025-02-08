@@ -10,8 +10,20 @@ class Cartcontroller{
         await cartservices.addToCartWithCount(req, res);
     }
 
+    static async saveCart(req: Request, res: Response){
+        await cartservices.saveCart(req, res);
+    }
+
     static async removeFromCart(req: Request, res: Response){
         await cartservices.removeFromCart(req, res);
+    }
+
+    static async cartcount(req: Request, res: Response) {
+        await cartservices.getCartCount(req, res);
+    }
+
+    static async updateCart(req: Request, res: Response){
+        await cartservices.updateCart(req, res);
     }
 }
 

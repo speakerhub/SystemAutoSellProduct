@@ -7,6 +7,7 @@ import { UserRole, UserGender } from "@entitiesUser";
 import dotenv from 'dotenv';
 dotenv.config();
 import "reflect-metadata"
+import Cart from "@entitiesCart";
 
 class RegisterService{
     static async createAccount (req: Request, res: Response){
@@ -42,9 +43,16 @@ class RegisterService{
             } else {
                 user.Gender = UserGender.Other;   // Gán giá trị cho gender
             } 
-            user.address = { ward, district, province }; // Gán giá trị cho address
+            user.ward = ward || 'default';
+            user.district = district || 'default';
+            user.province = province || 'default';
             res.cookie('email', email, {maxAge: 24 * 60 * 60 , httpOnly: false}  );
             await userRepository.save(user); 
+
+            // const newcart = new Cart();
+            // newcart.user = user;
+            // await AppDataSource.getRepository(Cart).save(newcart);
+
         }
         catch(error){
             console.log(error);

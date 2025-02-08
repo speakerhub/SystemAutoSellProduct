@@ -19,7 +19,7 @@ class LoginService {
             }
 
             if (!user) {
-                console.error("User not found");
+                // console.error("User not found");
                 return null;
             }
 

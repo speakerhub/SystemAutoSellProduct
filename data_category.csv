@@ -1,0 +1,6 @@
+id,CategoryName,ImageUrl,createdAt,deletedAt
+1,Dresses,ImageUrl-1738946955994-415820356.jpg,"2025-02-07 23:49:16",NULL
+2,"Men 's dresses",ImageUrl-1738947032728-770947889.jpg,"2025-02-07 23:50:32",NULL
+3,"Women's Dresses",ImageUrl-1738947209204-830598042.jpg,"2025-02-07 23:53:29",NULL
+4,"Baby's dresses",ImageUrl-1738947227173-673051167.jpg,"2025-02-07 23:53:47",NULL
+5,Shirt,ImageUrl-1738947313115-135568006.jpg,"2025-02-07 23:55:13",NULL

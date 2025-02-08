@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, Collection, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, Collection, JoinColumn, OneToMany } from "typeorm";
 import Cart from "@entitiesCart";
+import { Comment } from '@entitiesComment'; 
+import OrderItem from "@entitiesOrderItem";
+import Like from "@entitieslike";
 
 export enum UserRole {
     Admin = 'Admin',
     User = 'User',
+    Customer = 'Customer',
 }
 
 export enum UserGender {
@@ -47,13 +51,28 @@ export class User {
     @Column({ type: 'enum', enum: UserGender, default: UserGender.Other})
     Gender?: UserGender;
 
-    @Column({ type: 'json', nullable: true })
-    address?: any;
-
-    @OneToOne(() => Cart, (cart) => cart.user)
+    @Column()
+    province?: string;
+    
+     @Column()
+    district?: string;
+    
+    @Column()
+    ward?: string;
+    
+    @OneToMany(() => Cart, (cart) => cart.user)
     @JoinColumn()
     cart: Cart;
 
+    @OneToMany(() => Like, (like) => like.user)
+    @JoinColumn()
+    like: Like;
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments!: Comment[];
+
+    @OneToMany(() => OrderItem, (orderitem) => orderitem.user)
+    orderitem: OrderItem;
 }
 
 export default User;

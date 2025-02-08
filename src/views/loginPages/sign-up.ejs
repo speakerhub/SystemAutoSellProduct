@@ -46,7 +46,7 @@
         <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
           <div class="container-fluid ps-2 pe-0">
             <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="/">
-              Admin dashboard
+              Home Page
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
@@ -146,23 +146,25 @@
                       <label for="address" class="form-label">Address:</label>
                       <div class="row g-2">
                         <div class="col-md-4">
-                          <label for="ward" class="form-label">Ward</label>
-                          <select name="ward" id="ward" class="form-select">
-                            <option value="">Select Ward</option>
+                          <label for="province" class="form-label">City</label>
+                          <select name="province" id="province" class="form-select">
+                            
                           </select>
                         </div>
                         <div class="col-md-4">
                           <label for="district" class="form-label">District</label>
                           <select name="district" id="district" class="form-select">
-                            <option value="">Select District</option>
+                            
                           </select>
                         </div>
                         <div class="col-md-4">
-                          <label for="province" class="form-label">City</label>
-                          <select name="province" id="province" class="form-select">
-                            <option value="">Select City</option>
+                          <label for="ward" class="form-label">Ward</label>
+                          <select name="ward" id="ward" class="form-select">
+                            
                           </select>
                         </div>
+                        
+                        
                       </div>
                     </div>
                     <div class="mb-4">
@@ -216,6 +218,57 @@
   <script src="/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="/js/plugins/jquery-3.7.1.min.js"></script>
   <script>
+    $(document).ready(function () {
+      const provinceSelect = $('#province');
+      const districtSelect = $('#district');
+      const wardSelect = $('#ward');
+
+      $.ajax({
+        url: 'https://provinces.open-api.vn/api/?depth=1',
+        type: 'GET',
+        success: function (response) {
+          response.forEach(city => {
+            provinceSelect.append(`<option value="${city.code}">${city.name}</option>`);
+          });
+        }
+      })
+
+      provinceSelect.change(function () {
+        const provincecode = $(this).val();
+        console.log(provincecode)
+        districtSelect.html('<option value="">Select District</option>'); // Reset district
+        wardSelect.html('<option value="">Select Ward</option>');
+        if(provincecode){
+          $.ajax({
+            url: `https://provinces.open-api.vn/api/p/${provincecode}?depth=2`,
+            type: 'GET',
+            success: function (response) {
+              response.districts.forEach(district => {
+                districtSelect.append(`<option value="${district.code}">${district.name}</option>`);
+              });
+            }
+          })
+        }
+      });
+
+      districtSelect.change(function () {
+        const districtcode = $(this).val();
+        wardSelect.html('<option value="">Select Ward</option>');
+
+        if(districtcode){
+          $.ajax({
+            url: `https://provinces.open-api.vn/api/d/${districtcode}?depth=2`,
+            type: 'GET',
+            success: function (response) {
+              response.wards.forEach(ward => {
+                wardSelect.append(`<option value="${ward.code}">${ward.name}</option>`);
+              });
+            }
+          })
+        }
+      });
+    });
+
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {

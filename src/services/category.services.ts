@@ -15,7 +15,7 @@ class CategoryService{
             category.ImageUrl = req.file?.filename;
             
             await categoryRepository.save(category);
-            res.redirect('/productServices');
+            res.redirect('/createCategory');
         }
         catch (error){
             console.log(error);

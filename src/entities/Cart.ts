@@ -1,24 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToOne, JoinTable, Collection, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToOne, JoinTable, Collection, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Product } from "@entitiesProduct";
 import {User} from "@entitiesUser";
+import { CartItem } from "@entitiesCartItem";
 
-@Entity({name: "Cart"})
+@Entity({ name: "Cart" })
 export class Cart {
     @PrimaryGeneratedColumn()
-    id?: number
+    id?: number;
 
-    @OneToOne(() => User, (user) => user.cart) // Một cart thuộc về một user
+    @ManyToOne(() => User, (user) => user.cart)
     user: User;
 
-    @ManyToMany(() => Product, (product) => product.carts) // Quan hệ N-N với Product
-    @JoinTable() // Bảng trung gian giữa Cart và Product
-    products: Product[];
-
-    @Column({ type: 'float', default: 0 })
-    TotalPrice?: number;
+    @OneToMany(() => CartItem, (cartItem) => cartItem.cart) // Một giỏ hàng có nhiều CartItem
+    cartItems: CartItem[];
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt?: Date;
 }
+
 
 export default Cart;

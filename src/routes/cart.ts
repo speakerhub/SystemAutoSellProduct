@@ -19,13 +19,25 @@ router.get('/get-data-carts', async (req: Request, res: Response) => {
   }
 })
 
-router.get('/add-to-carts/:id', async (req: Request, res: Response) => {
+router.post('/add-to-carts/:id', async (req: Request, res: Response) => {
   await Cartcontroller.addToCart(req, res);
 });
 
-router.get('/add-to-carts-with-count/:id', async (req: Request, res: Response) => {
+router.post('/add-to-carts-with-count/:id', async (req: Request, res: Response) => {
   await Cartcontroller.addToCartWithCount(req, res);
 });
+
+router.get('/cart-count', async (req: Request, res: Response) => {
+  await Cartcontroller.cartcount(req, res);
+});
+
+router.put('/update-cart/:index', async (req: Request, res: Response) => {
+  await Cartcontroller.updateCart(req, res);
+})
+
+router.post('/save-cart', async (req: Request, res: Response) => {
+  await Cartcontroller.saveCart(req, res);
+})
 
 router.delete('/remove-from-carts/:productId', async (req: Request, res: Response) => {
   await Cartcontroller.removeFromCart(req, res);

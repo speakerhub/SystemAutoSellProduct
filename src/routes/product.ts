@@ -4,10 +4,20 @@ import upload from "@middlewaresmulter.config";
 import ProductController from "@controllersproduct.controller";
 import CategoryController from "@controllerscategory.controller";
 import checkSession from "@middlewares/auth.middleware";
+import { UserRole } from "@entitiesUser";
 
 // product routes
 router.get('/productServices', checkSession, async (req: Request, res: Response) => {
-    return res.render('./pages/productservices');
+    if (req.session && req.session._user ) {
+        if(req.session._user.Role == UserRole.Admin){
+            res.render('./pages/productservices', {isLoggedIn: true, user: req.session._user});
+        }
+        else{
+            res.redirect('/');
+        }
+    } else {
+        return res.redirect('/login');
+    }
 });
 
 router.get('/productDetail/:id', async (req: Request, res: Response) => {
@@ -28,6 +38,18 @@ router.get('/getAllProduct', async (req: Request, res: Response) => {
 
 router.get('/get12Product', async (req: Request, res: Response) => {
     await ProductController.get12Product(req, res);
+});
+
+router.get('/getrandom4Product', async (req: Request, res: Response) => {
+    await ProductController.getrandom4Product(req, res);
+});
+
+router.post('/filter-products', async (req: Request, res: Response) => {
+    await ProductController.getProductbyprice(req, res);
+});
+
+router.post('/filter-products-by-color', async (req: Request, res: Response) => {
+    await ProductController.getProductbyColor(req, res);
 });
 
 router.get('/getRecentProducts', async (req: Request, res: Response) => {

@@ -4,14 +4,24 @@ import upload from "@middlewaresmulter.config";
 import ProductController from "@controllersproduct.controller";
 import CategoryController from "@controllerscategory.controller";
 import checkSession from "@middlewares/auth.middleware";
+import { UserRole } from "@entitiesUser";
 
 
 // category routes 
 router.get('/categoryServices', checkSession, async (req: Request, res: Response) => {
-    return res.render('./pages/categoryservices');
+    if (req.session && req.session._user ) {
+        if(req.session._user.Role == UserRole.Admin){
+          res.render('./pages/categoryservices', {isLoggedIn: true, user: req.session._user});
+        }
+        else{
+          res.redirect('/');
+        }
+    } else {
+        return res.redirect('/login');
+    }
 });
 
-router.get('/createCategory', async (req: Request, res: Response) => {
+router.get('/createCategory', checkSession,  async (req: Request, res: Response) => {
     return res.render('./pages/createCategory');
 });
 

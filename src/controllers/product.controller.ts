@@ -18,8 +18,20 @@ class ProductController{
         await ProductService.get12Products(req, res);
     }
 
+    static async getrandom4Product(req: Request, res: Response) {
+        await ProductService.getRandom4Products(req, res);
+    }
+
     static async editPage(req: Request, res: Response){
         await ProductService.editPages(req, res);
+    }
+
+    static async getProductbyprice(req: Request, res: Response){
+        await ProductService.getProductbyprice(req, res);
+    }
+
+    static async getProductbyColor(req: Request, res: Response){
+        await ProductService.getProductbyColor(req, res);
     }
 
     static async Update(req: Request, res: Response){

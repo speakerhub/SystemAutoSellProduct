@@ -1,15 +1,2 @@
-id,ProductName,ProductCount,ImageUrl,Weight,Dimensions,Description,Price,Discount,Producer,Rating,isActive,createdAt,UpdatedAt,Tags,Status,deletedAt
-1,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-2,"Keegan Morales",96,ImageUrl-1738772894483-589116902.jpg,75,"Eos incidunt persp","Ut aut est proident",2,0,"Expedita a impedit ",2,1,"2025-02-05 23:28:14","2025-02-05 23:28:14",NULL,Available,NULL
-3,"Willa Emerson",85,ImageUrl-1738773087291-403682871.jpg,63,"Dolore ea error id o","Anim nobis sed et si",416,0,"Culpa pariatur Inci",5,1,"2025-02-05 23:31:27","2025-02-05 23:31:27",NULL,Available,NULL
-4,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-5,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-6,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-7,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-8,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-9,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-10,"Amethyst Hicks",63,ImageUrl-1738773003827-675296826.jpg,39,"Totam quaerat eos n","Animi minim ut iust",492,0,"Libero in eos aut do",2,1,"2025-02-05 23:16:05","2025-02-05 23:30:03",NULL,Available,NULL
-11,"Keegan Morales",96,ImageUrl-1738772894483-589116902.jpg,75,"Eos incidunt persp","Ut aut est proident",2,0,"Expedita a impedit ",2,1,"2025-02-05 23:28:14","2025-02-05 23:28:14",NULL,Available,NULL
-12,"Willa Emerson",85,ImageUrl-1738773087291-403682871.jpg,63,"Dolore ea error id o","Anim nobis sed et si",416,0,"Culpa pariatur Inci",5,1,"2025-02-05 23:31:27","2025-02-05 23:31:27",NULL,Available,NULL
-13,"Keegan Morales",96,ImageUrl-1738772894483-589116902.jpg,75,"Eos incidunt persp","Ut aut est proident",2,0,"Expedita a impedit ",2,1,"2025-02-05 23:28:14","2025-02-05 23:28:14",NULL,Available,NULL
-14,"Willa Emerson",85,ImageUrl-1738773087291-403682871.jpg,63,"Dolore ea error id o","Anim nobis sed et si",416,0,"Culpa pariatur Inci",5,1,"2025-02-05 23:31:27","2025-02-05 23:31:27",NULL,Available,NULL
+id,ProductName,ProductCount,ImageUrl,Size,Color,Weight,Dimensions,Description,Price,Discount,Producer,Rating,isActive,createdAt,UpdatedAt,Tags,Status,deletedAt
+1,"T Shirt Men",43,ImageUrl-1738947648073-432699581.jpg,"XS,L,XL,XXS","default,white,black,yellow",5,"Explicabo Repudiand","Exercitation non qui",507,11,"Asperiores sed imped",0,1,"2025-02-08 00:00:48","2025-02-08 00:00:48",shirt,Available,NULL
