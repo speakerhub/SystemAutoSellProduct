@@ -56,8 +56,20 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-dark" href="/notification">
+            <i class="material-symbols-rounded opacity-5">notifications</i>
+            <span class="nav-link-text ms-1">Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/account/manager">
+            <i class="material-symbols-rounded opacity-5">person_add</i>
+            <span class="nav-link-text ms-1">Account Services</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-dark" href="/categoryServices">
-            <i class="material-symbols-rounded opacity-5">shopping_bag</i>
+            <i class="material-symbols-rounded opacity-5">demography</i>
             <span class="nav-link-text ms-1">Category Services</span>
           </a>
         </li>
@@ -68,27 +80,21 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/billing.html">
+          <a class="nav-link text-dark" href="/receipt">
             <i class="material-symbols-rounded opacity-5">receipt_long</i>
             <span class="nav-link-text ms-1">Billing</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/virtual-reality.html">
-            <i class="material-symbols-rounded opacity-5">view_in_ar</i>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
+          <a class="nav-link text-dark" href="/orderAdmin">
+            <i class="material-symbols-rounded opacity-5">shopping_cart</i>
+            <span class="nav-link-text ms-1">Order Manger</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/rtl.html">
+          <a class="nav-link text-dark" href="/extendtool">
             <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-            <span class="nav-link-text ms-1">RTL</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/notifications.html">
-            <i class="material-symbols-rounded opacity-5">notifications</i>
-            <span class="nav-link-text ms-1">Notifications</span>
+            <span class="nav-link-text ms-1">Extend tool</span>
           </a>
         </li>
         <% } %>
@@ -103,7 +109,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="/order">
-            <i class="fa fa-shopping-cart material-symbols-rounded opacity-5"></i>
+            <i class="material-symbols-rounded opacity-5">shopping_cart</i>
             <span class="nav-link-text ms-1">Order</span>
           </a>
         </li>
@@ -238,7 +244,7 @@
             <li class="nav-item d-flex align-items-center">
               <% if(isLoggedIn){ %>
                 <a href="/profile" class="nav-link text-body font-weight-bold px-0">
-                  <i class="material-symbols-rounded">account_circle</i>
+                  <img src="/uploads/<%= user.ImageUrl %>" alt="<%= user.ImageUrl %>" class="avatar-sm border-radius-xl">
                 </a>
               <%} else {%>
                 <a href="/login" class="nav-link text-body font-weight-bold px-0">
@@ -265,7 +271,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                  <h4 class="mb-0">$53k</h4>
+                  <h4 class="mb-0">$<span id="totalMoneyToday"></span></h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -283,8 +289,27 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
+                  <p class="text-sm mb-0 text-capitalize">Total Money</p>
+                  <h4 class="mb-0">$<span id="totalMoney"></span></h4>
+                </div>
+                <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                  <i class="material-symbols-rounded opacity-10">weekend</i>
+                </div>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-2 ps-3">
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+30% </span>than last week</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-2 ps-3">
+              <div class="d-flex justify-content-between">
+                <div>
                   <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                  <h4 class="mb-0">2300</h4>
+                  <h4 class="mb-0"><span id="AccountToday"></span></h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">person</i>
@@ -816,6 +841,34 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/js/material-dashboard.min.js?v=3.2.0"></script>
+  <script src="/js/plugins/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function (){
+      $.ajax({
+        url: '/getMoneyToday',
+        method: 'POST',
+        success: function (response) {
+          $('#totalMoneyToday').html(response.totalMoneyToday);
+        }
+      });
+
+      $.ajax({
+        url: '/getMoneyTotal',
+        method: 'POST',
+        success: function (response) {
+          $('#totalMoney').html(response.totalMoney);
+        }
+      });
+
+      $.ajax({
+        url: '/getAccountToday',
+        method: 'POST',
+        success: function (response) {
+          $('#AccountToday').html(response.UserToday);
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

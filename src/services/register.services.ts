@@ -7,7 +7,6 @@ import { UserRole, UserGender } from "@entitiesUser";
 import dotenv from 'dotenv';
 dotenv.config();
 import "reflect-metadata"
-import Cart from "@entitiesCart";
 
 class RegisterService{
     static async createAccount (req: Request, res: Response){
@@ -35,13 +34,17 @@ class RegisterService{
             user.password = hashedPassword;    // Gán giá trị cho password
             user.phone = phone;          // Gán giá trị cho phone
             user.isActive = true;        
-            user.Role = UserRole.User;          // Gán giá trị cho role
+            user.Role = UserRole.User;    
+                 // Gán giá trị cho role
             if (gender === "Male") {
                 user.Gender = UserGender.Male;
+                user.ImageUrl =  'default-boy.jpg';
             } else if (gender === "Female") {
                 user.Gender = UserGender.Female;
+                user.ImageUrl =  'default-girl.jpg';
             } else {
-                user.Gender = UserGender.Other;   // Gán giá trị cho gender
+                user.Gender = UserGender.Other; 
+                user.ImageUrl =  'default-other.jpg';  // Gán giá trị cho gender
             } 
             user.ward = ward || 'default';
             user.district = district || 'default';
@@ -59,6 +62,8 @@ class RegisterService{
             throw new Error('An error occurred while creating account');
         }
     }
+
+
 }
 
 export default RegisterService;

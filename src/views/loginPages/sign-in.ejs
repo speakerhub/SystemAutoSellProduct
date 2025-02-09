@@ -151,6 +151,14 @@
                     <a href="/register" class="text-primary font-weight-bold">Sign up</a>
                   </p>
                 </form>
+                <p class="mt-4 text-center" >
+                  <% if(errorMessage) { %>
+                    <div class="text-danger text-center" style="font-size: 10px;"><%= errorMessage %></div>
+                    <div class="text-danger text-center" style="font-size: 10px;">Please contact with Admin by 0123456789 to help</div>
+                  <% } else { %>
+                    <span class="d-none">khong bi gi</span>
+                  <% } %>
+                </p>
               </div>
             </div>
           </div>

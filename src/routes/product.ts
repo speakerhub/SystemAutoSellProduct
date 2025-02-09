@@ -20,6 +20,10 @@ router.get('/productServices', checkSession, async (req: Request, res: Response)
     }
 });
 
+router.get('/search-products/:keywords', async (req: Request, res: Response) => {
+    await ProductController.search(req, res);
+});
+
 router.get('/productDetail/:id', async (req: Request, res: Response) => {
     await ProductController.getProductDetail(req, res);
 });
@@ -35,6 +39,7 @@ router.post('/createProduct', upload.single('ImageUrl'), async (req: Request, re
 router.get('/getAllProduct', async (req: Request, res: Response) => {
     await ProductController.getAllProduct(req, res);
 });
+
 
 router.get('/get12Product', async (req: Request, res: Response) => {
     await ProductController.get12Product(req, res);

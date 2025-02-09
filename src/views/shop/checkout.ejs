@@ -24,6 +24,63 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <style>
+        /* Style cho kết quả tìm kiếm */
+        #search-result {
+            margin-top: 10px;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            display: none; /* Ẩn kết quả tìm kiếm khi chưa có từ khóa */
+        }
+
+        /* Hiển thị kết quả tìm kiếm khi có sản phẩm */
+        #search-result.active {
+            display: block;
+        }
+
+        /* Style cho từng item trong kết quả tìm kiếm */
+        .search-item {
+            padding: 10px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .search-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .search-item .btn {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .search-item .btn:hover {
+            color: #0056b3;
+        }
+
+        /* Style cho thông báo không có kết quả */
+        #search-result p {
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -97,12 +154,15 @@
             <div class="col-lg-4 col-6 text-left">
                 <form action="">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" id="search" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
                             </span>
                         </div>
+                    </div>
+                    <div id="search-result">
+
                     </div>
                 </form>
             </div>
@@ -235,19 +295,19 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <select class="custom-select" name="city" id="city">
+                            <select class="custom-select" name="province" id="province" data-province="<%= user.province %>">
                                 
                             </select>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>District</label>
-                            <select class="custom-select" name="district" id="district">
+                            <select class="custom-select" name="district" id="district" data-district="<%= user.district %>">
                                 
                             </select>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Ward</label>
-                            <select class="custom-select" name="ward" id="ward">
+                            <select class="custom-select" name="ward" id="ward" data-ward="<%= user.ward %>">
                                 
                             </select>
                         </div>
@@ -512,11 +572,11 @@
                         let address1 = $("#address1").val();
                         let address2 = $("#address2").val();
                         let ward = $("#ward").val();
-                        let city = $("#city").val();
+                        let city = $("#province").val();
                         let district = $("#district").val();
                         let zip = $("#zip").val();
 
-                        if (firstName === "" || lastName === "" || email === "" || phone === "" || address1 === "" || city === "" || state === "" || zip === "") {
+                        if (firstName === "" || lastName === "" || email === "" || phone === "" || address1 === "" || city === "" || ward === "" || district === "" || zip === "") {
                             alert("Vui lòng nhập đầy đủ thông tin!");
                             return;
                         }
@@ -562,7 +622,127 @@
             });
         });
 
-        
+        $(document).ready(function () {
+            const provinceSelect = $('#province');
+            const districtSelect = $('#district');
+            const wardSelect = $('#ward');
+
+            const userProvince = provinceSelect.data("province");
+            const userDistrict = districtSelect.data("district");
+            const userWard = wardSelect.data("ward");
+
+            // 🟢 1. Tải danh sách tỉnh/thành
+            $.ajax({
+                url: 'https://provinces.open-api.vn/api/?depth=1',
+                type: 'GET',
+                success: function (response) {
+                    response.forEach(city => {
+                        let selected = city.code == userProvince ? 'selected' : '';
+                        provinceSelect.append(`<option value="${city.code}" ${selected}>${city.name}</option>`);
+                    });
+
+                    // 🟢 2. Nếu có tỉnh từ user, load danh sách huyện
+                    if (userProvince) {
+                        loadDistricts(userProvince);
+                    }
+                }
+            });
+
+            // 🟢 3. Khi user chọn tỉnh, load huyện tương ứng
+            provinceSelect.change(function () {
+                const provinceCode = $(this).val();
+                districtSelect.html('<option value="">Select District</option>'); // Reset huyện
+                wardSelect.html('<option value="">Select Ward</option>'); // Reset phường
+
+                if (provinceCode) {
+                    loadDistricts(provinceCode);
+                }
+            });
+
+            // 🟢 4. Hàm tải huyện theo mã tỉnh
+            function loadDistricts(provinceCode) {
+                $.ajax({
+                    url: `https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`,
+                    type: 'GET',
+                    success: function (response) {
+                        response.districts.forEach(district => {
+                            let selected = district.code == userDistrict ? 'selected' : '';
+                            districtSelect.append(`<option value="${district.code}" ${selected}>${district.name}</option>`);
+                        });
+
+                        // 🟢 5. Nếu có huyện từ user, load danh sách phường
+                        if (userDistrict) {
+                            loadWards(userDistrict);
+                        }
+                    }
+                });
+            }
+
+            // 🟢 6. Khi user chọn huyện, load phường tương ứng
+            districtSelect.change(function () {
+                const districtCode = $(this).val();
+                wardSelect.html('<option value="">Select Ward</option>'); // Reset phường
+
+                if (districtCode) {
+                    loadWards(districtCode);
+                }
+            });
+
+            // 🟢 7. Hàm tải phường theo mã huyện
+            function loadWards(districtCode) {
+                $.ajax({
+                    url: `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`,
+                    type: 'GET',
+                    success: function (response) {
+                        response.wards.forEach(ward => {
+                            let selected = ward.code == userWard ? 'selected' : '';
+                            wardSelect.append(`<option value="${ward.code}" ${selected}>${ward.name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#search').on('input', () => {
+            let keyword = $('#search').val();
+
+            if (keyword) {
+                $.ajax({
+                    url: `/search-products/${keyword}`,
+                    method: 'GET',
+                    success: (response) => {
+                        let html = '';
+
+                        if (response.products && response.products.length > 0) {
+                            response.products.forEach(product => {
+                                html += `
+                                    <div class="search-item card">
+                                        <div style="display: flex;">
+                                            <img class="avatar-xl" src="/uploads/${product.ImageUrl ? product.ImageUrl : 'default-image.png'}" alt="${product.ProductName}">
+                                            <a class="btn btn-outline-dark" href="/productDetail/${product.id}">${product.ProductName}</a>
+                                        </div>
+                                        <p>${product.Description}</p>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            html = '<p>No products found</p>';
+                        }
+
+                        // Hiển thị kết quả tìm kiếm trong #search-result
+                        $('#search-result').html(html).addClass('active');
+                    },
+                    error: (err) => {
+                        console.error('Search request failed:', err);
+                        $('#search-result').html('<p>Error occurred during search.</p>').addClass('active');
+                    }
+                });
+            } else {
+                // Nếu không có từ khóa, xóa kết quả tìm kiếm
+                $('#search-result').removeClass('active').html('');
+            }
+        });
+
     </script>
 </body>
 

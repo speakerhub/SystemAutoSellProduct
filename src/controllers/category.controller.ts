@@ -10,6 +10,10 @@ class CategoryController{
         await categoryService.getAllCategory(req, res);
     }
 
+    static async getProductbycategory(req: Request, res: Response){
+        await categoryService.getProductbycategory(req, res);
+    }
+
     static async get12Category(req: Request, res: Response){
         await categoryService.get12Category(req, res);
     }

@@ -3,7 +3,7 @@ import { Category } from '@entitiesCategory';
 import { Cart } from '@entitiesCart';
 import { Comment } from '@entitiesComment';
 import { CartItem } from "@entitiesCartItem";
-import LikeItem from "@entitiesLikeItem";
+import Like from "@entitieslike";
 // export enum UserRole {
 //     Admin = 'Admin',
 //     User = 'User',
@@ -81,8 +81,8 @@ export class Product {
     @OneToMany(() => CartItem, (cartItem) => cartItem.product) // Một sản phẩm có thể xuất hiện trong nhiều giỏ hàng
     cartItems: CartItem[];
 
-    @OneToMany(() => LikeItem, (likeItem) => likeItem.product) // Một sản phẩm có thể xuất hiện trong nhiều giỏ hàng
-    LikeItems: LikeItem[];
+    @OneToMany(() => Like, (like) => like.product)
+    likes: Like[];
 
     @OneToMany(() => Comment, (comment) => comment.product)
     comments!: Comment[];

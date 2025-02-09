@@ -7,9 +7,10 @@ class LoginController {
 
     static async getLoginPage(req: Request, res: Response) {
         try {
-            const {email, errorlogin} = req.cookies;
+            let {email, errorlogin} = req.cookies;
+            let errorMessage = null;
             // console.log(email);
-            return res.render('./loginPages/sign-in', {email, errorlogin} );
+            return res.render('./loginPages/sign-in', {email, errorlogin, errorMessage} );
         } catch (error) {
             return res.status(500).json({ message: "An error occurred", error });
         }
@@ -32,6 +33,11 @@ class LoginController {
             if (!result) {
                 res.cookie("errorlogin",'invalid email or password');
                 return res.render('./loginPages/sign-in', { errorMessage: 'Invalid credentials', email: null, errorlogin: 'Invalid credentials' });
+            }
+
+            if(result.isActive == false) {
+                res.cookie("errorlogin",'Account is not active');
+                return res.render('./loginPages/sign-in', { errorMessage: 'Account is not active', email: null, errorlogin: 'Account is not active' });
             }
             
 

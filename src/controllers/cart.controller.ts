@@ -14,6 +14,10 @@ class Cartcontroller{
         await cartservices.saveCart(req, res);
     }
 
+    static async loadCart(req: Request, res: Response){
+        await cartservices.loadCart(req, res);
+    }
+
     static async removeFromCart(req: Request, res: Response){
         await cartservices.removeFromCart(req, res);
     }

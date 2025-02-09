@@ -49,48 +49,54 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <% if( user?.Role == 'Admin'){%>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/admin">
-            <i class="material-symbols-rounded opacity-5">dashboard</i>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active bg-gradient-dark text-white" href="/categoryServices">
-            <i class="material-symbols-rounded opacity-5">shopping_bag</i>
-            <span class="nav-link-text ms-1">Category Services</span>
-          </a>
-        </li>
-        <li class="nav-item">
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/admin">
+              <i class="material-symbols-rounded opacity-5">dashboard</i>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/notification">
+              <i class="material-symbols-rounded opacity-5">notifications</i>
+              <span class="nav-link-text ms-1">Notifications</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/account/manager">
+              <i class="material-symbols-rounded opacity-5">person_add</i>
+              <span class="nav-link-text ms-1">Account Services</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active bg-gradient-dark text-white" href="/categoryServices">
+              <i class="material-symbols-rounded opacity-5">demography</i>
+              <span class="nav-link-text ms-1">Category Services</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link text-dark" href="/productServices">
               <i class="material-symbols-rounded opacity-5">shopping_bag</i>
-              <span class="nav-link-text ms-1">Product Services</span>
+              <span class="nav-link-text ms-1">Products Services</span>
             </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/billing.html">
-            <i class="material-symbols-rounded opacity-5">receipt_long</i>
-            <span class="nav-link-text ms-1">Billing</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/virtual-reality.html">
-            <i class="material-symbols-rounded opacity-5">view_in_ar</i>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/rtl.html">
-            <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-            <span class="nav-link-text ms-1">RTL</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/notifications.html">
-            <i class="material-symbols-rounded opacity-5">notifications</i>
-            <span class="nav-link-text ms-1">Notifications</span>
-          </a>
-        </li>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/receipt">
+              <i class="material-symbols-rounded opacity-5">receipt_long</i>
+              <span class="nav-link-text ms-1">Billing</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/orderAdmin">
+              <i class="material-symbols-rounded opacity-5">shopping_cart</i>
+              <span class="nav-link-text ms-1">Order Manger</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/extendtool">
+              <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
+              <span class="nav-link-text ms-1">Extend tool</span>
+            </a>
+          </li>
         <% } %>
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Account pages</h6>
@@ -103,7 +109,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="/order">
-            <i class="fa fa-shopping-cart material-symbols-rounded opacity-5"></i>
+            <i class="material-symbols-rounded opacity-5">shopping_cart</i>
             <span class="nav-link-text ms-1">Order</span>
           </a>
         </li>
@@ -222,9 +228,15 @@
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a href="/profile" class="nav-link text-body font-weight-bold px-0">
-                <i class="material-symbols-rounded">account_circle</i>
-              </a>
+              <% if(isLoggedIn){ %>
+                <a href="/profile" class="nav-link text-body font-weight-bold px-0">
+                  <img src="/uploads/<%= user.ImageUrl %>" alt="<%= user.ImageUrl %>" class="avatar-sm border-radius-xl">
+                </a>
+              <%} else {%>
+                <a href="/login" class="nav-link text-body font-weight-bold px-0">
+                  <i class="material-symbols-rounded">account_circle</i>
+                </a>
+              <%}%>
             </li>
           </ul>
         </div>

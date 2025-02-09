@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "@config/data-source";
 import Category from "@entities/Category";
 import "reflect-metadata";
+import Product from "@entitiesProduct";
 const categoryRepository = AppDataSource.getRepository(Category);
 
 class CategoryService{
@@ -79,6 +80,32 @@ class CategoryService{
             res.status(500).json({ message: 'Error fetching products', error: error });
         }
     }
+
+    static async getProductbycategory(req: Request, res: Response){
+            try{
+                const categoryId = parseInt(req.params.id);
+                const category = await categoryRepository.findOne({
+                    where: { id: categoryId}
+                })
+                const products = await AppDataSource.getRepository(Product).find({
+                    relations: ['categories'],
+                    where: {
+                        categories: { id: categoryId },
+                        isActive: true
+                    }
+                });
+                
+                if (req.session && req.session._user) {
+                    res.render('./shop/category', {isLoggedIn: true, user: req.session._user, category, products });
+                } else {
+                    res.render('./shop/category', {isLoggedIn: false, user: null, category, products});
+                }
+                
+            }catch(e){
+                console.log(e);
+                res.status(500).json({ message: 'An error occurred while fetching products by category' });
+            }
+        }
 
     static async updateCategory(req: Request, res: Response) {
         try{

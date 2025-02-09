@@ -30,10 +30,6 @@ export class Comment {
     @ManyToOne(() => Product, (product) => product.comments, { onDelete: "CASCADE" })
     product!: Product;
 
-    // Thêm số lượt thích nếu cần
-    @Column({ type: "int", default: 0 })
-    likes!: number;
-
 }
 
 export default Comment;

@@ -21,6 +21,10 @@ router.get('/categoryServices', checkSession, async (req: Request, res: Response
     }
 });
 
+router.get('/category/:id', async (req: Request, res: Response) => {
+    await CategoryController.getProductbycategory(req, res);
+});
+
 router.get('/createCategory', checkSession,  async (req: Request, res: Response) => {
     return res.render('./pages/createCategory');
 });

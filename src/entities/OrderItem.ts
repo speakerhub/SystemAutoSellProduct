@@ -1,24 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, DeleteDateColumn } from "typeorm";
-import { User } from "./User";  // Import User nếu có
+import { 
+    Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, 
+    DeleteDateColumn, BeforeInsert 
+} from "typeorm";
+import { User } from "./User";
+import QRCode from "qrcode"; // Import thư viện QR code
 
 @Entity({ name: "OrderItem" })
 export class OrderItem {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => User, (user) => user.orderitem)  // Định nghĩa quan hệ với User
+    @ManyToOne(() => User, (user) => user.orderitem)
     user!: User;
 
     @Column("json")
     items!: {
-        productId: string;  // Vì MySQL không hỗ trợ ObjectId, dùng string
+        productId: string;
         name: string;
+        size: string;
+        color: string;
         price: number;
         quantity: number;
     }[];
 
     @Column({ type: "decimal", precision: 10, scale: 2 })
     totalAmount!: number;
+
+    @Column({ type: "text", nullable: true })
+    qrcode?: string; // Lưu QR code dưới dạng base64
 
     @Column("json")
     shippingAddress!: {
@@ -45,6 +54,13 @@ export class OrderItem {
 
     @DeleteDateColumn()
     deletedAt?: Date | null;
+
+    // 🔹 Trước khi insert vào DB, tự động tạo QR code cho đơn hàng
+    @BeforeInsert()
+    async generateQRCode() {
+        const orderData = `Order ID: ${this.id}\nTotal: $${this.totalAmount}\nStatus: ${this.status}`;
+        this.qrcode = await QRCode.toDataURL(orderData);
+    }
 }
 
 export default OrderItem;

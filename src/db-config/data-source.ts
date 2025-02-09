@@ -11,7 +11,6 @@ import { Cart } from '@entities/Cart';
 import { Like } from '@entities/like';
 import { Comment } from '@entities/Comment';
 import { OrderItem } from "@entitiesOrderItem";
-import LikeItem from "@entitiesLikeItem";
 import { CartItem } from "@entitiesCartItem";
 
 export const AppDataSource = new DataSource({
@@ -23,7 +22,7 @@ export const AppDataSource = new DataSource({
     database: process.env.MYSQL_NAME,
     synchronize: false,
     logging: false,
-    entities: [User,Product,Category,Cart,Like,Comment, OrderItem, LikeItem,CartItem],
+    entities: [User,Product,Category,Cart,Like,Comment,OrderItem,CartItem],
     subscribers: [],
     migrations: ["src/migrations/*.ts"],
 })

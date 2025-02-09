@@ -242,15 +242,23 @@ class cartservices{
             // Tìm sản phẩm trong giỏ hàng của session
             const index = req.session.cart.findIndex(item => item.id == productIdincart);
             if (index !== -1) {
-                // Xóa sản phẩm khỏi giỏ hàng trong session
-                req.session.cart.splice(index, 1);
-    
+                // req.session.cart.splice(index, 1);
+                req.session.cart = req.session.cart.filter(item => item.id !== productIdincart);
+                req.session.save();
                 // Kiểm tra xem người dùng có đăng nhập không
                 if (req.session._user) {
+
+                    const userId = req.session._user?.id;
+                    if (!userId) {
+                        return res.status(401).json({ success: false, message: 'User is not logged in' });
+                    }
+            
                     // Tìm giỏ hàng của người dùng trong cơ sở dữ liệu
                     const cart = await AppDataSource.getRepository(Cart).findOne({
-                        where: { user: req.session._user }
+                        where: { user: { id: userId } },
+                        relations: ['cartItems']
                     });
+                    // console.log(cart);
     
                     if (!cart) {
                         return res.json({ success: false, message: 'Không tìm thấy giỏ hàng của người dùng trong cơ sở dữ liệu' });
@@ -260,28 +268,37 @@ class cartservices{
                     const product = await AppDataSource.getRepository(Product).findOne({
                         where: { id: productIdincart }
                     });
+
+                    // console.log(product);
     
                     if (!product) {
                         return res.json({ success: false, message: 'Sản phẩm không tìm thấy trong cơ sở dữ liệu' });
                     }
     
                     // Tìm CartItem để xóa
-                    const cartItem = await AppDataSource.getRepository(CartItem).find({
-                        where: { cart: cart, product: product }
+                    const cartItems = await AppDataSource.getRepository(CartItem).findBy({ 
+                        cart: { id: cart.id }, 
+                        product: { id: product.id } 
                     });
+
     
-                    if (!cartItem || cartItem.length === 0) {
+                    if (cartItems.length === 0) {
                         return res.json({ success: false, message: 'Không tìm thấy sản phẩm trong giỏ hàng cơ sở dữ liệu' });
                     }
 
-                    for (const item of cartItem) {
-                        await AppDataSource.getRepository(CartItem).delete(item);
+                    for (const item of cartItems) {
+                        // console.log('item', item);
+                        await AppDataSource.getRepository(CartItem).delete({ id: item.id });
+
                     }
+
+                    
                     // Trả về thông báo thành công
-                    return res.json({ success: true, message: 'Sản phẩm đã được xóa khỏi giỏ hàng' });
+                    return res.json({ success: true, message: 'Sản phẩm đã được xóa khỏi db va session' });
                 } else {
-                    return res.json({ success: false, message: 'Người dùng chưa đăng nhập' });
+                    return res.json({ success: true, message: 'Sản phẩm đã được xóa khỏi session' });
                 }
+                
             } else {
                 return res.json({ success: false, message: 'Không tìm thấy sản phẩm trong giỏ hàng của session' });
             }

@@ -10,9 +10,14 @@ class ProductController{
         await ProductService.getAllProducts(req, res);
     }
 
+    static async search(req: Request, res: Response){
+        await ProductService.search(req, res);
+    }
+
     static async getProductDetail(req: Request, res: Response): Promise<any>{
         await ProductService.getProductDetail(req, res);
     }
+
 
     static async get12Product(req: Request, res: Response){
         await ProductService.get12Products(req, res);

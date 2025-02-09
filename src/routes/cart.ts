@@ -39,6 +39,10 @@ router.post('/save-cart', async (req: Request, res: Response) => {
   await Cartcontroller.saveCart(req, res);
 })
 
+router.post('/load-cart', async (req: Request, res: Response) => {
+  await Cartcontroller.loadCart(req, res);
+})
+
 router.delete('/remove-from-carts/:productId', async (req: Request, res: Response) => {
   await Cartcontroller.removeFromCart(req, res);
 })

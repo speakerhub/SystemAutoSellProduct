@@ -4,6 +4,7 @@ import session from "@typesexpress-session";
 import checkoutController from "@controllerscheckout.controller";
 import OrderItem from "@entitiesOrderItem";
 import { AppDataSource } from "@configdata-source";
+import OrderController from "@controllersorder.controller";
 
 const orderRepository = AppDataSource.getRepository(OrderItem);
 const router: Router = express.Router();
@@ -20,29 +21,6 @@ router.get('/checkout', async (req: Request, res: Response) => {
     res.sendStatus(500);
   }
   
-});
-
-router.get('/order', checkSession, async (req: Request, res: Response) => {
-  try{
-    const order = await orderRepository.find({
-      where: {
-        user: req.session._user,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-      relations: ['user'],
-    })
-
-    if (!order) {
-      res.render('./loginPages/order', {isLoggedIn: true, user: req.session._user, order: null });
-    }
-
-    res.render('./loginPages/order', {isLoggedIn: true, user: req.session._user, order: order});
-  } catch (e){
-    console.log(e);
-    res.sendStatus(500);
-  }
 });
 
 router.post('/place-order', async (req: Request, res: Response) => {

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "@config/data-source";
-import { ILike, In } from "typeorm";
+import { ILike, Like, In } from "typeorm";
 import "reflect-metadata";
 import Product from "@entities/Product";
 import Category from "@entitiesCategory";
@@ -43,6 +43,29 @@ class ProductService{
         catch (error){
             console.log(error);
             res.status(500).json({ message: 'An error occurred while creating product' });
+        }
+    }
+
+
+    static async search(req: Request, res: Response): Promise<any>{
+        try{
+            const keywords = req.params.keywords;
+            // console.log(keywords);
+            const products = await productRepository.find({
+                where: [
+                    { ProductName: Like(`%${keywords}%`) },
+                    { Description: Like(`%${keywords}%`) }
+                ],
+            });
+
+            if (products.length > 0) {
+                return res.status(200).json({ products });
+            } else {
+                return res.status(404).json({ message: 'No products found' });
+            }
+        } catch(error){
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while searching' });
         }
     }
 

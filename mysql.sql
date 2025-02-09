@@ -56,3 +56,8 @@ create table Integration(
 use autoworkflow;
 drop database autoworkflow;
 create database autoworkflow;
+
+
+DESCRIBE Product;
+
+SHOW CREATE TABLE Product;

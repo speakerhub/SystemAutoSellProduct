@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>MultiShop - Online Shop Website Template</title>
+    <title>Cart</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -24,6 +24,63 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <style>
+        /* Style cho kết quả tìm kiếm */
+        #search-result {
+            margin-top: 10px;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            display: none; /* Ẩn kết quả tìm kiếm khi chưa có từ khóa */
+        }
+
+        /* Hiển thị kết quả tìm kiếm khi có sản phẩm */
+        #search-result.active {
+            display: block;
+        }
+
+        /* Style cho từng item trong kết quả tìm kiếm */
+        .search-item {
+            padding: 10px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .search-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .search-item .btn {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .search-item .btn:hover {
+            color: #0056b3;
+        }
+
+        /* Style cho thông báo không có kết quả */
+        #search-result p {
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -97,12 +154,15 @@
             <div class="col-lg-4 col-6 text-left">
                 <form action="">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="text" class="form-control" id="search" placeholder="Search for products">
                         <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
                             </span>
                         </div>
+                    </div>
+                    <div id="search-result">
+
                     </div>
                 </form>
             </div>
@@ -204,8 +264,10 @@
     <!-- Cart Start -->
     <div class="container-fluid">
         <% if(isLoggedIn) {%>
-            <div class="row px-xl-5"></div>
+            <div class="row px-xl-5 justify-content-between"></div>
                 <button class="btn btn-outline-dark" style="margin-left: 2%; margin-bottom: 10px;" id="savecart">Save Cart</button>
+
+                <button class="btn btn-outline-dark" style="margin-left: 2%; margin-bottom: 10px;" id="loadcart">Load Cart</button>
             </div>
         <% } %>
         <div class="row px-xl-5">
@@ -447,10 +509,8 @@
                             url: `/remove-from-carts/${productId}`,
                             method: "DELETE",
                             success: function(response) {
-                                if (response.success) {
-                                    alert(response.message);
-                                    window.location.reload();
-                                }
+                                alert(response.message);
+                                window.location.reload();
                             }
                         });
                     });
@@ -487,9 +547,21 @@
                 type: 'post',
                 success: (response) => {
                     // console.log('2', response.data);
+                    window.location.reload();
                 }
-            })
-        })
+            });
+        });
+
+        $('#loadcart').click( () => {
+            $.ajax({
+                url: "/load-cart",
+                type: 'post',
+                success: (response) => {
+                    // console.log('2', response.data);
+                    window.location.reload();
+                }
+            });
+        });
 
         function checkout(){
             // alert('Proceeding to checkout!');
@@ -502,7 +574,45 @@
             }
         }
 
-        
+        $('#search').on('input', () => {
+            let keyword = $('#search').val();
+
+            if (keyword) {
+                $.ajax({
+                    url: `/search-products/${keyword}`,
+                    method: 'GET',
+                    success: (response) => {
+                        let html = '';
+
+                        if (response.products && response.products.length > 0) {
+                            response.products.forEach(product => {
+                                html += `
+                                    <div class="search-item card">
+                                        <div style="display: flex;">
+                                            <img class="avatar-xl" src="/uploads/${product.ImageUrl ? product.ImageUrl : 'default-image.png'}" alt="${product.ProductName}">
+                                            <a class="btn btn-outline-dark" href="/productDetail/${product.id}">${product.ProductName}</a>
+                                        </div>
+                                        <p>${product.Description}</p>
+                                    </div>
+                                `;
+                            });
+                        } else {
+                            html = '<p>No products found</p>';
+                        }
+
+                        // Hiển thị kết quả tìm kiếm trong #search-result
+                        $('#search-result').html(html).addClass('active');
+                    },
+                    error: (err) => {
+                        console.error('Search request failed:', err);
+                        $('#search-result').html('<p>Error occurred during search.</p>').addClass('active');
+                    }
+                });
+            } else {
+                // Nếu không có từ khóa, xóa kết quả tìm kiếm
+                $('#search-result').removeClass('active').html('');
+            }
+        });
     </script>
 </body>
 </html>

@@ -22,6 +22,7 @@ class LoginService {
                 // console.error("User not found");
                 return null;
             }
+    
 
             if (user.password) {
                 const isPasswordValid = await bcrypt.compare(password, user.password!);

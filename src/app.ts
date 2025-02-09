@@ -18,7 +18,7 @@ import cartsroutes from "@routes/cart";
 import productsroutes from "@routesproduct";
 import categoriesroutes from "@routes/category";
 import checkoutroutes from "@routes/checkout";
-
+import orderroutes from "@routesorder"
 // 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -70,3 +70,4 @@ app.use(cartsroutes);
 app.use(productsroutes);
 app.use(categoriesroutes);
 app.use(checkoutroutes);
+app.use(orderroutes);

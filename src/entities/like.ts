@@ -1,21 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection, OneToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Collection, OneToOne, OneToMany, ManyToOne } from "typeorm";
 import { Product } from "@entitiesProduct";
 import User from "@entitiesUser";
-import LikeItem from "@entitiesLikeItem";
 
-@Entity({name: "Like"})
+
+@Entity({ name: "Like" })
 export class Like {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @OneToOne(() => User, (user) => user.like) // Một giỏ hàng thuộc về một người dùng
-    user: User;
+    @ManyToOne(() => Product, (product) => product.likes)
+    product: Product;
 
-    @OneToMany(() => LikeItem, (likeItem) => likeItem.like) // Một giỏ hàng có nhiều CartItem
-    likeItems: LikeItem[];
+    @ManyToOne(() => User, (user) => user.likes)
+    user: User;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt?: Date;
 }
+
 
 export default Like;

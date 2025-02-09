@@ -36,6 +36,9 @@ export class User {
     @Column()
     password?: string
 
+    @Column({ nullable: true })
+    ImageUrl?: string;
+
     @Column({ unique: true })
     phone?: string
     
@@ -54,7 +57,7 @@ export class User {
     @Column()
     province?: string;
     
-     @Column()
+    @Column()
     district?: string;
     
     @Column()
@@ -65,8 +68,7 @@ export class User {
     cart: Cart;
 
     @OneToMany(() => Like, (like) => like.user)
-    @JoinColumn()
-    like: Like;
+    likes: Like[];
 
     @OneToMany(() => Comment, (comment) => comment.user)
     comments!: Comment[];

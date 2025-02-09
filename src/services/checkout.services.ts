@@ -32,6 +32,8 @@ class checkoutService {
                 productId: product.id,
                 name: product.ProductName,
                 price: product.Price,
+                color: product.Color,
+                size: product.Size,
                 quantity: product.ProductCount,
             }));
 
