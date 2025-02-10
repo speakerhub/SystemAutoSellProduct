@@ -6,6 +6,10 @@ class ProductController{
         await ProductService.createProduct(req, res);
     }
 
+    static async Comment(req: Request, res: Response){
+        await ProductService.Comment(req, res);
+    }
+
     static async getAllProduct(req: Request, res: Response){
         await ProductService.getAllProducts(req, res);
     }

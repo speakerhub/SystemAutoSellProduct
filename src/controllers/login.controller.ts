@@ -65,6 +65,9 @@ class LoginController {
                 if (err) {
                     return res.status(500).send("An error occurred during logout.");
                 }
+                res.clearCookie('connect.sid', { path: '/' });
+                res.clearCookie('user', { path: '/' });
+                res.clearCookie('userid', { path: '/' });
                 res.redirect('/');
             });
         } catch (error) {

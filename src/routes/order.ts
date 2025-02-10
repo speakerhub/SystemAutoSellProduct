@@ -7,7 +7,11 @@ const router: Router = express.Router();
 
 router.get('/order', checkSession, async (req: Request, res: Response) => {
   try{
-    res.render('./loginPages/order', {isLoggedIn: true, user: req.session._user});
+    if(req.session._user?.isActive == false) {
+        res.redirect('/login');
+        return;
+    }
+    res.render('./pages/accountpage/order', {isLoggedIn: true, user: req.session._user});
   } catch (e){
     console.log(e);
     res.sendStatus(500);
@@ -17,7 +21,7 @@ router.get('/order', checkSession, async (req: Request, res: Response) => {
 router.get('/orderAdmin', checkSession, async (req: Request, res: Response) => {
     if (req.session && req.session._user ) {
         if(req.session._user.Role == UserRole.Admin){
-            res.render('./pages/orderAdmin', {isLoggedIn: true, user: req.session._user});
+            res.render('./pages/manager/orderAdmin', {isLoggedIn: true, user: req.session._user});
         }
         else{
             res.redirect('/');

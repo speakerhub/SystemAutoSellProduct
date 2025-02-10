@@ -19,6 +19,9 @@ import productsroutes from "@routesproduct";
 import categoriesroutes from "@routes/category";
 import checkoutroutes from "@routes/checkout";
 import orderroutes from "@routesorder"
+import wishlistroutes from "@routes/wishlist";
+import commentroutes from "@routes/comment";
+
 // 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -71,3 +74,5 @@ app.use(productsroutes);
 app.use(categoriesroutes);
 app.use(checkoutroutes);
 app.use(orderroutes);
+app.use(wishlistroutes);
+app.use(commentroutes);

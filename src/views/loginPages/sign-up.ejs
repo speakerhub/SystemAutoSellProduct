@@ -1,20 +1,5 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -294,7 +279,6 @@
     });
 
     $('#email, #phone, #birthdate, #lastname, #firstname, #flexCheckDefault').on('input', () => {
-      // Check if all required fields are filled and passwords match
       if ($('#email').val() && $('#password').val() && $('#confirmPassword').val() && 
           $('#phone').val() && $('#birthdate').val() && $('#lastname').val() && 
           $('#firstname').val() && $('#flexCheckDefault').prop('checked') && 
@@ -307,32 +291,33 @@
 
     $('#lookpassword').click(function() {
       var password = $('#password');
-      var togglePassword = $('#lookpassword'); // Assuming #lookpasswor is the element that toggles visibility
+      var togglePassword = $('#lookpassword');
       if (password.attr('type') === 'password') {
-        password.attr('type', 'text'); // Change input type to text to show password
-        togglePassword.removeClass("fa-eye"); // Remove the eye icon
-        togglePassword.addClass("fa-eye-slash"); // Add the eye-slash icon
+        password.attr('type', 'text');
+        togglePassword.removeClass("fa-eye"); 
+        togglePassword.addClass("fa-eye-slash");
       } else {
-        password.attr('type', 'password'); // Change input type back to password to hide it
-        togglePassword.removeClass("fa-eye-slash"); // Remove the eye-slash icon
-        togglePassword.addClass("fa-eye"); // Add the eye icon
+        password.attr('type', 'password'); 
+        togglePassword.removeClass("fa-eye-slash");
+        togglePassword.addClass("fa-eye");
       }
     });
 
     $('#lookconfirmpassword').click(function() {
       var password = $('#confirmPassword');
-      var togglePassword = $('#lookconfirmpassword'); // Assuming #lookpasswor is the element that toggles visibility
+      var togglePassword = $('#lookconfirmpassword'); 
       if (password.attr('type') === 'password') {
-        password.attr('type', 'text'); // Change input type to text to show password
-        togglePassword.removeClass("fa-eye"); // Remove the eye icon
-        togglePassword.addClass("fa-eye-slash"); // Add the eye-slash icon
+        password.attr('type', 'text'); 
+        togglePassword.removeClass("fa-eye"); 
+        togglePassword.addClass("fa-eye-slash"); 
       } else {
-        password.attr('type', 'password'); // Change input type back to password to hide it
-        togglePassword.removeClass("fa-eye-slash"); // Remove the eye-slash icon
-        togglePassword.addClass("fa-eye"); // Add the eye icon
+        password.attr('type', 'password'); 
+        togglePassword.removeClass("fa-eye-slash");
+        togglePassword.addClass("fa-eye"); 
       }
     });
   </script>
+  
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

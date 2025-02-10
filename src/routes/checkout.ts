@@ -12,6 +12,10 @@ const router: Router = express.Router();
 router.get('/checkout', async (req: Request, res: Response) => {
   try{ 
     if (req.session && req.session._user) {
+      if(req.session._user.isActive == false) {
+        res.redirect('/login');
+        return;
+      }
       res.render('./shop/checkout', {isLoggedIn: true, user: req.session._user}); // Lưu trữ đối tượng User trong session
     } else {
       res.render('./shop/checkout', {isLoggedIn: false, user: null});

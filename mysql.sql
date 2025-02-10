@@ -57,6 +57,9 @@ use autoworkflow;
 drop database autoworkflow;
 create database autoworkflow;
 
+-- use autoworkflow;
+-- mysqldump -u root -p autoworkflow category product user orderitem cartitem cart  > table_backup.sql;
+
 
 DESCRIBE Product;
 

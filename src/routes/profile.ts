@@ -12,6 +12,10 @@ const router: Router = express.Router();
 
 router.get('/profile', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user) {
+    if(req.session._user.isActive == false) {
+      res.redirect('/login');
+      return;
+    }
     const location = await OrderService.getLocationName(
       req.session._user?.ward || '',
       req.session._user?.district || '',
@@ -19,7 +23,7 @@ router.get('/profile', checkSession, async (req: Request, res: Response) => {
     )
     // console.log(location);
     
-    res.render('./loginPages/profile', { isLoggedIn: true, user: req.session._user, location: location});
+    res.render('./pages/accountpage/profile', { isLoggedIn: true, user: req.session._user, location: location});
   } else {
     return res.redirect('/login');
   }

@@ -1,35 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, DeleteDateColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, DeleteDateColumn, CreateDateColumn, UpdateDateColumn, Check } from "typeorm";
 import { User } from "@entitiesUser";
 import { Product } from "@entitiesProduct";
 
 @Entity({ name: "Comment" })
+@Check("rating >= 0 AND rating <= 5") // Đảm bảo rating từ 0 - 5
 export class Comment {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: "text", nullable: true })
+    @Column({ type: "text", nullable: false })
     comment?: string;
 
-    @Column({ type: "float", default: 0 })
+    @Column({ type: "float", nullable: true })
     rating!: number;
 
     @CreateDateColumn()
     createdAt!: Date;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
+    @UpdateDateColumn()
     updatedAt!: Date;
 
     @DeleteDateColumn()
     deletedAt?: Date | null;
 
-    // Một User có thể đánh giá nhiều sản phẩm
-    @ManyToOne(() => User, (user) => user.comments, { onDelete: "CASCADE" })
+    @ManyToOne(() => User, (user) => user.comments, { onDelete: "CASCADE", nullable: false })
     user!: User;
 
-    // Một sản phẩm có thể có nhiều đánh giá
-    @ManyToOne(() => Product, (product) => product.comments, { onDelete: "CASCADE" })
+    @ManyToOne(() => Product, (product) => product.comments, { onDelete: "CASCADE", nullable: false })
     product!: Product;
-
 }
 
 export default Comment;

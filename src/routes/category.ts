@@ -11,7 +11,7 @@ import { UserRole } from "@entitiesUser";
 router.get('/categoryServices', checkSession, async (req: Request, res: Response) => {
     if (req.session && req.session._user ) {
         if(req.session._user.Role == UserRole.Admin){
-          res.render('./pages/categoryservices', {isLoggedIn: true, user: req.session._user});
+          res.render('./pages/admin/categoryservices', {isLoggedIn: true, user: req.session._user});
         }
         else{
           res.redirect('/');
@@ -22,11 +22,15 @@ router.get('/categoryServices', checkSession, async (req: Request, res: Response
 });
 
 router.get('/category/:id', async (req: Request, res: Response) => {
+    if(req.session._user?.isActive == false) {
+        res.redirect('/login');
+        return;
+    }
     await CategoryController.getProductbycategory(req, res);
 });
 
 router.get('/createCategory', checkSession,  async (req: Request, res: Response) => {
-    return res.render('./pages/createCategory');
+    return res.render('./pages/admin/createCategory');
 });
 
 router.post('/createCategory', upload.single('ImageUrl'), async (req: Request, res: Response) => {

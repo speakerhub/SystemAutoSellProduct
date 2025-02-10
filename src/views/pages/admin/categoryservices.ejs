@@ -1,17 +1,3 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <title>
-    User Services
+    Category Services
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -52,23 +38,23 @@
           <li class="nav-item">
             <a class="nav-link text-dark" href="/admin">
               <i class="material-symbols-rounded opacity-5">dashboard</i>
-              <span class="nav-link-text ms-1">Dashboard</span>
+              <span class="nav-link-text ms-1">Dashboard - Income</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="/notification">
-              <i class="material-symbols-rounded opacity-5">notifications</i>
-              <span class="nav-link-text ms-1">Notifications</span>
-            </a>
+              <a class="nav-link text-dark" href="/manager/user">
+                <i class="material-symbols-rounded opacity-5">manage_accounts</i>
+                <span class="nav-link-text ms-1">Manager User</span>
+              </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active bg-gradient-dark text-white" href="/account/manager">
+            <a class="nav-link text-dark" href="/manager/account">
               <i class="material-symbols-rounded opacity-5">person_add</i>
-              <span class="nav-link-text ms-1">Account Services</span>
+              <span class="nav-link-text ms-1">User Services</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="/categoryServices">
+            <a class="nav-link active bg-gradient-dark text-white" href="/categoryServices">
               <i class="material-symbols-rounded opacity-5">demography</i>
               <span class="nav-link-text ms-1">Category Services</span>
             </a>
@@ -80,31 +66,61 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="/receipt">
-              <i class="material-symbols-rounded opacity-5">receipt_long</i>
-              <span class="nav-link-text ms-1">Billing</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link text-dark" href="/orderAdmin">
               <i class="material-symbols-rounded opacity-5">shopping_cart</i>
-              <span class="nav-link-text ms-1">Order Manger</span>
+              <span class="nav-link-text ms-1">Manager Order</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="/extendtool">
-              <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
-              <span class="nav-link-text ms-1">Extend tool</span>
-            </a>
+              <a class="nav-link text-dark" href="/manager/event">
+                <i class="material-symbols-rounded opacity-5">shopping_cart</i>
+                <span class="nav-link-text ms-1">Manager Events</span>
+              </a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link text-dark" href="/manager/comment">
+                <i class="material-symbols-rounded opacity-5">comment</i>
+                <span class="nav-link-text ms-1">Manager Comment</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link text-dark" href="/extendtool">
+                  <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
+                  <span class="nav-link-text ms-1">Extend tool</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link text-dark" href="/manager/payment">
+                  <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
+                  <span class="nav-link-text ms-1">Manager Payment</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link text-dark" href="/report/finance">
+                  <i class="material-symbols-rounded opacity-5">format_textdirection_r_to_l</i>
+                  <span class="nav-link-text ms-1">Report Finance</span>
+              </a>
           </li>
         <% } %>
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Account pages</h6>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-dark" href="/notification">
+            <i class="material-symbols-rounded opacity-5">notifications</i>
+            <span class="nav-link-text ms-1">Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-dark" href="/profile">
             <i class="material-symbols-rounded opacity-5">person</i>
             <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/receipt">
+            <i class="material-symbols-rounded opacity-5">credit_card_gear</i>
+            <span class="nav-link-text ms-1">Billing</span>
           </a>
         </li>
         <li class="nav-item">
@@ -118,7 +134,7 @@
             <i class="material-symbols-rounded opacity-5">lock</i>
             <span class="nav-link-text ms-1">Logout</span>
           </a>
-        </li> 
+        </li>
       </ul>
     </div>
   </aside>
@@ -228,15 +244,15 @@
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-                <% if(isLoggedIn){ %>
-                    <a href="/profile" class="nav-link text-body font-weight-bold px-0">
-                      <img src="/uploads/<%= user.ImageUrl %>" alt="<%= user.ImageUrl %>" class="avatar-sm border-radius-xl">
-                    </a>
-                  <%} else {%>
-                    <a href="/login" class="nav-link text-body font-weight-bold px-0">
-                      <i class="material-symbols-rounded">account_circle</i>
-                    </a>
-                  <%}%>
+              <% if(isLoggedIn){ %>
+                <a href="/profile" class="nav-link text-body font-weight-bold px-0">
+                  <img src="/uploads/<%= user.ImageUrl %>" alt="<%= user.ImageUrl %>" class="avatar-sm border-radius-xl">
+                </a>
+              <%} else {%>
+                <a href="/login" class="nav-link text-body font-weight-bold px-0">
+                  <i class="material-symbols-rounded">account_circle</i>
+                </a>
+              <%}%>
             </li>
           </ul>
         </div>
@@ -248,8 +264,20 @@
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center text-center">
-                <h6 class="text-white text-capitalize ps-3">Manager Account</h6>
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
+                <h6 class="text-white text-capitalize ps-3">Categories Table</h6>
+                <div class="ms-auto pe-4 w-80 d-flex justify-content-end">
+                  <a class="btn btn-outline-light border-radius-lg" id="btn-add-category" href="/createCategory" target="_blank">+</a>
+                </div>
+              </div>
+              <div id="category-form" class="card-body shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center d-none" >
+                <form action="/createCategory" method="post" enctype="multipart/form-data"> <!--  -->
+                  <div class="mb-3">
+                    <label for="categoryname" class="form-label">Category Name</label>
+                    <input type="text" class="form-control shadow-dark" name="categoryname" id="category-name" required>
+                  </div>
+                  <button type="submit" class="btn btn-success">Create Category</button>
+                </form>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -259,12 +287,8 @@
                     <tr>
                       <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
-                      <th class="text-center text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Avatar</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Active</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
+                      <th class="text-center text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">createdAt</th>  
                     </tr>
                   </thead>
@@ -587,78 +611,30 @@
     }
   </script>
   <script>
+
     $(document).ready(() => {
       $.ajax({
-          url: '/getAllUser',
-          method: 'post',
+          url: '/getAllCategory',
+          method: 'GET',
           success: (response) => {
               let html = '';
 
-              response.users.forEach(user => {
-                let userRowClass = user.isActive ? '' : 'banned';
-                let isActiveDisabled = user.isActive ? '' : 'disabled';
-                let isBanDisabled = user.isActive ? '' : 'disabled'; 
-                let Unbanbtn = !user.isActive ? `<button class="btn btn-danger btn-sm" onclick="UnbanUser('${user.id}')">Unban</button>` : ''; 
-                  html += `
-                  <tr class="${userRowClass}">  
-                      <td class="text-center">${user.id}</td>
-                      <td class="text-center">
-                          <button class="btn btn-danger btn-sm" onclick="BanUser('${user.id}')" ${isBanDisabled}>Ban</button>
-                          ${Unbanbtn}
-                      </td>
-                      <td class="text-center">${user.firstName} ${user.lastName}</td>
-                      <td class="text-center"><img src="/uploads/${user.ImageUrl ? user.ImageUrl : 'default-image.png'}" width="50"></td>
-                      <td class="text-center">${user.email}</td>
-                      <td class="text-center">${user.phone}</td>
-                      <td class="text-center">
-                          <select class="form-select" id="active-${user.id}" name="active" data-active-id="${user.id}" ${isActiveDisabled}>
-                              <option value="true" ${user.isActive ? 'selected' : ''}>Active</option>
-                              <option value="false" ${!user.isActive ? 'selected' : ''}>Not Active</option>
-                          </select>
-                      </td>
-                      <td class="text-center">
-                          <select class="form-select" id="role-${user.id}" name="role" data-role-id="${user.id}" ${isActiveDisabled}>
-                              <option value="Admin" ${user.Role == 'Admin' ? 'selected' : ''}>Admin</option>
-                              <option value="Customer" ${user.Role == 'Customer' ? 'selected' : ''}>Customer</option>
-                              <option value="User" ${user.Role == 'User' ? 'selected' : ''}>User</option>
-                          </select>
-                      </td>
-                      <td class="text-center">${user.createdAt}</td>
-                  </tr>
-                  `;
+              response.data.forEach(category => {
+                    html += `
+                    <tr>  
+                        <td class="text-center">${category.id}</td>
+                        <td class="text-center">
+                            <a class="btn btn-primary btn-sm" href="/editCategory/${category.id}" target="_blank">Edit</a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(${category.id})">Delete</button>
+                        </td>
+                        <td class="text-center">${category.CategoryName}</td>
+                        <td class="text-center" ><img src="/uploads/${category.ImageUrl ? category.ImageUrl : 'default-image.png'}" width="50"></td>
+                        <td class="text-center">${category.createdAt}</td>
+                    </tr>
+                    `;
               });
 
               $('#category-table').html(html);
-
-              // Sự kiện thay đổi trạng thái Active
-              $('#category-table').on('change', 'select[name="active"]', (event) => {
-                  const UserId = $(event.target).data('active-id');
-                  const newActive = $(event.target).val();
-                  $.ajax({
-                      url: '/User/update/active',
-                      method: 'PUT',
-                      data: { UserId: UserId, Active: newActive },
-                      success: function(response) {
-                          console.log(response.message);
-                          window.location.reload();  // Reload sau khi thay đổi trạng thái
-                      }
-                  });
-              });
-
-              // Sự kiện thay đổi Role
-              $('#category-table').on('change', 'select[name="role"]', (event) => {
-                  const UserId = $(event.target).data('role-id');
-                  const newRole = $(event.target).val();
-                  $.ajax({
-                      url: '/User/update/role',
-                      method: 'PUT',
-                      data: { UserId: UserId, Role: newRole },
-                      success: function(response) {
-                          console.log(response.message);
-                          window.location.reload();  // Reload sau khi thay đổi role
-                      }
-                  });
-              });
           },
           error: (err) => {
               console.log('Error:', err);
@@ -666,24 +642,14 @@
       });
     });
 
-    function BanUser(id){
+    function deleteCategory(id){
       $.ajax({
-        url: `/BanUser/${id}`,
-        method: 'POST',
+        url: `/deleteCategory/${id}`,
+        method: 'DELETE',
+        data: {id},
         success: (response) => {
-          console.log(response.message);
-          window.location.reload();
-        }
-      });
-    }
-
-    function UnbanUser(id){
-      $.ajax({
-        url: `/UnbanUser/${id}`,
-        method: 'POST',
-        success: (response) => {
-          console.log(response.message);
-          window.location.reload();
+          alert(response.message);
+          location.reload();
         }
       });
     }

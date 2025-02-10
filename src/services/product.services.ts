@@ -46,6 +46,14 @@ class ProductService{
         }
     }
 
+    static async Comment(req: Request, res: Response){
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while commenting' });
+        }
+    }
 
     static async search(req: Request, res: Response): Promise<any>{
         try{
@@ -189,7 +197,7 @@ class ProductService{
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
             }
-            res.render('./pages/editProduct', { product, categories });
+            res.render('./pages/admin/editProduct', { product, categories });
         }
         catch (error) {
             console.error("Error fetching products:", error);
@@ -305,6 +313,7 @@ class ProductService{
                 return res.status(404).json({ message: 'Product not found' });
             }
             if (req.session && req.session._user) {
+                res.cookie('userid', req.session._user?.id, {httpOnly: false});
                 res.render("./shop/productDetail", { isLoggedIn: true, user: req.session._user, productDetail: productDetail });
             } else {
                 res.render('./shop/productDetail', {isLoggedIn: false, user: null,  productDetail: productDetail }); // Lưu trữ đối tượng User trong session

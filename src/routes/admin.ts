@@ -11,7 +11,7 @@ const router: Router = express.Router();
 router.get('/admin', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-      res.render('./pages/dashboard', {isLoggedIn: true, user: req.session._user});
+      res.render('./pages/admin/dashboard', {isLoggedIn: true, user: req.session._user});
     }
     else{
       res.redirect('/');
@@ -21,10 +21,66 @@ router.get('/admin', checkSession, async (req: Request, res: Response) => {
   }
 });
 
-router.get('/account/manager', checkSession, async (req: Request, res: Response) => {
+router.get('/manager/account', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-      res.render('./pages/accountservices', {isLoggedIn: true, user: req.session._user});
+      res.cookie('user', req.session._user, { httpOnly: false }  );
+      res.render('./pages/admin/accountservices', {isLoggedIn: true, user: req.session._user});
+    }
+    else{
+      res.redirect('/');
+    }
+  } else {
+    return res.redirect('/login');
+  }
+});
+router.get('/manager/user', checkSession, async (req: Request, res: Response) => {
+  if (req.session && req.session._user ) {
+    if(req.session._user.Role == UserRole.Admin){
+      res.cookie('user', req.session._user, { httpOnly: false }  );
+      res.render('./pages/manager/manageruser', {isLoggedIn: true, user: req.session._user});
+    }
+    else{
+      res.redirect('/');
+    }
+  } else {
+    return res.redirect('/login');
+  }
+});
+
+router.get('/manager/comment', checkSession, async (req: Request, res: Response) => {
+  if (req.session && req.session._user ) {
+    if(req.session._user.Role == UserRole.Admin){
+      res.cookie('user', req.session._user, { httpOnly: false }  );
+      res.render('./pages/manager/managercomment', {isLoggedIn: true, user: req.session._user});
+    }
+    else{
+      res.redirect('/');
+    }
+  } else {
+    return res.redirect('/login');
+  }
+});
+
+router.get('/manager/payment', checkSession, async (req: Request, res: Response) => {
+  if (req.session && req.session._user ) {
+    if(req.session._user.Role == UserRole.Admin){
+      res.cookie('user', req.session._user, { httpOnly: false }  );
+      res.render('./pages/manager/managerpayment', {isLoggedIn: true, user: req.session._user});
+    }
+    else{
+      res.redirect('/');
+    }
+  } else {
+    return res.redirect('/login');
+  }
+});
+
+router.get('/manager/event', checkSession, async (req: Request, res: Response) => {
+  if (req.session && req.session._user ) {
+    if(req.session._user.Role == UserRole.Admin){
+      res.cookie('user', req.session._user, { httpOnly: false }  );
+      res.render('./pages/manager/managerevent', {isLoggedIn: true, user: req.session._user});
     }
     else{
       res.redirect('/');
@@ -36,8 +92,16 @@ router.get('/account/manager', checkSession, async (req: Request, res: Response)
 
 router.get('/receipt', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
+      res.render('./pages/accountpage/billing', {isLoggedIn: true, user: req.session._user});
+  } else {
+    return res.redirect('/login');
+  }
+});
+
+router.get('/extendtool', checkSession, async (req: Request, res: Response) => {
+  if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-      res.render('./pages/billing', {isLoggedIn: true, user: req.session._user});
+      res.render('./pages/module/extendtool', {isLoggedIn: true, user: req.session._user});
     }
     else{
       res.redirect('/');
@@ -47,10 +111,10 @@ router.get('/receipt', checkSession, async (req: Request, res: Response) => {
   }
 });
 
-router.get('/extendtool', checkSession, async (req: Request, res: Response) => {
+router.get('/report/finance', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-      res.render('./pages/extendtool', {isLoggedIn: true, user: req.session._user});
+      res.render('./pages/module/reportfinance', {isLoggedIn: true, user: req.session._user});
     }
     else{
       res.redirect('/');
@@ -63,7 +127,7 @@ router.get('/extendtool', checkSession, async (req: Request, res: Response) => {
 router.get('/notification', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
     if(req.session._user.Role == UserRole.Admin){
-      res.render('./pages/notifications', {isLoggedIn: true, user: req.session._user});
+      res.render('./pages/accountpage/notifications', {isLoggedIn: true, user: req.session._user});
     }
     else{
       res.redirect('/');

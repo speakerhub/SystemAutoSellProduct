@@ -166,7 +166,7 @@ class OrderService{
                 order.shippingAddress?.city || ''
             );
     
-            res.render('./pages/orderprint', { order, location });
+            res.render('./pages/manage/orderprint', { order, location });
         } catch (e) {
             console.error("Error fetching order view:", e);
             res.status(500).json({ message: 'Error fetching order view', error: e });

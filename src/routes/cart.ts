@@ -5,6 +5,10 @@ const router: Router = express.Router();
 
 router.get('/carts', async (req: Request, res: Response) => {
   if (req.session && req.session._user) {
+    if(req.session._user.isActive == false) {
+      res.redirect('/login');
+      return;
+    }
     res.render('./shop/cart', {isLoggedIn: true, user: req.session._user}); // Lưu trữ đối tượng User trong session
   } else {
     res.render('./shop/cart', {isLoggedIn: false, user: null}); // L}); // L

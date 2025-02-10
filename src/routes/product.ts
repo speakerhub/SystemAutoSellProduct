@@ -10,7 +10,7 @@ import { UserRole } from "@entitiesUser";
 router.get('/productServices', checkSession, async (req: Request, res: Response) => {
     if (req.session && req.session._user ) {
         if(req.session._user.Role == UserRole.Admin){
-            res.render('./pages/productservices', {isLoggedIn: true, user: req.session._user});
+            res.render('./pages/admin/productservices', {isLoggedIn: true, user: req.session._user});
         }
         else{
             res.redirect('/');
@@ -25,11 +25,15 @@ router.get('/search-products/:keywords', async (req: Request, res: Response) => 
 });
 
 router.get('/productDetail/:id', async (req: Request, res: Response) => {
+    if(req.session._user?.isActive == false) {
+        res.redirect('/login');
+        return;
+    }
     await ProductController.getProductDetail(req, res);
 });
 
 router.get('/createProduct', checkSession, async (req: Request, res: Response) => {
-    return res.render('./pages/createProduct');
+    return res.render('./pages/admin/createProduct');
 });
 
 router.post('/createProduct', upload.single('ImageUrl'), async (req: Request, res: Response) => {
@@ -67,6 +71,10 @@ router.get('/editProduct/:id', checkSession, async (req: Request, res: Response)
 
 router.post('/editProduct/:id', upload.single('ImageUrl'), async (req: Request, res: Response) => {
     await ProductController.Update(req, res);
+});
+
+router.post('/comment', async (req: Request, res: Response) => {
+    await ProductController.Comment(req, res);
 });
 
 router.delete('/deleteProduct/:id', ProductController.Delete);

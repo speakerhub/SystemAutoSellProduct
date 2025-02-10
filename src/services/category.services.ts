@@ -73,7 +73,7 @@ class CategoryService{
             if (!category) {
                 return res.status(404).json({ message: 'Product not found' });
             }
-            res.render('./pages/editCategory', { category });
+            res.render('./pages/admin/editCategory', { category });
         }
         catch (error) {
             console.error("Error fetching products:", error);
