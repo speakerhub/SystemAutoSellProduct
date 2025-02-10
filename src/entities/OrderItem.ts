@@ -44,7 +44,7 @@ export class OrderItem {
 
     @Column({
         type: "enum",
-        enum: ["Pending", "Paid", "Shipped", "Completed"],
+        enum: ["Pending", "Paid", "Shipped", "Completed", "Failed"],
         default: "Pending",
     })
     status!: "Pending" | "Paid" | "Shipped" | "Completed";

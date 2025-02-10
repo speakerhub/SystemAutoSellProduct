@@ -27,8 +27,20 @@ router.get('/checkout', async (req: Request, res: Response) => {
   
 });
 
-router.post('/place-order', async (req: Request, res: Response) => {
-    await checkoutController.checkout(req, res);
+router.post('/create', async (req: Request, res: Response) => {
+    await checkoutController.createPayment(req, res);
+});
+
+router.get('/check/:app_trans_id', async (req: Request, res: Response) => {
+  await checkoutController.checkPaymentStatus(req, res);
+});
+
+router.get('/order-success', async (req: Request, res: Response) => {
+  res.render('./shop/orderSuccess');
+});
+
+router.post('/callback', async (req: Request, res: Response) => {
+  await checkoutController.paymentCallback(req, res);
 });
 
 

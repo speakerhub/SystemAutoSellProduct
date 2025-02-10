@@ -415,28 +415,28 @@
                     <div class="bg-light p-30">
                         <div class="form-group">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="QR" checked>
+                                <input type="radio" class="custom-control-input" name="payment" id="qp" value="qr" checked>
                                 <label class="custom-control-label" for="QR">QR</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
+                                <input type="radio" class="custom-control-input" name="payment" id="zalopay" value="zalopay">
+                                <label class="custom-control-label" for="zalopay">Zalo Pay</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Direct Check</label>
+                                <input type="radio" class="custom-control-input" name="payment" id="momo" value="momo">
+                                <label class="custom-control-label" for="momo">MoMo</label>
                             </div>
                         </div>
-                        <div class="form-group mb-4">
+                        <!-- <div class="form-group mb-4">
                             <div class="custom-control custom-radio">
                                 <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
                                 <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
                             </div>
-                        </div>
+                        </div> -->
                         <button class="btn btn-block btn-primary font-weight-bold py-3" id="placeorder">Place Order</button>
                     </div>
                 </div>
@@ -566,6 +566,26 @@
                     
                     $('#placeorder').click( (e) => {
                         e.preventDefault();
+
+                        const selectedPayment = $('input[name="payment"]:checked').val();
+                        // console.log(selectedPayment);
+
+                        if (selectedPayment === 'QR') {
+                            generateQRCode();
+                        } else if (selectedPayment === 'zalopay') {
+                            initiateZaloPay();
+                        } else if (selectedPayment === 'momo') {
+                            initiateMoMo();
+                        }
+                    });
+
+                    function generateQRCode() {
+                        
+                        const qrCodeUrl = 'https://api.example.com/create-qr-code'; 
+                        new QRCode(document.getElementById('qrcode'), qrCodeUrl);
+                    }
+
+                    function initiateZaloPay() {
                         let firstName = $("#firstName").val();
                         let lastName = $("#lastName").val();
                         let email = $("#email").val();
@@ -598,7 +618,7 @@
 
                         const products = JSON.stringify(response.cart);
                         $.ajax({
-                            url: '/place-order',
+                            url: '/create',
                             type: 'POST',
                             data: {
                                 products: products,
@@ -606,11 +626,21 @@
                                 billingInfo: billingInfo,
                             },
                             success: (response) => {
-                                alert(response.message);
-                                window.location.href = '/';
+                                if(response) {
+                                    if(response) {
+                                        console.log(response.response.orderUrl);
+                                        window.open(response.response.orderUrl, '_blank');
+                                    }
+                                    alert(response.response.return_message);
+                                    window.location.href = '/';
+                                }
+                                
                             }
                         });
-                    });
+                    }
+
+                    function initiateMoMo() {
+                    }
                 }
             });
 
@@ -640,7 +670,6 @@
             const userDistrict = districtSelect.data("district");
             const userWard = wardSelect.data("ward");
 
-            // 🟢 1. Tải danh sách tỉnh/thành
             $.ajax({
                 url: 'https://provinces.open-api.vn/api/?depth=1',
                 type: 'GET',
@@ -650,25 +679,22 @@
                         provinceSelect.append(`<option value="${city.code}" ${selected}>${city.name}</option>`);
                     });
 
-                    // 🟢 2. Nếu có tỉnh từ user, load danh sách huyện
                     if (userProvince) {
                         loadDistricts(userProvince);
                     }
                 }
             });
 
-            // 🟢 3. Khi user chọn tỉnh, load huyện tương ứng
             provinceSelect.change(function () {
                 const provinceCode = $(this).val();
-                districtSelect.html('<option value="">Select District</option>'); // Reset huyện
-                wardSelect.html('<option value="">Select Ward</option>'); // Reset phường
+                districtSelect.html('<option value="">Select District</option>');
+                wardSelect.html('<option value="">Select Ward</option>');
 
                 if (provinceCode) {
                     loadDistricts(provinceCode);
                 }
             });
 
-            // 🟢 4. Hàm tải huyện theo mã tỉnh
             function loadDistricts(provinceCode) {
                 $.ajax({
                     url: `https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`,
@@ -679,7 +705,6 @@
                             districtSelect.append(`<option value="${district.code}" ${selected}>${district.name}</option>`);
                         });
 
-                        // 🟢 5. Nếu có huyện từ user, load danh sách phường
                         if (userDistrict) {
                             loadWards(userDistrict);
                         }
@@ -687,17 +712,15 @@
                 });
             }
 
-            // 🟢 6. Khi user chọn huyện, load phường tương ứng
             districtSelect.change(function () {
                 const districtCode = $(this).val();
-                wardSelect.html('<option value="">Select Ward</option>'); // Reset phường
+                wardSelect.html('<option value="">Select Ward</option>'); 
 
                 if (districtCode) {
                     loadWards(districtCode);
                 }
             });
 
-            // 🟢 7. Hàm tải phường theo mã huyện
             function loadWards(districtCode) {
                 $.ajax({
                     url: `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`,

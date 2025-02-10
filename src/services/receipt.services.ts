@@ -20,6 +20,7 @@ class ReceiptService{
                 .createQueryBuilder("orderItem") // Sử dụng alias đúng với entity
                 .select("SUM(orderItem.totalAmount)", "total")
                 .where("orderItem.createdAt BETWEEN :start AND :end", { start: startOfDay, end: endOfDay })
+                .andWhere("orderItem.status = :status", { status: "Completed" })
                 .getRawOne();
 
             res.status(200).json({ totalMoneyToday: totalMoneyToday?.total || 0 });
@@ -37,6 +38,7 @@ class ReceiptService{
             const totalMoney = await AppDataSource.getRepository(OrderItem)
                 .createQueryBuilder("orderItem") // Sử dụng alias đúng với entity
                 .select("SUM(orderItem.totalAmount)", "total")
+                .where("orderItem.status = :status", { status: "Completed" })
                 .getRawOne();
 
             res.status(200).json({ totalMoney: totalMoney?.total || 0 });

@@ -3,9 +3,17 @@ import checkoutServices from "@servicescheckout.services";
 
 class checkoutController {
 
-    static async checkout(req: Request, res: Response) {
-       await checkoutServices.payment(req, res);
+    static async createPayment(req: Request, res: Response) {
+       await checkoutServices.createPayment(req, res);
     }
+
+    static async checkPaymentStatus(req: Request, res: Response) {
+        await checkoutServices.checkPaymentStatus(req, res);
+     }
+
+     static async paymentCallback(req: Request, res: Response) {
+        await checkoutServices.paymentCallback(req, res);
+     }
 }
 
 
