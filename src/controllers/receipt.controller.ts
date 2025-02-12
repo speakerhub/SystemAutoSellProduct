@@ -12,9 +12,24 @@ class ReceiptController {
         await ReceiptService.getMoneyTotal(req, res);  // Gọi service để xử lý
     }
 
+    static async getRevenue(req: Request, res: Response): Promise<any> {
+        await ReceiptService.getRevenue(req, res);  // Gọi service để xử lý
+    }
+    
+    static async getUserRevenue(req: Request, res: Response): Promise<any> {
+        await ReceiptService.getUserRevenue(req, res);  // Gọi service để xử lý
+    }
 
     static async getUserToday(req: Request, res: Response): Promise<any> {
         await ReceiptService.getUserToday(req, res);  // Gọi service để xử lý
+    }
+
+    static async getMoneybyWeek(req: Request, res: Response): Promise<any> {
+        await ReceiptService.getMoneybyWeek(req, res);  // Gọi service để xử lý
+    }
+
+    static async getUserbyWeek(req: Request, res: Response): Promise<any> {
+        await ReceiptService.getUserbyWeek(req, res);  // Gọi service để xử lý
     }
     
 }

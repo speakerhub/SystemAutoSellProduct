@@ -17,6 +17,10 @@ class OrderController {
         await OrderService.updateOrder(req, res);  // Gọi service để xử lý
     }
 
+    static async ShipperCheckOrder(req: Request, res: Response): Promise<any> {
+        await OrderService.ShipperCheckOrder(req, res);  // Gọi service để xử lý
+    }
+
     static async OrderView(req: Request, res: Response): Promise<any> {
         await OrderService.OrderView(req, res);
     }

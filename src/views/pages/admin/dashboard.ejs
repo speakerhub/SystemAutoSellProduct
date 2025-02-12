@@ -310,7 +310,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder precentchange">+55% </span> than last week</p>
             </div>
           </div>
         </div>
@@ -348,11 +348,11 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder precentchangeuser" >+3% </span>than yesterday</p>
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <!-- <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
@@ -370,14 +370,14 @@
               <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-xl-3 col-sm-6">
           <div class="card">
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Sales</p>
-                  <h4 class="mb-0">$103,430</h4>
+                  <p class="text-sm mb-0 text-capitalize">Revenue Differences</p>
+                  <h4 class="mb-0" >$<span id="revenuedifferences"></span> - <span id="revenuestatus"></span></h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -386,20 +386,20 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
+              <p class="mb-0 text-sm">(<span class="text-success font-weight-bolder precentchange"></span>) than yesterday</p>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
           <div class="card">
             <div class="card-body">
-              <h6 class="mb-0 ">Website Views</h6>
-              <p class="text-sm ">Last Campaign Performance</p>
+              <h6 class="mb-0 ">Revenue Chart</h6>
+              <p class="text-sm "> <span class="font-weight-bolder precentchange">+15%</span> than yesterday </p>
               <div class="pe-2">
-                <div class="chart">
-                  <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                <div class="chart" >
+                  <canvas id="revenue-chart-bar" class="chart-canvas" height="170"></canvas>
                 </div>
               </div>
               <hr class="dark horizontal">
@@ -410,14 +410,14 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
           <div class="card ">
             <div class="card-body">
-              <h6 class="mb-0 "> Daily Sales </h6>
-              <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+              <h6 class="mb-0 "> User join chart </h6>
+              <p class="text-sm "> <span class="font-weight-bolder precentchangeuser"></span> than yesterday </p>
               <div class="pe-2">
                 <div class="chart">
-                  <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+                  <canvas id="userjoinchart" class="chart-canvas" height="170"></canvas>
                 </div>
               </div>
               <hr class="dark horizontal">
@@ -428,10 +428,10 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 mt-4 mb-3">
+        <!-- <div class="col-lg-4 mt-4 mb-3">
           <div class="card">
             <div class="card-body">
-              <h6 class="mb-0 ">Completed Tasks</h6>
+              <h6 class="mb-0 ">User join chart</h6>
               <p class="text-sm ">Last Campaign Performance</p>
               <div class="pe-2">
                 <div class="chart">
@@ -445,9 +445,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="row mb-4">
+      <!-- <div class="row mb-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
             <div class="card-header pb-0">
@@ -791,7 +791,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <footer class="footer py-4  ">
         <%- include('./../partial/footer.ejs') %>
       </footer>
@@ -897,6 +897,111 @@
           $('#AccountToday').html(response.UserToday);
         }
       });
+
+      $.ajax({
+        url: '/getRevenue',
+        method: 'POST',
+        success: function (response) {
+          $('#revenuedifferences').html(response.revenueDifference);
+          $('#revenuestatus').html(response.status);
+          $('.precentchange').html(response.percentChange );
+        }
+      });
+
+      $.ajax({
+        url: '/getUserRevenue',
+        method: 'POST',
+        success: function (response) {
+          $('.precentchangeuser').html(response.percentChange );
+        }
+      });
+
+      $.ajax({
+        url: '/getMoneybyWeek', // Kiểm tra API của bạn có đúng không
+        method: 'POST', // Nên dùng GET nếu chỉ lấy dữ liệu
+        success: function (response) {
+            const labels = response.weekRevenue.map(item => item.day);
+            const values = response.weekRevenue.map(item => item.total);
+
+            const ctx = $("#revenue-chart-bar").get(0).getContext("2d"); // Sửa lỗi lấy context
+
+            // Hủy biểu đồ cũ nếu đã tồn tại (tránh lỗi vẽ chồng biểu đồ)
+            if (window.revenueChart instanceof Chart) {
+                window.revenueChart.destroy();
+            }
+
+            // Vẽ biểu đồ mới
+            window.revenueChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Doanh thu (VND)",
+                        data: values,
+                        backgroundColor: "rgba(54, 162, 235, 0.5)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: "Doanh thu theo tuần" }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        },
+        error: function (err) {
+            console.error("Lỗi khi lấy dữ liệu doanh thu:", err);
+        }
+      });
+      
+      $.ajax({
+        url: '/getUserbyWeek', // Kiểm tra API của bạn có đúng không
+        method: 'POST', // Nên dùng GET nếu chỉ lấy dữ liệu
+        success: function (response) {
+            const labels = response.weekUser.map(item => item.day);
+            const values = response.weekUser.map(item => item.total);
+
+            const ctx = $("#userjoinchart").get(0).getContext("2d"); // Sửa lỗi lấy context
+
+            // Hủy biểu đồ cũ nếu đã tồn tại (tránh lỗi vẽ chồng biểu đồ)
+            if (window.revenueUserChart instanceof Chart) {
+                window.revenueUserChart.destroy();
+            }
+
+            // Vẽ biểu đồ mới
+            window.revenueUserChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "User join)",
+                        data: values,
+                        backgroundColor: "rgba(54, 162, 235, 0.5)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: "So nguoi dung dang ky tai khoan moi ngay" }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        },
+        error: function (err) {
+            console.error("Lỗi khi lấy dữ liệu doanh thu:", err);
+        }
+      });
+      
     });
   </script>
 </body>

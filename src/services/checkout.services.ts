@@ -67,7 +67,7 @@ class checkoutService {
             const orderId = `ORDER_${newOrder.id}`;
             console.log(1); 
             const { response, app_trans_id } = await createZaloPayOrder(total, orderId);
-            console.log(2, response);
+            // console.log(2, response);
             res.status(200).json({ message:'payment-success', response: response, app_trans_id: app_trans_id  });
 
         } catch (error) {
@@ -104,20 +104,20 @@ class checkoutService {
             let mac = crypto.createHmac('sha256', config.key2).update(dataStr).digest('hex');
             console.log("mac =", mac);
 
+            let dataJson = JSON.parse(dataStr);
+            console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
 
             if (reqMac !== mac) {
                 result.return_code = -1;
                 result.return_message = "failed";
             }
             else {
-                let dataJson = JSON.parse(dataStr);
-                console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
-
                 result.return_code = 1;
                 result.return_message = "success";
 
-                await checkoutService.updateOrderStatus(dataJson["app_trans_id"], result.return_message);
             }
+
+            await checkoutService.updateOrderStatus(dataJson["app_trans_id"], result.return_message);
             
         } catch (ex) {
             result.return_code = 0; 
@@ -134,8 +134,10 @@ class checkoutService {
             });
             if (order) {
                 if(status === "success"){
-                    order.status = "Shipped";
-                }
+                    order.status = "Shipping";
+                } else {
+                    order.status = "Failed";
+                } 
             }else{
                 throw new Error("Order not found");
             }

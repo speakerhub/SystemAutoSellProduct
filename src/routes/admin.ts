@@ -184,6 +184,22 @@ router.post('/getMoneyTotal', async (req: Request, res: Response) => {
   await ReceiptController.getMoneyTotal(req, res);
 });
 
+router.post('/getRevenue', async (req: Request, res: Response) => {
+  await ReceiptController.getRevenue(req, res);
+});
+
+router.post('/getUserRevenue', async (req: Request, res: Response) => {
+  await ReceiptController.getUserRevenue(req, res);
+});
+
+router.post('/getMoneybyWeek', async (req: Request, res: Response) => {
+  await ReceiptController.getMoneybyWeek(req, res);
+});
+
+router.post('/getUserbyWeek', async (req: Request, res: Response) => {
+  await ReceiptController.getUserbyWeek(req, res);
+});
+
 router.post('/getAccountToday', async (req: Request, res: Response) => {
   await ReceiptController.getUserToday(req, res);
 });

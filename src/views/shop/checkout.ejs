@@ -80,10 +80,27 @@
             color: #666;
         }
 
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 6px solid #f3f3f3; /* Màu nền */
+            border-top: 6px solid #3498db; /* Màu của phần quay */
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 
-<body>
+<body id="checkout-page">
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -544,7 +561,7 @@
                     response.cart.forEach((item, index) => {
                         html += `<div class="d-flex justify-content-between">
                                     <p>${item.ProductName}</p>
-                                    <p>$<span id="total-${index}">${item.Price * item.ProductCount}</span></p>
+                                    <p>$<span id="total-${index}">${item.Price * item.Quantity}</span></p>
                                 </div>`;
                     })
                     $('#product-list').html(html);
@@ -581,8 +598,7 @@
 
                     function generateQRCode() {
                         
-                        const qrCodeUrl = 'https://api.example.com/create-qr-code'; 
-                        new QRCode(document.getElementById('qrcode'), qrCodeUrl);
+                        
                     }
 
                     function initiateZaloPay() {
@@ -628,11 +644,18 @@
                             success: (response) => {
                                 if(response) {
                                     if(response) {
-                                        console.log(response.response.orderUrl);
-                                        window.open(response.response.orderUrl, '_blank');
+                                        // console.log(response.response.order_url);
+                                        window.open(response.response.order_url, '_blank');
                                     }
-                                    alert(response.response.return_message);
-                                    window.location.href = '/';
+
+                                    $('#checkout-page').html('<div class="loading-spinner">Đang xử lý thanh toán...</div>');
+
+                                    setTimeout(() => {
+
+                                        // alert(response.response.return_message);
+                                        window.location.href = `/check/${response.app_trans_id}`;
+                                    }, 1000 * 60 * 15);
+                                    
                                 }
                                 
                             }

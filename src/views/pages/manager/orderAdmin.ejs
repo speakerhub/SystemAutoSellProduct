@@ -271,7 +271,7 @@
               <img src="/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
             </div>
           </div> -->
-          <div class="col-auto my-auto">
+          <div class="justify-content-around d-flex">
             <div class="h-100">
               <h5 class="mb-1">
                 Admin - Order Manager
@@ -279,6 +279,9 @@
               <p class="mb-0 font-weight-normal text-sm">
                 <span class="text-xs text-muted">Last active: 3 hours ago</span>
               </p>
+            </div>
+            <div class="h-100">
+              <a class="btn btn-outline-primary" href="/checkQR/completed">QR SCAN</a>
             </div>
           </div>
         </div>
@@ -403,9 +406,9 @@
                     <td class="border-0 text-center">${item.shippingAddress?.firstName} ${item.shippingAddress?.lastName}</td>
                     <td class="border-0 text-center">${item.shippingAddress?.phone}</td>
                     <td class="border-0 text-center">
-                        <select class="form-select" name="status" id="status-${item.id}" data-order-id="${item.id}">
+                        <select class="form-select" name="status" id="status-${item.id}" data-order-id="${item.id}"  ${item.status === 'Completed' || item.status === 'Failed'  ? 'disabled' : ''}>
                             <option value="Pending" ${item.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="Paid" ${item.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                            <option value="Faile" ${item.status === 'Failed' ? 'selected' : ''}>Failed</option>
                             <option value="Shipped" ${item.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                             <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
                         </select>
@@ -430,7 +433,7 @@
           method: 'PUT',
           data: { orderid: orderId, status: newStatus },
           success: function(response) {
-            console.log(response.message);
+            // console.log(response.message);
             window.location.reload();
           }
         });

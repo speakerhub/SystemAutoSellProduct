@@ -24,8 +24,9 @@ import commentroutes from "@routes/comment";
 
 // 
 const app: Express = express();
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const host = '0.0.0.0';
+const port = +(process.env.PORT || 3000);
+app.listen(port, host, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 

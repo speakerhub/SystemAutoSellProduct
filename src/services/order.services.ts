@@ -29,6 +29,15 @@ class OrderService{
         }
     }
 
+    static async ShipperCheckOrder(req: Request, res: Response): Promise<any>{
+        try{    
+            // check order by scan QR Code
+        } catch (e) {
+            console.error("Error fetching order:", e);
+            res.status(500).json({ message: 'Error fetching order', error: e });
+        }
+    }
+
     static async getAllOrder(req: Request, res: Response): Promise<any>{
         try{    
             const userId = req.session._user?.id;
@@ -166,7 +175,7 @@ class OrderService{
                 order.shippingAddress?.city || ''
             );
     
-            res.render('./pages/manage/orderprint', { order, location });
+            res.render('./pages/manager/orderprint', { order, location });
         } catch (e) {
             console.error("Error fetching order view:", e);
             res.status(500).json({ message: 'Error fetching order view', error: e });

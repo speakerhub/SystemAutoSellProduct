@@ -40,7 +40,7 @@ class cartservices{
                 req.session.cart.push({
                     id: id,
                     ProductName: product.ProductName,
-                    ProductCount: 1,
+                    Quantity: 1,
                     ImageUrl: product.ImageUrl,
                     Size: ['default'],
                     Color: ['default'],
@@ -89,7 +89,7 @@ class cartservices{
                 req.session.cart.push({
                     id: productId,
                     ProductName: product.ProductName,
-                    ProductCount: count,
+                    Quantity: count,
                     ImageUrl: product.ImageUrl,
                     Size: [size],
                     Color: [color],
@@ -116,6 +116,8 @@ class cartservices{
             if (!data || data.length === 0) {
                 return res.status(400).json({ success: false, message: 'Cart is empty' });
             }
+
+            // console.log(data);
     
             const userId = req.session._user?.id;
             if (!userId) {
@@ -155,7 +157,7 @@ class cartservices{
                 item.product = findproduct;
                 item.cart = cart;
                 item.color = product.Color;
-                item.quantity = product.ProductCount;
+                item.quantity = product.Quantity;
                 item.size = product.Size;
                 item.price = product.Price;
     
@@ -206,7 +208,7 @@ class cartservices{
                 req.session.cart.push({
                     id: item.product?.id,
                     ProductName: item.product?.ProductName,
-                    ProductCount: item.quantity,
+                    Quantity: item.quantity,
                     ImageUrl: item.product?.ImageUrl,
                     Size: item.size,
                     Color: item.color,
@@ -357,7 +359,7 @@ class cartservices{
                 return res.status(400).json({ message: "Quantity must be greater than 0" })
             }
             
-            req.session.cart[index].ProductCount = quantity;
+            req.session.cart[index].Quantity = quantity;
             req.session.save();
             return res.status(200).json({ message: "Cart updated successfully" });
         } catch(error){

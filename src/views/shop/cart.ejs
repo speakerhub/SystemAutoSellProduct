@@ -434,7 +434,7 @@
                                                 <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
-                                            <input type="text" id="count-${index}" class="form-control form-control-sm bg-secondary border-0 text-center" value="${item.ProductCount}">
+                                            <input type="text" id="count-${index}" class="form-control form-control-sm bg-secondary border-0 text-center" value="${item.Quantity}">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-sm btn-primary btn-plus" data-index="${index}">
                                                     <i class="fa fa-plus"></i>
@@ -442,7 +442,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle" id="total-${index}">${item.Price * item.ProductCount}</td>
+                                    <td class="align-middle" id="total-${index}">${item.Price * item.Quantity}</td>
                                     <td class="align-middle"><button class="btn btn-sm btn-danger btn-delete" data-productid="${item.id}"><i class="fa fa-times"></i></button></td>
                                 </tr>
                                 `;

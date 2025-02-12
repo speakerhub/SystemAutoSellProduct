@@ -12,6 +12,7 @@
     <link href="/css/nucleo-icons.css" rel="stylesheet" />
     <link href="/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -353,7 +354,7 @@
             <div class="row mt-4">
               <div class="col-md-12">
                 <h4>Your Favorite Products</h4>
-                <div class="row" id="favorites-list">
+                <div class="row" id="wishlist">
                   <!-- Các sản phẩm yêu thích sẽ được chèn vào đây bằng JavaScript -->
                 </div>
               </div>
@@ -561,6 +562,82 @@
         // Xóa nội dung trong textarea sau khi gửi
         $('#message-content').val('');
       }
+    });
+  });
+
+  $(document).ready(function() {
+    $.ajax({
+        url: "/get-data-wishlist",
+        method: "GET",
+        success: function(response) {
+            if(response.success == false && response.href){
+                window.location.href = response.href;
+            }
+            let html = '';
+            // console.log(response.wishlist); 
+            
+            response.wishlist.forEach((item, index) => {
+                html += `<div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                          <div class="card card-blog card-plain">
+                            <div class="card-header p-0 m-2">
+                              <a class="d-block shadow-xl border-radius-xl" href="/productDetail/${item.product?.id}" target="_blank">
+                                <img src="/uploads/${item.product?.ImageUrl}" alt="${item.product?.ImageUrl}" class="img-fluid shadow border-radius-lg">
+                              </a>
+                            </div>
+                            <div class="card-body p-3">
+                              <a href="/productDetail/${item.product?.id}" target="_blank">
+                                <h5>
+                                  ${item.product?.ProductName}
+                                </h5>
+                              </a>
+                              <p class="mb-4 text-sm">
+                                ${item.product.Description}
+                              </p>
+                              <div class="d-flex align-items-center justify-content-around">
+                                <button class="btn btn-sm btn-danger btn-delete" data-productid="${item.product?.id}">
+                                  <i class="fa fa-times"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-add" data-productid="${item.product?.id}">
+                                  <i class="fa fa-shopping-cart"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>`;
+            });
+
+            $('#wishlist').html(html);
+
+
+            $('.btn-delete').click( function() {
+                let productId = $(this).data('productid');
+                // console.log('Deleting product with ID:', productId);
+
+                $.ajax({
+                    url: `/remove-from-wishlist/${productId}`,
+                    method: "DELETE",
+                    success: function(response) {
+                        alert(response.message);
+                        window.location.reload();
+                    }
+                });
+            });
+
+            $('.btn-add').click( function() {
+                let productId = $(this).data('productid');
+                // console.log('Deleting product with ID:', productId);
+
+                $.ajax({
+                    url: `/add-to-carts/${productId}`,
+                    method: "POST",
+                    success: function(response) {
+                        alert(response.message);
+                        window.location.reload();
+                    }
+                });
+            });
+
+        }
     });
   });
   </script>

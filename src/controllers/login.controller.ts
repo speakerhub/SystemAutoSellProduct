@@ -45,11 +45,7 @@ class LoginController {
             req.session.save();
     
             if (req.session && req.session._user) {
-                if(req.session._user.Role == UserRole.Admin) {
-                    res.render('./shop/index', {isLoggedIn: true, user: req.session._user}); 
-                } else {
-                    res.render('./shop/index', {isLoggedIn: true, user: req.session._user});
-                }
+                res.redirect('/'); 
             } else {
                 res.redirect('/login');
             }

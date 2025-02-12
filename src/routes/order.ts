@@ -60,5 +60,13 @@ router.get('/print/order/:id', checkSession, async (req: Request, res: Response)
     await OrderController.AdminOrderPrint(req, res);
 });
 
+router.get('/checkQR/completed', checkSession, async (req: Request, res: Response) => {
+    res.render('./shop/QRScan');
+});
+
+router.post('/check/completed/:id', checkSession, async (req: Request, res: Response) => {
+    await OrderController.ShipperCheckOrder(req, res);
+});
+
 export default router;
 

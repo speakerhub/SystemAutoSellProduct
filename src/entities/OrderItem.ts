@@ -44,10 +44,10 @@ export class OrderItem {
 
     @Column({
         type: "enum",
-        enum: ["Pending", "Paid", "Shipped", "Completed", "Failed"],
+        enum: ["Pending", "Shipping", "Completed", "Failed"],
         default: "Pending",
     })
-    status!: "Pending" | "Paid" | "Shipped" | "Completed";
+    status!: "Pending" | "Shipping" | "Completed" | "Failed";
 
     @CreateDateColumn()
     createdAt!: Date;

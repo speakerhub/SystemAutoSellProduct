@@ -32,6 +32,19 @@ router.post('/create', async (req: Request, res: Response) => {
 });
 
 router.get('/check/:app_trans_id', async (req: Request, res: Response) => {
+  try{
+    if(!req.session._user){
+      res.redirect('/login');
+    }
+    const apptransid = req.params.apptransid;
+    res.render('./shop/check', {apptransid:  apptransid});
+  } catch(e){
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
+router.post('/check/:app_trans_id', async (req: Request, res: Response) => {
   await checkoutController.checkPaymentStatus(req, res);
 });
 

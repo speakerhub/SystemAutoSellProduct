@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Order</title>
+</head>
+<body>
+    <p id="apptransid" data-apptransid="<%= apptransid %>"></p>
+    <h1>Check Order</h1>
+    <div>
+        <div id="result"></div>
+    </div>
+    
+    <div>
+        <a href="/">Home</a>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function (){
+            const app_trans_id = $('#apptranid').data('apptransid');
+            $.ajax({
+                url: `/check/${app_trans_id}`,
+                method: 'POST',
+                success: function (data) {
+                    $('#result').html(data.response);
+                },
+                error: function (xhr, status, error) {
+                    $('#result').html(`Error: ${error}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
