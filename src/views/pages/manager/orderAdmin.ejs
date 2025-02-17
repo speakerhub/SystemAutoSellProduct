@@ -119,6 +119,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-dark" href="/messagepage" target="_blank">
+            <i class="material-symbols-rounded opacity-5">tooltip</i>
+            <span class="nav-link-text ms-1">Message</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-dark" href="/receipt">
             <i class="material-symbols-rounded opacity-5">credit_card_gear</i>
             <span class="nav-link-text ms-1">Billing</span>
@@ -400,6 +406,7 @@
     success: function(response) {
       let html = '';
       response.order.forEach(item => {
+        let btnprint = item.status != 'Failed' ? `<a class="btn btn-outline-dark" href="/print/order/${item.id}" target="_blank">Print</a>` : '';
         html += `<tr>
                     <td class="border-0 text-center">${item.id}</td>
                     <td class="border-0 text-center">${item.createdAt}</td>
@@ -416,7 +423,7 @@
                     <td class="border-0 text-center">
                         <a class="btn btn-outline-dark" href="/Admin/order/view/${item.id}" target="_blank">Order Detail</a>
                         <a class="btn btn-outline-dark" href="/chat/${item.user?.id}" target="_blank">Chat with User</a>
-                        <a class="btn btn-outline-dark" href="/print/order/${item.id}" target="_blank">Print</a>
+                        ${btnprint}
                         <button class="btn btn-outline-dark" onclick="cancel('${item.id}')">Cancel</button>
                     </td>
                   </tr>`;

@@ -132,6 +132,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-dark" href="/messagepage" target="_blank">
+              <i class="material-symbols-rounded opacity-5">tooltip</i>
+              <span class="nav-link-text ms-1">Message</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link text-dark" href="/receipt">
               <i class="material-symbols-rounded opacity-5">credit_card_gear</i>
               <span class="nav-link-text ms-1">Billing</span>
@@ -180,7 +186,7 @@
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group input-group-outline">
               <label class="form-label">Type here...</label>
-              <input type="text" class="form-control">
+              <input type="text" id="dashboard-search" class="form-control">
             </div>
           </div>
           <ul class="navbar-nav d-flex align-items-center  justify-content-end">
@@ -873,6 +879,7 @@
   <script src="/js/material-dashboard.min.js?v=3.2.0"></script>
   <script src="/js/plugins/jquery-3.7.1.min.js"></script>
   <script>
+    let userRole ;
     $(document).ready(function (){
       $.ajax({
         url: '/getMoneyToday',
@@ -1002,7 +1009,40 @@
         }
       });
       
+      $.ajax({
+        url: '/api/getRoleUser',
+        method: 'GET',
+        success: function (response) {
+          userRole = response.userRole;
+        }
+      })
     });
+
+    const adminFunctions = ['Manager Order'];
+    
+    $('#dashboard-search').on('input', () => {
+      //if(userRole == 'Admin'){
+        let searchValue = $(this).val().toLowerCase();
+        let filteredFunctions = adminFunctions.filter(f => f.toLowerCase().includes(searchValue));
+        
+        let suggestionBox = $('#admin-functions');
+        suggestionBox.empty();
+        
+        if (filteredFunctions.length > 0) {
+            filteredFunctions.forEach(func => {
+                suggestionBox.append(`<li onclick="selectFunction('${func}')">${func}</li>`);
+            });
+            suggestionBox.show();
+        } else {
+            suggestionBox.hide();
+        }
+      //}
+    });
+
+    function selectFunction(value) {
+      $('#dashboard-search').val(value);
+      $('#admin-functions').hide();
+    }
   </script>
 </body>
 

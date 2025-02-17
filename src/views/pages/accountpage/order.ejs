@@ -118,6 +118,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-dark" href="/messagepage" target="_blank">
+            <i class="material-symbols-rounded opacity-5">tooltip</i>
+            <span class="nav-link-text ms-1">Message</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-dark" href="/receipt">
             <i class="material-symbols-rounded opacity-5">credit_card_gear</i>
             <span class="nav-link-text ms-1">Billing</span>
@@ -403,6 +409,7 @@
                       <td class="border-0 text-center ">
                         <a class="btn btn-outline-dark" href="/order/view/${item.id}" target="_blank">Order Detail</a>
                         <button class="btn btn-outline-dark" onclick="cancel('${item.id}')">Cancel</button>
+                        <button class="btn btn-outline-dark" onclick="Delete('${item.id}')">Cancel</button>
                       </td>
                     </tr>
                   `;
@@ -467,7 +474,20 @@
         method: 'POST',
         data: { orderid: id },
         success: function(response) {
-          console.log(response.message);
+          // console.log(response.message);
+          window.location.reload();
+        }
+      })
+    }
+
+    const Delete = (id) =>{
+      console.log(id);
+      $.ajax({
+        url: '/delete-order',
+        method: 'POST',
+        data: { orderid: id },
+        success: function(response) {
+          // console.log(response.message);
           window.location.reload();
         }
       })

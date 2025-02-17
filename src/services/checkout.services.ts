@@ -5,6 +5,7 @@ import { json } from "body-parser";
 import { checkZaloPayStatus, createZaloPayOrder } from "@configzalopay";
 import axios from "axios";
 import crypto from 'crypto';
+import Product from "@entitiesProduct";
 const orderitemRepository = AppDataSource.getRepository(OrderItem);
 
 interface Result {
@@ -60,13 +61,19 @@ class checkoutService {
 
             newOrder.totalAmount = total;
             newOrder.status = "Pending";
+            newOrder.app_trans_id = '';
 
             // Lưu vào database
             await orderitemRepository.save(newOrder);
 
             const orderId = `ORDER_${newOrder.id}`;
-            console.log(1); 
+            // console.log(1); 
             const { response, app_trans_id } = await createZaloPayOrder(total, orderId);
+
+            // Save app_trans_id for order in db
+            newOrder.app_trans_id = app_trans_id;
+            await orderitemRepository.save(newOrder);
+
             // console.log(2, response);
             res.status(200).json({ message:'payment-success', response: response, app_trans_id: app_trans_id  });
 
@@ -78,18 +85,36 @@ class checkoutService {
 
     static async checkPaymentStatus(req: Request, res: Response) {
         try {
-            const { app_trans_id } = req.params;
+            const app_trans_id = req.params.app_trans_id;
+            console.log(app_trans_id);
+            // console.log(2);
             const { response } = await checkZaloPayStatus(app_trans_id);
-    
-            return res.json({ response: response });
-        } catch (error) {
-            return res.status(500).json({ error: error });
+            // console.log(2, response.data);
+            // console.log(3);
+            console.log(typeof response.data.return_code);
+            if(response.data.return_code == 1){
+                // Update order's status = success where app_trans_id = app_trans_id
+                await checkoutService.updateOrderStatus(app_trans_id, +(response.data.return_code));
+                return res.status(200).json({ response: response.data });
+            } else if(response.data.return_code == 2){
+                await checkoutService.updateOrderStatus(app_trans_id, +(response.data.return_code));
+                return res.status(200).json({ response: response.data });
+            } else {
+                await checkoutService.updateOrderStatus(app_trans_id, +(response.data.return_code));
+                return res.status(200).json({ response: response.data });
+            }
+            
+        } catch (error: unknown) {
+            const err = error as Error;
+            console.error("Error in checkPaymentStatus:", err.message);
+            return res.status(500).json({ error: err.message });
         }
+        
     }
 
     static async paymentCallback(req: Request, res: Response){
         const config = {
-            key2: "eG4r0GcoNtRGbO8"
+            key2: "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
         };
         
         let result: Result = {
@@ -102,49 +127,72 @@ class checkoutService {
             let reqMac = req.body.mac;
 
             let mac = crypto.createHmac('sha256', config.key2).update(dataStr).digest('hex');
-            console.log("mac =", mac);
+            // console.log("mac =", mac);
 
-            let dataJson = JSON.parse(dataStr);
-            console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
+            let app_trans_id;
+            // console.log("update order's status = success where app_trans_id =", dataJson["app_trans_id"]);
 
             if (reqMac !== mac) {
                 result.return_code = -1;
                 result.return_message = "failed";
             }
             else {
+                let dataJson = JSON.parse(dataStr);
+
+                if(dataJson["app_trans_id"]){
+                    app_trans_id = dataJson["app_trans_id"];
+                }
                 result.return_code = 1;
                 result.return_message = "success";
-
+                // console.log(app_trans_id);
+                await checkoutService.updateOrderStatus(app_trans_id, +(result.return_code));
             }
 
-            await checkoutService.updateOrderStatus(dataJson["app_trans_id"], result.return_message);
-            
+            // console.log(app_trans_id);
+            // res.redirect(`/check/${app_trans_id}`);
+
         } catch (ex) {
             result.return_code = 0; 
             result.return_message = (ex instanceof Error ? ex.message : String(ex)) || "Lỗi không xác định";
         }
-
-        res.json(result);
+        res.status(200).json(result);
     }
 
-    static async updateOrderStatus(orderId: number, status: string) {
+    static async updateOrderStatus(app_trans_id: string, return_code: Number) {
         try {
+            console.log(app_trans_id, return_code);
             const order = await AppDataSource.getRepository(OrderItem).findOne({
-                where: {id: orderId }
+                where: {app_trans_id: app_trans_id }
             });
-            if (order) {
-                if(status === "success"){
-                    order.status = "Shipping";
-                } else {
-                    order.status = "Failed";
-                } 
-            }else{
-                throw new Error("Order not found");
+
+            if (!order) {
+                console.error(`❌ Order not found with app_trans_id: ${app_trans_id}`);
+                return; // Không tiếp tục nếu không tìm thấy đơn hàng
             }
-            
+            if(return_code === 1){
+                order.status = "Shipping";
+                order.items.forEach(async (item) => {
+                    // console.log(item.productId);
+                    const product = await AppDataSource.getRepository(Product).findOne({
+                        where: {id: +(item.productId)}
+                    });
+                    if (product && product.ProductCount !== undefined) {
+                        product.ProductCount -= item.quantity;
+                        await AppDataSource.getRepository(Product).save(product);
+                    } 
+                });
+            }
+            else if(return_code === 2){
+                order.status = 
+                "Failed";
+            }
+            else{
+                order.status = "Pending";
+            }
+    
             await AppDataSource.getRepository(OrderItem).save(order);
     
-            console.log(`Order ${orderId} status updated to ${status}`);
+            // console.log(`Order ${order.id} status updated by ${order.status}`);
         } catch (error) {
             console.error("Error updating order status:", error);
         }

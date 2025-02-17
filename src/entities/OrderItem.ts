@@ -29,6 +29,9 @@ export class OrderItem {
     @Column({ type: "text", nullable: true })
     qrcode?: string; // Lưu QR code dưới dạng base64
 
+    @Column({ type: "text", nullable: false })
+    app_trans_id?: string;
+
     @Column("json")
     shippingAddress!: {
         firstName: string;
@@ -44,10 +47,10 @@ export class OrderItem {
 
     @Column({
         type: "enum",
-        enum: ["Pending", "Shipping", "Completed", "Failed"],
+        enum: ["Pending", "Shipping", "Completed", "Failed", "Canceled"],
         default: "Pending",
     })
-    status!: "Pending" | "Shipping" | "Completed" | "Failed";
+    status!: "Pending" | "Shipping" | "Completed" | "Failed" | "Canceled";
 
     @CreateDateColumn()
     createdAt!: Date;

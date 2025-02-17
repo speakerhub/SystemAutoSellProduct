@@ -33,6 +33,10 @@ class OrderController {
         await OrderService.CancelOrder(req, res);
     }
 
+    static async DeleteOrder(req: Request, res: Response){
+        await OrderService.DeleteOrder(req, res);
+    }
+
     static async AdminOrderPrint(req: Request, res: Response){
         await OrderService.AdminOrderPrint(req, res);
     }

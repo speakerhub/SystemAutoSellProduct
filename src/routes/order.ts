@@ -47,6 +47,10 @@ router.post('/cancel-order', checkSession, async (req: Request, res: Response) =
     await OrderController.CancelOrder(req, res);
 });
 
+router.post('/delete-order', checkSession, async (req: Request, res: Response) => {
+    await OrderController.DeleteOrder(req, res);
+});
+
 
 router.post('/get-order', checkSession, async (req: Request, res: Response) => {
   await OrderController.getOrder(req, res);

@@ -35,6 +35,21 @@ class UserService{
         }
     }
 
+    static async getRoleSession(req: Request, res: Response): Promise<any> {
+        try{
+            if(!req.session._user){
+                res.redirect('/login');
+            }
+            const user = req.session._user;
+            const userRole = user?.Role;
+
+            res.status(200).json({ userRole });
+
+        }catch(err){
+            res.status(500).json({ message: err });
+        }
+    }
+
     static async UpdateRole(req: Request, res: Response): Promise<any> {
         try{
             if(!req.session._user){

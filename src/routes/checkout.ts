@@ -36,8 +36,8 @@ router.get('/check/:app_trans_id', async (req: Request, res: Response) => {
     if(!req.session._user){
       res.redirect('/login');
     }
-    const apptransid = req.params.apptransid;
-    res.render('./shop/check', {apptransid:  apptransid});
+    const apptransid = req.params.app_trans_id;
+    res.render('./shop/check', {apptransid:  apptransid });
   } catch(e){
     console.log(e);
     res.sendStatus(500);

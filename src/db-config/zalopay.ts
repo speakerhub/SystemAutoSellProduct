@@ -75,5 +75,6 @@ export const checkZaloPayStatus = async (app_trans_id: string) => {
     };
 
     const response = await axios(postConfig);
+    // console.log(response);
     return { response: response };
 };

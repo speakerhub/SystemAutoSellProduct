@@ -14,8 +14,16 @@ class UserController{
         await UserService.BanAccount(req, res);  // Gọi service để xử lý
     }
 
+    static async ResetPassword(req: Request, res: Response): Promise<any> {
+        // await UserService.ResetPassword(req, res);  // Gọi service để xử lý
+    }
+
+    static async getRole(req: Request, res: Response): Promise<any> {
+        await UserService.getRoleSession(req, res); 
+    }
+
     static async UnbanAccount(req: Request, res: Response): Promise<any> {
-        await UserService.UnbanAccount(req, res);  // Gọi service để xử lý
+        await UserService.UnbanAccount(req, res);
     }
 }
 

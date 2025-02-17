@@ -182,7 +182,7 @@ class OrderService{
         }
     }    
 
-    static async CancelOrder(req: Request, res: Response){
+    static async DeleteOrder(req: Request, res: Response){
         try{
             let { orderid } = req.body;
             orderid = Number(orderid);
@@ -196,6 +196,29 @@ class OrderService{
             } 
 
             await AppDataSource.getRepository(OrderItem).delete({ id: order.id, user: {id: req.session._user?.id}});
+            res.status(200).json({ message: 'Order canceled successfully' });
+        }catch(e){
+            console.error("Error cancelling order:", e);
+            res.status(500).json({ message: 'Error cancelling order', error: e });
+        }
+    }
+
+    static async CancelOrder(req: Request, res: Response){
+        try{
+            let { orderid } = req.body;
+            orderid = Number(orderid);
+            // console.log(orderid);
+            const order = await AppDataSource.getRepository(OrderItem).findOne({
+                where: {id: orderid, user: {id: req.session._user?.id}},
+            });
+            
+            if(!order){
+                return res.status(404).json({ message: 'Order not found' });
+            } 
+
+            order.status = 'Canceled';
+
+            await AppDataSource.getRepository(OrderItem).save(order);
             res.status(200).json({ message: 'Order canceled successfully' });
         }catch(e){
             console.error("Error cancelling order:", e);

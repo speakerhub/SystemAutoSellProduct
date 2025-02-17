@@ -5,6 +5,7 @@ import User, { UserRole } from "@entitiesUser";
 import { AppDataSource } from "@configdata-source";
 import ReceiptController from "@controllersreceipt.controller";
 import UserController from "@controllersuser.controller";
+import PaymentAccount from "@entitiespaymentaccount";
 
 const router: Router = express.Router();
 
@@ -92,7 +93,10 @@ router.get('/manager/event', checkSession, async (req: Request, res: Response) =
 
 router.get('/receipt', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
-      res.render('./pages/accountpage/billing', {isLoggedIn: true, user: req.session._user});
+    const paymentAccounts = await AppDataSource.getRepository(PaymentAccount).find({
+      relations: ['user']
+    });
+    res.render('./pages/accountpage/billing', {isLoggedIn: true, user: req.session._user, paymentAccounts: paymentAccounts});
   } else {
     return res.redirect('/login');
   }
@@ -178,6 +182,10 @@ router.post('/UnbanUser/:id', async (req: Request, res: Response) => {
 
 router.post('/getMoneyToday', async (req: Request, res: Response) => {
   await ReceiptController.getMoneyToday(req, res);
+});
+
+router.get('/api/getRoleUser', async (req: Request, res: Response) => {
+  await UserController.getRole(req, res);
 });
 
 router.post('/getMoneyTotal', async (req: Request, res: Response) => {

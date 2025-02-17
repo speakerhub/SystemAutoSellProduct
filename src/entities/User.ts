@@ -3,6 +3,7 @@ import Cart from "@entitiesCart";
 import { Comment } from '@entitiesComment'; 
 import OrderItem from "@entitiesOrderItem";
 import Like from "@entitieslike";
+import PaymentAccount from "@entitiespaymentaccount";
 
 export enum UserRole {
     Admin = 'Admin',
@@ -75,6 +76,9 @@ export class User {
 
     @OneToMany(() => OrderItem, (orderitem) => orderitem.user)
     orderitem: OrderItem;
+    
+    @OneToMany(() => PaymentAccount, (paymentAccounts) => paymentAccounts.user)
+    paymentAccounts: PaymentAccount;
 }
 
 export default User;

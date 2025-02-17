@@ -7,6 +7,7 @@ import upload from "@middlewaresmulter.config";
 import { AppDataSource } from "@configdata-source";
 import User from "@entitiesUser";
 import bcrypt from 'bcrypt';
+import { Message } from "@entities/Message";
 
 const router: Router = express.Router();
 
@@ -22,8 +23,14 @@ router.get('/profile', checkSession, async (req: Request, res: Response) => {
       req.session._user?.province || ''
     )
     // console.log(location);
+
+    const messages = await AppDataSource.getRepository(Message).find({
+      where: { receiver: req.session._user, status:'sent' },
+      order: { createdAt: 'DESC' },
+      relations: ['sender']
+    })
+    res.render('./pages/accountpage/profile', { isLoggedIn: true, user: req.session._user, location: location, messages: messages});
     
-    res.render('./pages/accountpage/profile', { isLoggedIn: true, user: req.session._user, location: location});
   } else {
     return res.redirect('/login');
   }
