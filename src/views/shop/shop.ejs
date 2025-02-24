@@ -140,7 +140,7 @@
                         <% if(isLoggedIn) {%>
                             <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown"><img src="/uploads/<%= user.ImageUrl %>" class="avatar-xl border-radius" width="20"></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item btn btn-primary active" href="#"> Hi <%= user.firstName %></a>
+                                <a class="dropdown-item btn btn-primary active" > Hi <%= user.firstName %></a>
                                 <a class="dropdown-item btn btn-primary" href="/profile"><i class="fas fa-user"></i> Profile</a>
                                 <% if(user.Role == "Admin") {%>
                                     <a class="dropdown-item btn btn-primary" href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
@@ -260,7 +260,7 @@
                             <a href="/shop" class="nav-item nav-link active">Shop</a>
                             <!-- <a href="detail.html" class="nav-item nav-link">Shop Detail</a> -->
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
+                                <a  class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                                     <a href="/carts" class="dropdown-item">Shopping Cart</a>
                                     <a href="/checkout" class="dropdown-item">Checkout</a>
@@ -326,8 +326,8 @@
                 <div class="bg-light p-4 mb-30">
                     <form>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-all" name="color" value="default" checked>
-                            <label class="custom-control-label" for="price-all">All Color</label>
+                            <input type="checkbox" class="custom-control-input" id="color-all" name="color" value="default">
+                            <label class="custom-control-label" for="color-all">All Color</label>
                             <span class="badge border font-weight-normal">1000</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -411,6 +411,7 @@
                     
                     
                 </div>
+                <div id="pagination"></div>
             </div>
             <!-- Shop Product End -->
         </div>
@@ -435,10 +436,10 @@
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-secondary mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-secondary mb-2" href="/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <!-- <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
+                            <!-- <a class="text-secondary mb-2" ><i class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
                             <a class="text-secondary mb-2" href="/carts"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-secondary mb-2" href="/checkout"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-secondary" ><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
@@ -446,10 +447,10 @@
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-secondary mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-secondary mb-2" href="/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <!-- <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
+                            <!-- <a class="text-secondary mb-2" ><i class="fa fa-angle-right mr-2"></i>Shop Detail</a> -->
                             <a class="text-secondary mb-2" href="/carts"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-secondary mb-2" href="/checkout"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-secondary" ><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
@@ -465,10 +466,10 @@
                         </form>
                         <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
                         <div class="d-flex">
-                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" ><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" ><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" ><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-primary btn-square" ><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
@@ -477,7 +478,7 @@
         <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
             <div class="col-md-6 px-xl-0">
                 <p class="mb-md-0 text-center text-md-left text-secondary">
-                    &copy; <a class="text-primary" href="#">Domain</a>. All Rights Reserved. Designed
+                    &copy; <a class="text-primary" >Domain</a>. All Rights Reserved. Designed
                     by
                     <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
                 </p>
@@ -491,7 +492,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a  class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
     <!-- JavaScript Libraries -->
@@ -525,11 +526,16 @@
                 }
             });
 
+            getAllProducts("latest", 1 , 12);
+                
+        });
+
+        const getAllProducts = async (sort = "Latest", page = 1, limit = 12) => {
             $.ajax({
-                url: `/getAllProduct`,
+                url: `/getAllProduct?page=${page}&limit=${limit}&sort=${sort}`,
                 method: 'GET',
                 success: (response) => {
-                    let html = `<div class="col-12 pb-1" >
+                    let html = `<div class="col-12 pb-1">
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div>
                                             <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
@@ -537,26 +543,30 @@
                                         </div>
                                         <div class="ml-2">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">Latest</a>
-                                                    <a class="dropdown-item" href="#">Popularity</a>
-                                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-sorting" data-toggle="dropdown">
+                                                    ${sort.charAt(0).toUpperCase() + sort.slice(1)}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right sorting">
+                                                    <button class="dropdown-item" onclick="getAllProducts('latest',${page}, ${limit})">Latest</button>
+                                                    <button class="dropdown-item" onclick="getAllProducts('popularity',${page}, ${limit})">Popularity</button>
+                                                    <button class="dropdown-item" onclick="getAllProducts('rating',${page}, ${limit})">Best Rating</button>
                                                 </div>
                                             </div>
                                             <div class="btn-group ml-2">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">10</a>
-                                                    <a class="dropdown-item" href="#">20</a>
-                                                    <a class="dropdown-item" href="#">30</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-showing" data-toggle="dropdown">
+                                                    Showing ${limit}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right showing">
+                                                    <button class="dropdown-item" onclick="getAllProducts('${sort}',${page}, 12)">12</button>
+                                                    <button class="dropdown-item" onclick="getAllProducts('${sort}',${page}, 24)">24</button>
+                                                    <button class="dropdown-item" onclick="getAllProducts('${sort}',${page}, 36)">36</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>`;
                     response.data.forEach((product) => {
-                        html += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        html += `<div class="col-lg-3 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
                                         <div class="product-img position-relative overflow-hidden">
                                             <img class="img-fluid w-100" src="/uploads/${product.ImageUrl}" alt="">
@@ -570,7 +580,8 @@
                                         <div class="text-center py-4">
                                             <a class="h6 text-decoration-none text-truncate" href="/productDetail/${product.id}" target="_blank">${product.ProductName}</a>
                                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <h5>$${(product.Price - product.Price*product.Discount/100).toFixed(2)}</h5><h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
+                                                <h5>$${(product.Price - product.Price*product.Discount/100).toFixed(2)}</h5>
+                                                <h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center mb-1">
                                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -584,102 +595,46 @@
                                     </div>
                                 </div>`;
                     });
-                    html += `<div class="col-12">
-                                <nav>
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div>`;
+
+                    // Render sản phẩm
                     $('#product-list').html(html);
+
+                    // Render phân trang
+                    let paginationHTML = `<nav><ul class="pagination justify-content-center">`;
+
+                    if (response.pagination.currentPage > 1) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${response.pagination.currentPage - 1}, ${limit})">Previous</a>
+                                        </li>`;
+                    }
+
+                    for (let i = 1; i <= response.pagination.totalPages; i++) {
+                        paginationHTML += `<li class="page-item ${response.pagination.currentPage === i ? 'active' : ''}">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${i}, ${limit})">${i}</a>
+                                        </li>`;
+                    }
+
+                    if (response.pagination.currentPage < response.pagination.totalPages) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${response.pagination.currentPage + 1}, ${limit})">Next</a>
+                                        </li>`;
+                    }
+
+                    paginationHTML += `</ul></nav>`;
+
+                    $('#pagination').html(paginationHTML);
                 }
             });
-                
-        });
+        };
+
+
 
         $("#myinput").on('input', () =>{
             const price = $('#myinput').val();
             // console.log(price);
             $('#price').text(price);
             $('#product-list').empty();
-            $.ajax({
-                url: `/filter-products`,
-                method: 'POST',
-                data: {price },
-                success: (response) => {
-                    let html = `<div class="col-12 pb-1" >
-                                    <div class="d-flex align-items-center justify-content-between mb-4">
-                                        <div>
-                                            <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                                            <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                                        </div>
-                                        <div class="ml-2">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">Latest</a>
-                                                    <a class="dropdown-item" href="#">Popularity</a>
-                                                    <a class="dropdown-item" href="#">Best Rating</a>
-                                                </div>
-                                            </div>
-                                            <div class="btn-group ml-2">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">10</a>
-                                                    <a class="dropdown-item" href="#">20</a>
-                                                    <a class="dropdown-item" href="#">30</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    response.data.forEach((product) => {
-                        html += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                                    <div class="product-item bg-light mb-4">
-                                        <div class="product-img position-relative overflow-hidden">
-                                            <img class="img-fluid w-100" src="/uploads/${product.ImageUrl}" alt="">
-                                            <div class="product-action">
-                                                <button class="btn btn-outline-dark btn-square" onclick="addtocart(${product.id})"><i class="fa fa-shopping-cart"></i></button>
-                                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="/productDetail/${product.id}" target="_blank"><i class="fa fa-search"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center py-4">
-                                            <a class="h6 text-decoration-none text-truncate" href="/productDetail/${product.id}" target="_blank">${product.ProductName}</a>
-                                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <h5>$${(product.Price - product.Price*product.Discount/100).toFixed(2)}</h5><h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                                <small class="fa fa-star text-primary mr-1"></small>
-                                                <small class="fa fa-star text-primary mr-1"></small>
-                                                <small class="fa fa-star text-primary mr-1"></small>
-                                                <small class="fa fa-star text-primary mr-1"></small>
-                                                <small class="fa fa-star text-primary mr-1"></small>
-                                                <small>(99)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    });
-                    html += `<div class="col-12">
-                            <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                            </nav>
-                        </div>`;
-                    $('#product-list').html(html);
-                }
-            })
+            getbyPrice(price, "latest", 1, 12);
         });
 
         $("#myRange").on('input', () =>{
@@ -687,12 +642,16 @@
             // console.log(price);
             $('#price').text(price);
             $('#product-list').empty();
+            getbyPrice(price, "latest", 1, 12);
+        });
+
+        const getbyPrice = async (price, sort = "Latest", page = 1, limit = 12) => {
             $.ajax({
-                url: `/filter-products`,
+                url: `/filter-products?page=${page}&limit=${limit}&sort=${sort}`,
                 method: 'POST',
                 data: {price },
                 success: (response) => {
-                    let html = `<div class="col-12 pb-1" >
+                    let html = `<div class="col-12 pb-1">
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div>
                                             <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
@@ -700,26 +659,31 @@
                                         </div>
                                         <div class="ml-2">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">Latest</a>
-                                                    <a class="dropdown-item" href="#">Popularity</a>
-                                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-sorting" data-toggle="dropdown">
+                                                    ${sort.charAt(0).toUpperCase() + sort.slice(1)}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right sorting">
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price}, 'latest',${page}, ${limit})">Latest</button>
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price}, 'popularity',${page}, ${limit})">Popularity</button>
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price}, 'rating',${page}, ${limit})">Best Rating</button>
                                                 </div>
                                             </div>
                                             <div class="btn-group ml-2">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">10</a>
-                                                    <a class="dropdown-item" href="#">20</a>
-                                                    <a class="dropdown-item" href="#">30</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-showing" data-toggle="dropdown">
+                                                    Showing ${limit}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right showing">
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price},'${sort}',${page}, 12)">12</button>
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price},'${sort}',${page}, 24)">24</button>
+                                                    <button class="dropdown-item" onclick="getbyPrice(${price},'${sort}',${page}, 36)">36</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>`;
+
                     response.data.forEach((product) => {
-                        html += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        html += `<div class="col-lg-3 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
                                         <div class="product-img position-relative overflow-hidden">
                                             <img class="img-fluid w-100" src="/uploads/${product.ImageUrl}" alt="">
@@ -733,7 +697,8 @@
                                         <div class="text-center py-4">
                                             <a class="h6 text-decoration-none text-truncate" href="/productDetail/${product.id}" target="_blank">${product.ProductName}</a>
                                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <h5>$${(product.Price - product.Price*product.Discount/100).toFixed(2)}</h5><h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
+                                                <h5>$${(product.Price - product.Price * product.Discount / 100).toFixed(2)}</h5>
+                                                <h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center mb-1">
                                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -747,36 +712,55 @@
                                     </div>
                                 </div>`;
                     });
-                    html += `<div class="col-12">
-                            <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                            </nav>
-                        </div>`;
+
+                    // Render sản phẩm
                     $('#product-list').html(html);
+
+                    // Render phân trang
+                    let paginationHTML = `<nav><ul class="pagination justify-content-center">`;
+
+                    if (response.pagination.currentPage > 1) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${response.pagination.currentPage - 1}, ${limit})">Previous</a>
+                                        </li>`;
+                    }
+
+                    for (let i = 1; i <= response.pagination.totalPages; i++) {
+                        paginationHTML += `<li class="page-item ${response.pagination.currentPage === i ? 'active' : ''}">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${i}, ${limit})">${i}</a>
+                                        </li>`;
+                    }
+
+                    if (response.pagination.currentPage < response.pagination.totalPages) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:getAllProducts('${sort}', ${response.pagination.currentPage + 1}, ${limit})">Next</a>
+                                        </li>`;
+                    }
+
+                    paginationHTML += `</ul></nav>`;
+
+                    $('#pagination').html(paginationHTML);
                 }
             })
+        }
+
+        $('input[name="color"]').on('change', function () {
+            fetchFilteredProducts("latest", 1, 12);
         });
 
-        $('input[name="color"]').on('change', function() {
-            var selectedValues = $('input[name="color"]:checked').map(function() {
+        function fetchFilteredProducts(sort = "latest", page = 1, limit = 12) {
+            var selectedValues = $('input[name="color"]:checked').map(function () {
                 return $(this).val();
             }).get();
 
-            //console.log(selectedValues);
-
-            // Gửi yêu cầu lọc
             $.ajax({
-                url: '/filter-products-by-color',
+                url: `/filter-products-by-color?page=${page}&limit=${limit}&sort=${sort}`,
                 method: 'POST',
-                data: { colors: selectedValues },
+                data: {
+                    colors: selectedValues,
+                },
                 success: (response) => {
-                    let html = `<div class="col-12 pb-1" >
+                    let html = `<div class="col-12 pb-1">
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <div>
                                             <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
@@ -784,26 +768,31 @@
                                         </div>
                                         <div class="ml-2">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">Latest</a>
-                                                    <a class="dropdown-item" href="#">Popularity</a>
-                                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-sorting" data-toggle="dropdown">
+                                                    ${sort.charAt(0).toUpperCase() + sort.slice(1)}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right sorting">
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('latest',${page}, ${limit})">Latest</button>
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('popularity',${page}, ${limit})">Popularity</button>
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('rating',${page}, ${limit})">Best Rating</button>
                                                 </div>
                                             </div>
                                             <div class="btn-group ml-2">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">10</a>
-                                                    <a class="dropdown-item" href="#">20</a>
-                                                    <a class="dropdown-item" href="#">30</a>
+                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle btn-showing" data-toggle="dropdown">
+                                                    Showing ${limit}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right showing">
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('${sort}',${page}, 12)">12</button>
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('${sort}',${page}, 24)">24</button>
+                                                    <button class="dropdown-item" onclick="fetchFilteredProducts('${sort}',${page}, 36)">36</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>`;
+
                     response.data.forEach((product) => {
-                        html += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        html += `<div class="col-lg-3 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
                                         <div class="product-img position-relative overflow-hidden">
                                             <img class="img-fluid w-100" src="/uploads/${product.ImageUrl}" alt="">
@@ -817,7 +806,8 @@
                                         <div class="text-center py-4">
                                             <a class="h6 text-decoration-none text-truncate" href="/productDetail/${product.id}" target="_blank">${product.ProductName}</a>
                                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <h5>$${product.Price - product.Price*(product.Discount/100)}</h5><h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
+                                                <h5>$${(product.Price - product.Price * product.Discount / 100).toFixed(2)}</h5>
+                                                <h6 class="text-muted ml-2"><del>$${product.Price}</del></h6>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center mb-1">
                                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -831,21 +821,37 @@
                                     </div>
                                 </div>`;
                     });
-                    html += `<div class="col-12">
-                            <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                            </nav>
-                        </div>`;
-                    $('#product-list').html(html)
+
+                    // Render sản phẩm
+                    $('#product-list').html(html);
+
+                    // Render phân trang
+                    let paginationHTML = `<nav><ul class="pagination justify-content-center">`;
+
+                    if (response.pagination.currentPage > 1) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:fetchFilteredProducts('${sort}', ${response.pagination.currentPage - 1}, ${limit})">Previous</a>
+                                        </li>`;
+                    }
+
+                    for (let i = 1; i <= response.pagination.totalPages; i++) {
+                        paginationHTML += `<li class="page-item ${response.pagination.currentPage === i ? 'active' : ''}">
+                                                <a class="page-link" href="javascript:fetchFilteredProducts('${sort}', ${i}, ${limit})">${i}</a>
+                                        </li>`;
+                    }
+
+                    if (response.pagination.currentPage < response.pagination.totalPages) {
+                        paginationHTML += `<li class="page-item">
+                                                <a class="page-link" href="javascript:fetchFilteredProducts('${sort}', ${response.pagination.currentPage + 1}, ${limit})">Next</a>
+                                        </li>`;
+                    }
+
+                    paginationHTML += `</ul></nav>`;
+
+                    $('#pagination').html(paginationHTML);
                 }
             });
-        });
+        }
 
         const addtocart = (id) =>{
             $.ajax({

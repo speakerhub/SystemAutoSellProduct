@@ -74,9 +74,9 @@
             </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link text-dark" href="/manager/user">
-                <i class="material-symbols-rounded opacity-5">manage_accounts</i>
-                <span class="nav-link-text ms-1">Manager User</span>
+              <a class="nav-link text-dark" href="/manager/notification">
+                <i class="material-symbols-rounded opacity-5">notifications</i>
+                <span class="nav-link-text ms-1">Manager Notifications</span>
               </a>
           </li>
           <li class="nav-item">
@@ -283,7 +283,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
               <% if(isLoggedIn){ %>
-                <a href="/profile" class="nav-link text-body font-weight-bold px-0">
+                <a href="/profile" class="nav-link text-body font-weight-bold px-0" data-userId="<%= user.id %>" id="imageProfile" >
                   <img src="/uploads/<%= user.ImageUrl %>" alt="<%= user.ImageUrl %>" class="avatar-sm border-radius-xl">
                 </a>
               <%} else {%>
@@ -395,12 +395,20 @@
                     <div class="tab-pane fade show active" id="editinformation" role="tabpanel">
                       <form id="settings-form" action="/change/user" method="post">
                         <div class="form-group">
-                          <label for="username">Name</label>
-                          <input type="text" id="username" name="username" class="form-control shadow-dark" value="<%= user.name %>" />
+                          <label for="firstName">First Name</label>
+                          <input type="text" id="firstname" name="firstname" class="form-control shadow-dark" value="<%= user.firstName %>" />
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname">Last Name</label>
+                          <input type="text" id="lastname" name="lastname" class="form-control shadow-dark" value="<%= user.lastName %>" />
                         </div>
                         <div class="form-group">
                           <label for="email">Email</label>
                           <input type="email" id="email" name="email" class="form-control shadow-dark" value="<%= user.email %>" />
+                        </div>
+                        <div class="form-group">
+                          <label for="phone">Phone</label>
+                          <input type="text" id="phone" name="phone" class="form-control shadow-dark" value="<%= user.phone %>" />
                         </div>
                         <div class="form-group">
                           <label for="password">New Password</label>
@@ -511,11 +519,13 @@
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- socket.io -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- jquery -->
   <script src="/js/plugins/jquery-3.7.1.min.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/js/material-dashboard.min.js?v=3.2.0"></script>
-  <!-- socket.io -->
-  <script src="/socket.io/socket.io.js"></script>
+  
   <!-- script -->
   <script>
   $(document).ready(function() {

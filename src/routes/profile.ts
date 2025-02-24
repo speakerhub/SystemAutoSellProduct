@@ -76,7 +76,7 @@ router.post('/change/avatar', upload.single('ImageUrl'), async (req: Request, re
 
 router.post('/change/user', async (req: Request, res: Response) => {
   try{
-      const { username, email, password } = req.body;
+      const { firstname, lastname, email, phone, password } = req.body;
       if(!req.session._user){
         res.redirect('/login');
       }
@@ -90,11 +90,18 @@ router.post('/change/user', async (req: Request, res: Response) => {
       }
 
       if (user) {
-        if(username){
-          user.firstName = username;
+        if(firstname){
+          // console.log(firstname)
+          user.firstName = firstname;
+        }
+        if(lastname){
+          user.lastName = lastname;
         }
         if(email){
           user.email = email;
+        }
+        if(phone){
+          user.phone = phone;
         }
         if(password){
           const saltRounds: number = 10;

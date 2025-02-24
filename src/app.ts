@@ -14,6 +14,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import { Configuration, OpenAIApi } from "openai";
+import { initSocket } from "./sockets/notification.socket";
 
 
 // import routes ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -31,29 +32,16 @@ import wishlistroutes from "@routes/wishlist";
 import commentroutes from "@routes/comment";
 import Paymentroutes from "@routespaymentAccount";
 import messageroutes from "@routes/message";
+import notificationroutes from "@routes/notification";
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const app: Express = express();
+const server = http.createServer(app);
 const host = '0.0.0.0';
 const port = +(process.env.PORT || 3000);
+
 // socket.ip - send message ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-const server = http.createServer(app);
-const io = new Server(server); 
-
-// io.on()
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  // Lắng nghe sự kiện gửi tin nhắn từ client
-  socket.on('send_message_to_admin', async (data) => {
-    console.log(data);
-  });
-
-  // Xử lý sự kiện ngắt kết nối
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+initSocket(server);
 
 server.listen(port, host, () => {
   console.log(`[server]: 🚀 Server is running at http://localhost:${port}`);
@@ -107,6 +95,7 @@ app.use(orderroutes);
 app.use(wishlistroutes);
 app.use(commentroutes);
 app.use(messageroutes);
+app.use(notificationroutes);
 app.use("/api/payment", Paymentroutes);
 
 // chatbot ------------------------------------------------------------------------------------------------------------

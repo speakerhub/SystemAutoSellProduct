@@ -18,6 +18,38 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- CSS Files -->
     <link id="pagestyle" href="/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+      }
+      .upload-box {
+          width: 100%;
+          max-width: 600px;
+          padding: 30px;
+          border: 2px dashed #007bff;
+          text-align: center;
+          display: flex;
+          cursor: pointer;
+          margin: 20px auto;
+          border-radius: 10px;
+          background-color: #f8f9fa;
+          
+      }
+      .upload-box:hover {
+          background-color: #e9ecef;
+      }
+      .preview {
+          margin-top: 15px;
+      }
+      .preview img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 10px;
+      }
+      input[type="file"] {
+          display: none;
+      }
+    </style>
 </head>
 <body class="bg-light">
     <div class="justify-content-center d-flex">
@@ -40,9 +72,10 @@
                   <input type="number" class="form-control shadow-dark" name="count" id="product-count" required min="1">
                 </div>
               
-                <div class="mb-3">
-                  <label class="form-label">Image</label>
-                  <input type="file" name="ImageUrl" id="ImageUrl" accept="image/*" class="form-control shadow-dark justify-content-center" multiple required>
+                <div class="mb-3 upload-box" id="drop-area">
+                  <p>Kéo và thả hình ảnh vào đây hoặc <label for="ImageUrl" style="color: blue; cursor: pointer;">chọn tệp</label></p>
+                  <input type="file" name="ImageUrl" id="ImageUrl" accept="image/*" class="form-control shadow-dark justify-content-center"required>
+                  <div class="preview" id="preview"></div>
                 </div>
               
                 <div class="mb-3">
@@ -178,6 +211,58 @@
                     console.log('Error:', err);
                 }
             });
+        });
+
+        $(document).ready(function () {
+            let dropArea = $("#drop-area");
+            let fileInput = $("#ImageUrl")[0];
+            let preview = $("#preview");
+
+            // Ngăn chặn hành vi mặc định
+            dropArea.on("dragenter dragover", function (e) {
+                e.preventDefault();
+                dropArea.css("background-color", "#e0e0e0");
+            });
+
+            dropArea.on("dragleave", function () {
+                dropArea.css("background-color", "#f8f9fa");
+            });
+
+            dropArea.on("drop", function (e) {
+                e.preventDefault();
+                dropArea.css("background-color", "#f8f9fa");
+                let files = e.originalEvent.dataTransfer.files;
+                let dataTransfer = new DataTransfer();
+                $.each(files, function (i, file) {
+                    dataTransfer.items.add(file);
+                });
+
+                fileInput.files = dataTransfer.files;
+                handleFiles(files);
+            });
+
+            // Xử lý khi chọn file từ input
+            $('ImageUrl').on("change", function () {
+              handleFiles(this.files);
+            });
+
+            // Xử lý hiển thị ảnh xem trước
+            function handleFiles(files) {
+                preview.empty();
+                $.each(files, function (index, file) {
+                    if (file.type.startsWith("image/")) {
+                        let reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.append(`
+                            <label>${file.name}</label>
+                            <img src="${e.target.result}" alt="Uploaded Image" >`);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert("Vui lòng chọn file ảnh hợp lệ!");
+                    }
+                });
+            }
         });
     </script>
 </body>

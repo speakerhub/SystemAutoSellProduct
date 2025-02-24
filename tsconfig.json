@@ -38,6 +38,7 @@
       "@utils*": ["src/utils/*"],
       "@config*": ["src/db-config/*"],
       "@types*": ["src/types/*"],
+      "@sockets*": ["src/sockets/*"],
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     "typeRoots": ["./node_modules/@types", "./src/types"],

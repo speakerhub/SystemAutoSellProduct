@@ -12,8 +12,9 @@ import { Like } from '@entities/like';
 import { Comment } from '@entities/Comment';
 import { OrderItem } from "@entitiesOrderItem";
 import { CartItem } from "@entitiesCartItem";
-import { PaymentAccount } from "@entitiespaymentaccount";
+import { PaymentAccount } from "@entitiesPaymentAccount";
 import { Message } from "@entities/Message";
+import { Notification } from "@entities/Notification";
 
 export const AppDataSource = new DataSource({
     type: process.env.MYSQL_TYPE as "mysql",
@@ -24,7 +25,7 @@ export const AppDataSource = new DataSource({
     database: process.env.MYSQL_NAME,
     synchronize: false,
     logging: false,
-    entities: [User,Product,Category,Cart,Like,Comment,OrderItem,CartItem,PaymentAccount,Message],
+    entities: [User,Product,Category,Cart,Like,Comment,OrderItem,CartItem,PaymentAccount,Message,Notification],
     subscribers: [],
     migrations: ["src/migrations/*.ts"],
 })

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "@configdata-source"; 
-import PaymentAccount from "@entities/paymentaccount";
+import PaymentAccount from "@entitiesPaymentAccount";
 import User from "@entities/User";
 
 const paymentAccountRepository = AppDataSource.getRepository(PaymentAccount);

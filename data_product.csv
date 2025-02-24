@@ -1,2 +1,0 @@
-id,ProductName,ProductCount,ImageUrl,Size,Color,Weight,Dimensions,Description,Price,Discount,Producer,Rating,isActive,createdAt,UpdatedAt,Tags,Status,deletedAt
-1,"T Shirt Men",43,ImageUrl-1738947648073-432699581.jpg,"XS,L,XL,XXS","default,white,black,yellow",5,"Explicabo Repudiand","Exercitation non qui",507,11,"Asperiores sed imped",0,1,"2025-02-08 00:00:48","2025-02-08 00:00:48",shirt,Available,NULL

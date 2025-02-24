@@ -583,16 +583,22 @@
                     
                     $('#placeorder').click( (e) => {
                         e.preventDefault();
+                        const subtotal = $('#subtotal').text();
+                        console.log(subtotal)
+                        if(subtotal <= 0){
+                            alert('khong co san pham');
+                            return;
+                        } else {
+                            const selectedPayment = $('input[name="payment"]:checked').val();
+                            // console.log(selectedPayment);
 
-                        const selectedPayment = $('input[name="payment"]:checked').val();
-                        // console.log(selectedPayment);
-
-                        if (selectedPayment === 'QR') {
-                            generateQRCode();
-                        } else if (selectedPayment === 'zalopay') {
-                            initiateZaloPay();
-                        } else if (selectedPayment === 'momo') {
-                            initiateMoMo();
+                            if (selectedPayment === 'QR') {
+                                generateQRCode();
+                            } else if (selectedPayment === 'zalopay') {
+                                initiateZaloPay();
+                            } else if (selectedPayment === 'momo') {
+                                initiateMoMo();
+                            }
                         }
                     });
 

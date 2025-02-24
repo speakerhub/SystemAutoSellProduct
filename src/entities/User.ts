@@ -3,7 +3,8 @@ import Cart from "@entitiesCart";
 import { Comment } from '@entitiesComment'; 
 import OrderItem from "@entitiesOrderItem";
 import Like from "@entitieslike";
-import PaymentAccount from "@entitiespaymentaccount";
+import PaymentAccount from "@entitiesPaymentAccount";
+import Notification from "@entitiesNotification";
 
 export enum UserRole {
     Admin = 'Admin',
@@ -79,6 +80,9 @@ export class User {
     
     @OneToMany(() => PaymentAccount, (paymentAccounts) => paymentAccounts.user)
     paymentAccounts: PaymentAccount;
+
+    @OneToMany(() => Notification, notification => notification.user)
+    notifications: Notification[];
 }
 
 export default User;

@@ -79,24 +79,51 @@ class ProductService{
 
     static async getAllProducts(req: Request, res: Response) {
         try {
+            let { sort, page, limit } = req.query;
+    
+            const currentPage = Math.max(1, Number(page) || 1);
+            const perPage = Math.max(1, Number(limit) || 10);
+            const skip = (currentPage - 1) * perPage;
+    
+            let order = {};
+            if (sort === "latest") {
+                order = { createdAt: "DESC" };
+            } else if (sort === "popularity") {
+                order = { Price: "DESC" };
+            } else if (sort === "rating") {
+                order = { Rating: "DESC" };
+            }
+    
+            // Lấy tổng số sản phẩm (để tính tổng số trang)
+            const totalProducts = await productRepository.count();
+    
+            // Lấy danh sách sản phẩm
             const products = await productRepository.find({
                 relations: ['categories'],
+                order,
+                take: perPage,
+                skip: skip
             });
-            // console.log(products);
-            
-            if (!products.length) {
-                return res.status(404).json({ message: 'No products found' });
-            }
-
-            // res.cookie('name', 'john Joe', {maxAge: 900000})
     
-            // console.log('Fetched products:', JSON.stringify(products, null, 2));
-            res.status(200).json({ data: products });
+            const totalPages = Math.ceil(totalProducts / perPage);
+    
+            return res.status(200).json({
+                data: products,
+                pagination: {
+                    currentPage,
+                    totalPages,
+                    totalProducts,
+                    perPage
+                }
+            });
         } catch (error) {
             console.error("Error fetching products:", error);
             res.status(500).json({ message: 'Error fetching products', error: error });
         }
     }
+    
+    
+
     static async get12Products(req: Request, res: Response) {
         try {
             const products = await productRepository.find({
@@ -121,19 +148,49 @@ class ProductService{
 
     static async getProductbyprice(req: Request, res: Response) {
         try{
-            const {price} = req.body;
+            const { price }: { price: number } = req.body;
             // console.log(price);
 
-            const product = await productRepository.find({
-                where: { Price: price },
-                relations: ['categories']
-            });
 
-            if (!product) {
+            let { sort, page, limit } = req.query;
+    
+            const currentPage = Math.max(1, Number(page) || 1);
+            const perPage = Math.max(1, Number(limit) || 10);
+            const skip = (currentPage - 1) * perPage;
+    
+            let order = {};
+            if (sort === "latest") {
+                order = { createdAt: "DESC" };
+            } else if (sort === "popularity") {
+                order = { Price: "DESC" };
+            } else if (sort === "rating") {
+                order = { Rating: "DESC" };
+            }
+    
+            const products = await productRepository.find({
+                where: { Price: price },
+                relations: ['categories'],
+                order,
+                take: perPage,
+                skip: skip,
+            });
+            const totalProducts = products.length;
+
+            if (!products) {
                 return res.status(404).json({ message: 'No products found', data: null });
             }
-
-            res.status(200).json({ data: product});
+    
+            const totalPages = Math.ceil(totalProducts / perPage);
+    
+            return res.status(200).json({
+                data: products,
+                pagination: {
+                    currentPage,
+                    totalPages,
+                    totalProducts,
+                    perPage
+                }
+            });
         } catch (error){
             console.log(error);
             res.status(500).json({ message: 'An error occurred while fetching products by price' });
@@ -143,17 +200,52 @@ class ProductService{
     static async getProductbyColor(req: Request, res: Response) {
         try {
             const { colors }: { colors: string[] } = req.body;
-        
+    
+            // Điều kiện lọc theo màu sắc
             const whereConditions = colors.map(color => ({
-                Color: ILike(`%${color}%`)  // Tìm sản phẩm có chứa bất kỳ màu nào trong danh sách
+                Color: ILike(`%${color}%`)  
             }));
+    
+            let { sort, page, limit } = req.query;
+    
+            const currentPage = Math.max(1, Number(page) || 1);
+            const perPage = Math.max(1, Number(limit) || 10);
+            const skip = (currentPage - 1) * perPage;
+    
+            let order = {};
+            if (sort === "latest") {
+                order = { createdAt: "DESC" };
+            } else if (sort === "popularity") {
+                order = { Price: "DESC" };
+            } else if (sort === "rating") {
+                order = { Rating: "DESC" };
+            }
 
             const products = await productRepository.find({
                 where: whereConditions,
-                relations: ['categories']
+                relations: ['categories'],
+                order, 
+                take: perPage,
+                skip: skip
             });
 
-            res.json({ data: products });
+            if (!products) {
+                return res.status(404).json({ message: 'No products found', data: null });
+            }
+
+            const totalProducts = products.length;
+    
+            const totalPages = Math.ceil(totalProducts / perPage);
+    
+            return res.status(200).json({
+                data: products,
+                pagination: {
+                    currentPage,
+                    totalPages,
+                    totalProducts,
+                    perPage
+                }
+            });
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: 'An error occurred while fetching products by color' });

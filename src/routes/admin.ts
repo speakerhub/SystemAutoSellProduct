@@ -5,7 +5,7 @@ import User, { UserRole } from "@entitiesUser";
 import { AppDataSource } from "@configdata-source";
 import ReceiptController from "@controllersreceipt.controller";
 import UserController from "@controllersuser.controller";
-import PaymentAccount from "@entitiespaymentaccount";
+import PaymentAccount from "@entitiesPaymentAccount";
 
 const router: Router = express.Router();
 
@@ -130,12 +130,8 @@ router.get('/report/finance', checkSession, async (req: Request, res: Response) 
 
 router.get('/notification', checkSession, async (req: Request, res: Response) => {
   if (req.session && req.session._user ) {
-    if(req.session._user.Role == UserRole.Admin){
+
       res.render('./pages/accountpage/notifications', {isLoggedIn: true, user: req.session._user});
-    }
-    else{
-      res.redirect('/');
-    }
   } else {
     return res.redirect('/login');
   }
