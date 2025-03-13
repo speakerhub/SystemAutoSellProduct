@@ -14,6 +14,10 @@ class checkoutController {
      static async paymentCallback(req: Request, res: Response) {
         await checkoutServices.paymentCallback(req, res);
      }
+
+     static async createPaymentMoMo(req: Request, res: Response) {
+        await checkoutServices.createPaymentMoMo(req, res);
+     } 
 }
 
 

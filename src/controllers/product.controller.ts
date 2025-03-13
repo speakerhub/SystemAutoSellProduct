@@ -18,6 +18,14 @@ class ProductController{
         await ProductService.search(req, res);
     }
 
+    static async searchproductbymessage(req: Request, res: Response){
+        await ProductService.searchproductbymessage(req, res);
+    }
+
+    static async chatbotsearch(req: Request, res: Response){
+        await ProductService.chatbotsearch(req, res);
+    }
+
     static async getProductDetail(req: Request, res: Response): Promise<any>{
         await ProductService.getProductDetail(req, res);
     }

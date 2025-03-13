@@ -170,13 +170,13 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form action="/chatbot-search" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="search" placeholder="Search for products">
+                        <input type="text" class="form-control" id="search" name="keywords" placeholder="Search for products">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
+                            <button type="submit" class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </span>
+                            </button>
                         </div>
                     </div>
                     <div id="search-result">
@@ -534,6 +534,8 @@
     </div>
     <!-- Footer End -->
 
+    <!-- chat-box -->
+    <%- include('./shoppartial/chatbot.ejs') %>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -667,6 +669,63 @@
                     }
 
                     function initiateMoMo() {
+                        let firstName = $("#firstName").val();
+                        let lastName = $("#lastName").val();
+                        let email = $("#email").val();
+                        let phone = $("#phone").val();
+                        let address1 = $("#address1").val();
+                        let address2 = $("#address2").val();
+                        let ward = $("#ward").val();
+                        let city = $("#province").val();
+                        let district = $("#district").val();
+                        let zip = $("#zip").val();
+
+                        if (firstName === "" || lastName === "" || email === "" || phone === "" || address1 === "" || city === "" || ward === "" || district === "" || zip === "") {
+                            alert("Vui lòng nhập đầy đủ thông tin!");
+                            return;
+                        }
+
+                        let billingInfo = {
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            phone: phone,
+                            address1: address1,
+                            address2: address2,
+                            ward: ward,
+                            city: city,
+                            district: district,
+                            zip: zip
+                        };
+                        // console.log("Dữ liệu gửi đi:", billingInfo);
+
+                        const products = JSON.stringify(response.cart);
+                        $.ajax({
+                            url: '/createMoMo',
+                            type: 'POST',
+                            data: {
+                                products: products,
+                                total: parseFloat($('#total').text()),
+                                billingInfo: billingInfo,
+                            },
+                            success: (response) => {
+                                if(response) {
+                                    // if(response) {
+                                    //     // console.log(response.response.order_url);
+                                    //     window.open(response.response.order_url, '_blank');
+                                    // }
+                                    // window.location.href = `/check/${response.app_trans_id}`;
+                                    // setTimeout(() => {
+
+                                    //     // alert(response.response.return_message);
+                                    alert('Return message: ' + response.message);
+                                    window.location.reload();
+                                    // }, 1000 * 60 * 15);
+                                    
+                                }
+                                
+                            }
+                        });
                     }
                 }
             });

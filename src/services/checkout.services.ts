@@ -83,6 +83,63 @@ class checkoutService {
         }
     }
 
+    static async createPaymentMoMo(req: Request, res: Response): Promise<any>{
+        try {
+            let { products, total, billingInfo } = req.body;
+            // console.log(products, total, billingInfo);
+            // console.log("Type of Products:", typeof products);
+            if (!req.session || !req.session._user) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+
+            if (typeof products === 'string') {
+                try {
+                    products = JSON.parse(products);  // Parse chuỗi thành mảng
+                } catch (error) {
+                    console.error("Invalid JSON format:", error);
+                    return; // Xử lý lỗi nếu JSON không hợp lệ
+                }
+            }
+
+            // Tạo đơn hàng mới
+            const newOrder = new OrderItem();
+            newOrder.user = req.session._user;
+
+            // Sửa lỗi: Gán tất cả sản phẩm vào `items` thay vì chỉ lưu sản phẩm cuối cùng
+            newOrder.items = products.map(( product: any )=> ({
+                productId: product.id,
+                name: product.ProductName,
+                price: product.Price,
+                color: product.Color,
+                size: product.Size,
+                quantity: product.ProductCount,
+            }));
+
+            // Gán địa chỉ giao hàng
+            newOrder.shippingAddress = {
+                firstName: billingInfo.firstName,
+                lastName: billingInfo.lastName,
+                phone: billingInfo.phone,
+                address1: billingInfo.address1,
+                address2: billingInfo.address2 || "",
+                ward: billingInfo.ward,
+                city: billingInfo.city,
+                district: billingInfo.district,
+                zip: billingInfo.zip,
+            };
+
+            newOrder.totalAmount = total;
+            newOrder.status = "Shipping";
+            newOrder.app_trans_id = 'MoMo_123';
+
+            // Lưu vào database
+            await orderitemRepository.save(newOrder);
+            res.status(200).json({ message: "Success" });
+        } catch (e){
+            console.error("Error during checking payment status:", e);
+        }
+    }
+
     static async checkPaymentStatus(req: Request, res: Response) {
         try {
             const app_trans_id = req.params.app_trans_id;

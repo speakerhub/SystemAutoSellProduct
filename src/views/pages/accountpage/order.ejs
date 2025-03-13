@@ -402,6 +402,7 @@
           let html = '';
           
           response.order.forEach(item => {
+            let btndelete = item.status === 'Completed' ? `<button class="btn btn-outline-dark" onclick="Delete('${item.id}')">Delete</button>` : '';
             html+=`<tr>
                       <td class="border-0 text-center">${item.id}</td>
                       <td class="border-0 text-center">${item.createdAt}</td>
@@ -409,7 +410,7 @@
                       <td class="border-0 text-center ">
                         <a class="btn btn-outline-dark" href="/order/view/${item.id}" target="_blank">Order Detail</a>
                         <button class="btn btn-outline-dark" onclick="cancel('${item.id}')">Cancel</button>
-                        <button class="btn btn-outline-dark" onclick="Delete('${item.id}')">Cancel</button>
+                        ${btndelete}
                       </td>
                     </tr>
                   `;

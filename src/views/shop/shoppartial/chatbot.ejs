@@ -33,7 +33,7 @@
 </head>
 <body>
     <div id="chatbot-icon">
-        <img src="./uploads/chatbot-icon.png" style="border-radius: 12px;" alt="Chatbot">
+        <img src="/uploads/chatbot-icon.png" style="border-radius: 12px;" alt="Chatbot">
     </div>
     <div id="formchat" style="display: none; border-radius: 12px; background-color: white; width: 300px; position: fixed; bottom: 20px; right: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -56,6 +56,15 @@
     <!-- jQuery library -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#message').keydown(function(event) {
+                if (event.key === "Enter" && !event.shiftKey) { 
+                    event.preventDefault(); // Ngăn form gửi mặc định khi nhấn Enter
+                    sendMessage(); // Gọi hàm gửi tin nhắn
+                }
+            });
+        });
+
         $('#chatbot-icon').click( () => {
             $('#formchat').toggle();
             $('#chatbot-icon').toggle();
@@ -72,20 +81,80 @@
             $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">You: ${userMessage}</p>`);
             $('#message').val(''); // Reset sau khi lưu
 
+            $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
             $.ajax({
-                url: '/api/chatbot',
+                url: 'http://localhost:5000/api/chatbot',
                 type: 'POST',
-                contentType: 'application/json', // Định dạng dữ liệu gửi đi
-                data: JSON.stringify({ message: userMessage }), // Gửi dữ liệu JSON hợp lệ
-                success: function(response) {
-                    $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${response.message}</p>`);
+                contentType: 'application/json', 
+                data: JSON.stringify({ message: userMessage }), // Key "message" phải khớp với backend
+                success: async function(response) {
+                    let botMessage = response.message || "Không tìm thấy sản phẩm nào.";
+                    let html = `<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${botMessage}</p>`;
+                    if(response.link){
+                        html += `<a href="${response.link}" target="_blank">Xem thêm</a>`;
+                    }
+                    $('#messageArea').append(html);
+                    await searchproduct(response.link);
+                    $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
                 },
                 error: function(error) {
                     console.error("Lỗi khi gửi tin nhắn:", error);
-                    $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${error.responseJSON.error}</p>`);
+                    $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: Lỗi server.</p>`);
                 }
             });
         };
+
+        const searchproduct = async (link) => {
+            $.ajax({
+                url: '/api/search/product',
+                type: 'POST',
+                contentType: 'application/json', 
+                data: JSON.stringify({ message: link }), 
+                success: function(response) {
+                    let html = '';
+
+                    if (response.data && response.data.products && response.data.products.length > 0) {
+                        const firstProduct = response.data.products[0]; // Lấy sản phẩm đầu tiên
+                        html += `
+                            <div class="d-flex flex-wrap justify-content-between">
+                                Bạn có muốn xem sản phẩm: 
+                                <a href="/chatbot-search?keywords=${encodeURIComponent(firstProduct.productName)}&page=1">
+                                    ${firstProduct.productName}
+                                </a>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="d-flex flex-wrap justify-content-between">
+                                Bạn có muốn tìm kiếm: 
+                                <a href="/chatbot-search?keywords=${encodeURIComponent(name)}&page=1">
+                                    ${name}
+                                </a>
+                            </div>
+                        `;
+                    }
+
+                    $('#messageArea').append(html);
+                    $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
+                },
+                error: function(error) {
+                    console.error("Lỗi khi gửi tin nhắn:", error);
+                    $('#messageArea').append(
+                        `
+                        <!-- <p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: Không thể tìm thấy sản phẩm</p> -->
+                        <div class="d-flex flex-wrap justify-content-between">
+                            Bạn có muốn tìm kiếm: 
+                            <a href="/chatbot-search?keywords=${encodeURIComponent(name)}&page=1">
+                                ${name}
+                            </a>
+                        </div>
+                        `
+                    );
+                    $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
+                }
+            });
+        };
+
 
     </script>
     <script>

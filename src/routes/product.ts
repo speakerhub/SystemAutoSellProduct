@@ -24,6 +24,14 @@ router.get('/search-products/:keywords', async (req: Request, res: Response) => 
     await ProductController.search(req, res);
 });
 
+router.post('/api/search/product', async (req: Request, res: Response) => {
+    await ProductController.searchproductbymessage(req, res);
+});
+
+router.get('/chatbot-search', async (req: Request, res: Response) => {
+    await ProductController.chatbotsearch(req, res);
+});
+
 router.get('/productDetail/:id', async (req: Request, res: Response) => {
     if(req.session._user?.isActive == false) {
         res.redirect('/login');

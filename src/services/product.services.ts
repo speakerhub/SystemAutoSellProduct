@@ -77,6 +77,96 @@ class ProductService{
         }
     }
 
+    static async searchproductbymessage(req: Request, res: Response): Promise<any> {
+        try {
+            const { message } = req.body; // Lấy nội dung message từ request body
+    
+            if (!message) {
+                return res.status(400).json({ message: "Message is required" });
+            }
+    
+            const products = await productRepository.find({
+                where: [
+                    { ProductName: Like(`%${message}%`) },
+                    { Description: Like(`%${message}%`) }
+                ],
+            });
+    
+            if (products.length > 0) {
+                return res.status(200).json({ products });
+            } else {
+                return res.status(404).json({ message: "Không tìm thấy sản phẩm nào", products: [] });
+            }
+        } catch (error) {
+            console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+            res.status(500).json({ message: "Đã xảy ra lỗi khi tìm kiếm sản phẩm" });
+        }
+    }
+
+    static async chatbotsearch(req: Request, res: Response): Promise<any> {
+        try {
+            const keywords = req.query.keywords as string;
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = 12;
+            const offset = (page - 1) * limit;
+    
+            // Kiểm tra nếu `keywords` bị thiếu
+            if (!keywords) {
+                return res.render('./shop/searchresult.ejs', {
+                    products: [],
+                    isLoggedIn: req.session && req.session._user ? true : false,
+                    keywords: "",
+                    user: req.session ? req.session._user : null,
+                    page,
+                    totalPages: 1
+                });
+            }
+    
+            let searchTerm = keywords; // Mặc định tìm kiếm theo `keywords`
+    
+            // Nếu `keywords` là một URL, lấy `pathname`
+            try {
+                const parsedUrl = new URL(keywords);
+                searchTerm = parsedUrl.pathname.replace(/\//g, " "); // Bỏ dấu `/`
+            } catch (e) {
+                // Nếu `keywords` không phải URL, giữ nguyên
+            }
+    
+            // Đếm tổng số sản phẩm
+            const totalProducts = await productRepository.count({
+                where: [
+                    { ProductName: Like(`%${searchTerm}%`) },
+                    { Description: Like(`%${searchTerm}%`) }
+                ],
+            });
+    
+            // Lấy danh sách sản phẩm có phân trang
+            const products = await productRepository.find({
+                where: [
+                    { ProductName: Like(`%${searchTerm}%`) },
+                    { Description: Like(`%${searchTerm}%`) }
+                ],
+                take: limit,
+                skip: offset,
+            });
+    
+            const totalPages = Math.ceil(totalProducts / limit);
+    
+            return res.render('./shop/searchresult.ejs', {
+                products,
+                isLoggedIn: req.session && req.session._user ? true : false,
+                keywords,
+                user: req.session ? req.session._user : null,
+                page,
+                totalPages
+            });
+    
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'An error occurred while searching' });
+        }
+    }
+
     static async getAllProducts(req: Request, res: Response) {
         try {
             let { sort, page, limit } = req.query;
@@ -200,11 +290,17 @@ class ProductService{
     static async getProductbyColor(req: Request, res: Response) {
         try {
             const { colors }: { colors: string[] } = req.body;
-    
-            // Điều kiện lọc theo màu sắc
+            
+            if(!colors){
+                console.log(`Please provide valid colors`);
+                return res.status(400).json({ message: 'Please provide valid colors' });
+            }
+             // Điều kiện lọc theo màu sắc
             const whereConditions = colors.map(color => ({
                 Color: ILike(`%${color}%`)  
             }));
+
+            
     
             let { sort, page, limit } = req.query;
     

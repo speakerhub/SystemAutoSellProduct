@@ -192,13 +192,13 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form action="/chatbot-search" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="search" placeholder="Search for products">
+                        <input type="text" class="form-control" id="search" name="keywords" placeholder="Search for products">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
+                            <button type="submit" class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </span>
+                            </button>
                         </div>
                     </div>
                     <div id="search-result">
@@ -490,6 +490,8 @@
     </div>
     <!-- Footer End -->
 
+    <!-- chat-box -->
+    <%- include('./shoppartial/chatbot.ejs') %>
 
     <!-- Back to Top -->
     <a  class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>

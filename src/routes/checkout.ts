@@ -31,6 +31,10 @@ router.post('/create', async (req: Request, res: Response) => {
     await checkoutController.createPayment(req, res);
 });
 
+router.post('/createMoMo', async (req: Request, res: Response) => {
+  await checkoutController.createPaymentMoMo(req, res);
+});
+
 router.get('/check/:app_trans_id', async (req: Request, res: Response) => {
   try{
     if(!req.session._user){
