@@ -88,21 +88,70 @@
                 contentType: 'application/json', 
                 data: JSON.stringify({ message: userMessage }), // Key "message" phải khớp với backend
                 success: async function(response) {
-                    let botMessage = response.message || "Không tìm thấy sản phẩm nào.";
-                    let html = `<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${botMessage}</p>`;
-                    if(response.link){
-                        html += `<a href="${response.link}" target="_blank">Xem thêm</a>`;
+                    if(response.answer){
+                        $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${response.answer}</p>`);
+
+                        let confirmationBox = `
+                            <div id="confirmBox" style="margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <button id="yesBtn" style="margin-right: 10px; padding: 5px 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">Yes</button>
+                                <button id="noBtn" style="padding: 5px 10px; background: #f44336; color: white; border: none; cursor: pointer;">No</button>
+                            </div>
+                        `;
+                        $('#messageArea').append(confirmationBox);
+                        $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
+                            
+                    } else {
+                        let botMessage = response.message || "Không tìm thấy sản phẩm nào.";
+                        let html = `<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${botMessage}</p>`;
+                        if(response.link){
+                            html += `<a href="${response.link}" target="_blank">Xem thêm</a>`;
+                            await searchproduct(response.link);
+                        }
+                        $('#messageArea').append(html);
+                        $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
                     }
-                    $('#messageArea').append(html);
-                    await searchproduct(response.link);
-                    $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
+                    
                 },
                 error: function(error) {
                     console.error("Lỗi khi gửi tin nhắn:", error);
-                    $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: Lỗi server.</p>`);
+                    $('#messageArea').append(`<p style="font-size: 16px; margin-bottom: 5px;">Chat Bot: ${error}</p>`);
                 }
             });
         };
+
+        $('#yesBtn').click(function() {
+            $('#confirmBox').remove(); // Xóa hộp xác nhận
+            $('#messageArea').append(`
+                <div id="answerBox" style="margin-top: 10px;">
+                    <p style="font-size: 16px;">Chat Bot: Vậy hãy nhập câu trả lời của bạn:</p>
+                    <input type="text" id="userAnswer" style="padding: 5px; width: 70%; margin-right: 10px;">
+                    <button id="submitAnswer" style="padding: 5px 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Gửi</button>
+                </div>
+            `);
+            
+            // Khi người dùng nhập câu trả lời và nhấn "Gửi"
+            $('#submitAnswer').click(function() {
+                let userAnswer = $('#userAnswer').val().trim();
+                if (userAnswer !== '') {
+                    $.ajax({
+                        url: 'http://localhost:5000/api/train',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ question: userMessage, answer: userAnswer }),
+                        success: function(response) {
+                            $('#answerBox').remove();
+                            $('#messageArea').append(`<p style="font-size: 16px;">Chat Bot: Cảm ơn! Tôi đã học được câu trả lời mới.</p>`);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Sự kiện khi bấm "No"
+        $('#noBtn').click(function() {
+            $('#confirmBox').remove(); // Xóa hộp xác nhận
+            $('#messageArea').append(`<p style="font-size: 16px;">Chat Bot: Hiểu rồi! Nếu cần gì cứ hỏi tôi nhé.</p>`);
+        });
 
         const searchproduct = async (link) => {
             $.ajax({
