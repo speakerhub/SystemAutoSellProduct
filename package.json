@@ -1,7 +1,7 @@
 {
   "name": "he-thong-tu-dong-hoa-quy-trinh-lam-viec",
   "version": "1.0.0",
-  "main": "src/app.js", 
+  "main": "app.js", 
   "scripts": {
     "typeorm": "typeorm",
     "migration:generate": "typeorm migration:generate -n",
